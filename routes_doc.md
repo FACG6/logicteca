@@ -70,7 +70,7 @@ The test function should include testing for the query and the route iteself :
 
 ### Members Route | GET
 
- - ```/api/v1/members/:memberId```, route for update member information . 
+ - ```/api/v1/members```, route for update member information . 
 --------
 ### Accpetance Criteria :
 - [ ] Validation of the request. 
@@ -129,7 +129,7 @@ the testing should include testing for the query and the route iteself :
 
 ### Members Route | POST
 
- - ```/api/v1/members/:memberId```, route for update member information . 
+ - ```/api/v1/members/new```, route for update member information . 
 --------
 ### Accpetance Criteria :
 - [ ] Validation of the request. 
@@ -179,7 +179,7 @@ const user = { username: 'mohannadShurrab1'
 ```
 ### Testing : 
 the testing should include testing for the query and the route iteself : 
-- [ ] testing for route ``` /api/v1/members/:memberId``` | PUT
+- [ ] testing for route ``` /api/v1/members/new``` | PUT
 - [ ] testing for ```addMember``` query  
 -----
 #### Examples : 
