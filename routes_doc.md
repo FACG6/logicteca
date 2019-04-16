@@ -15,25 +15,25 @@
 
  - ```/api/v1/login```, login route. 
 --------
-### Accpetance Criteria :
+##### Accpetance Criteria :
 - [ ] Validation of the request. 
 - [ ] Query to check the username.
 - [ ] Testing.
   
  -----  
 
-### Request Validation  : 
+##### Request Validation  : 
  the body of the request must contain  ``` username ``` property with username format  and ``` password``` property .
  
   - [ ] request body must be in JSON format.
   - [ ] JSON must contain properties called ``` username ``` and ``` password ```.
 
-#### The shape of the ideal request body : 
+##### The shape of the ideal request body : 
 ```javascript
   { username: 'mohannadShurrab1' , password: 'Mohannad123' }
 ```
 
-### The query : 
+##### The query : 
 the query function must take an object that contains ``` username ``` property and then return a previously  inserted row.
 then we compare the password coming from the database with the password coming from the request.
 example: 
@@ -46,20 +46,20 @@ const user =  { username: 'mohannadShurrab1' , password: 'Mohannad123' }
  // role : 'scrum master',
  //password: 'pass$Mohannad123' }];
 ```
-#### Testing : 
+##### Testing : 
 The test function should include testing for the query and the route iteself : 
 - [ ] testing for route ``` /api/v1/login ``` | POST
 - [ ] testing for ```checkUser``` query 
 -----
-#### Examples : 
-#####  Sucessfull Path :
+##### Examples : 
+######  Sucessfull Path :
 
 |client | server |
 |--|--|
 | POST /api/v1/login body : ```{ username: 'mohannadShurrab1' , password: 'Mohannad123' } ``` |
 |{ status_code : 200, msg : ' sucessfull '} |
 
-####  Error Path : 
+#####  Error Path : 
 
 |client | server |
 |--|--|
@@ -68,20 +68,20 @@ The test function should include testing for the query and the route iteself :
 
 --------
 
-### Members Route | GET
+#### Members Route | GET
 
  - ```/api/v1/members```, route for update member information . 
 --------
-### Accpetance Criteria :
+##### Accpetance Criteria :
 - [ ] Validation of the request. 
 - [ ] Query to ``` getMembers ```.
 - [ ] Testing
   
  ----- 
- #### The query   : 
+ ##### The query   : 
 the query function must return an array of objects contains ``` username ```, ```full_name ```, ```role```, ```password```
 
-#### Example : 
+##### Example : 
 ```javascript
 
  getMembers(); 
@@ -96,14 +96,14 @@ the query function must return an array of objects contains ``` username ```, ``
   // password: 'Angham1234567' }
   ];
 ```
-### Testing : 
+#### Testing : 
 the testing should include testing for the query and the route iteself : 
 - [ ] testing for route ``` /api/v1/members/:memberId``` | PUT
 - [ ] testing for ```getMembers``` query  
 -----
-#### Examples : 
+##### Examples : 
 
-#####  Sucessfull Path :
+######  Sucessfull Path :
    output : 
      ``` data = { 
        msg : 'Success',
@@ -119,7 +119,7 @@ the testing should include testing for the query and the route iteself :
           password: 'Angham1234567' }]
       } ```
 
-#####  Error Path : 
+######  Error Path : 
   output : 
      ``` data = { 
        msg : 'Bad Request'
@@ -127,18 +127,18 @@ the testing should include testing for the query and the route iteself :
 
 ------ 
 
-### Members Route | POST
+#### Members Route | POST
 
  - ```/api/v1/members/new```, route for update member information . 
 --------
-### Accpetance Criteria :
+##### Accpetance Criteria :
 - [ ] Validation of the request. 
 - [ ] Query to ``` addMember ```.
 - [ ] Testing
   
  -----  
 
-### Request Validation  : 
+##### Request Validation  : 
  the body of the request must contain a ``` username ```, ``` full_name ```, ``` password```, ```role```
 
   - [ ] request body must be in JSON format.
@@ -152,7 +152,7 @@ the testing should include testing for the query and the route iteself :
 | role | must contain enum |   
        
 
-#### The shape of the ideal request body  : 
+##### The shape of the ideal request body  : 
 ```javascript
 { username: 'mohannadShurrab1'
   full_name: 'mohannad shurrab' ,
@@ -160,10 +160,10 @@ the testing should include testing for the query and the route iteself :
   password: 'pass$Mohannad123' };
 ```
 
-#### The query   : 
+##### The query   : 
 the query function must takes a object contains ``` username ```, ```full_name ```, ```role```, ```password```
 
-#### Example : 
+##### Example : 
 ```javascript
 const user = { username: 'mohannadShurrab1'
   full_name: 'mohannad shurrab' ,
@@ -177,12 +177,12 @@ const user = { username: 'mohannadShurrab1'
   // role : 'scrum master',
   // password: 'pass$Mohannad123' }];
 ```
-### Testing : 
+##### Testing : 
 the testing should include testing for the query and the route iteself : 
 - [ ] testing for route ``` /api/v1/members/new``` | PUT
 - [ ] testing for ```addMember``` query  
 -----
-#### Examples : 
+##### Examples : 
 
 #####  Sucessfull Path :
    output : 
@@ -196,7 +196,7 @@ the testing should include testing for the query and the route iteself :
         }
       } ```
 
-#####  Error Path : 
+######  Error Path : 
   output : 
      ``` data = { 
        msg : 'Bad Request'
@@ -205,18 +205,18 @@ the testing should include testing for the query and the route iteself :
 -----------------
 
 
-### Members Route | PUT 
+#### Members Route | PUT 
 
  - ```/api/v1/members/:memberId```, route for update member information . 
 --------
-### Accpetance Criteria :
+##### Accpetance Criteria :
 - [ ] Validation of the request. 
 - [ ] Query to ``` updateMember ```.
 - [ ] Testing
   
  -----  
 
-### Request Validation  : 
+##### Request Validation  : 
  the body of the request must contain a ``` username ```, ``` full_name ```, ``` password```, ```role```
 
   - [ ] request body must be in JSON format.
@@ -230,7 +230,7 @@ the testing should include testing for the query and the route iteself :
 | role | must contain enum |   
        
 
-#### The shape of the ideal request body  : 
+##### The shape of the ideal request body  : 
 ```javascript
 { username: 'mohannadShurrab1'
   full_name: 'mohannad shurrab' ,
@@ -238,10 +238,10 @@ the testing should include testing for the query and the route iteself :
   password: 'pass$Mohannad124' };
 ```
 
-#### The query   : 
+##### The query   : 
 the query function must takes a object contains ``` username ```, ```full_name ```, ```role```, ```password```
 
-#### Example : 
+##### Example : 
 ```javascript
 const user = { username: 'mohannadShurrab1'
   full_name: 'mohannad shurrab' ,
@@ -255,14 +255,14 @@ const user = { username: 'mohannadShurrab1'
   // role : 'scrum master',
   // password: 'pass$Mohannad124' }];
 ```
-### Testing : 
+##### Testing : 
 the testing should include testing for the query and the route iteself : 
 - [ ] testing for route ``` /api/v1/members/:memberId``` | PUT
 - [ ] testing for ```updateMember``` query  
 -----
-#### Examples : 
+##### Examples : 
 
-#####  Sucessfull Path :
+######  Sucessfull Path :
    output : 
      ``` data = { 
        msg : 'Success',
@@ -274,43 +274,43 @@ the testing should include testing for the query and the route iteself :
         }
       } ```
 
-#####  Error Path : 
+######  Error Path : 
   output : 
      ``` data = { 
        msg : 'Bad Request'
       } ```
 
-### Members Route | DELETE 
+#### Members Route | DELETE 
 
  - ```/api/v1/members/:memberId```, route for update member information . 
 
-### Accpetance Criteria :
+##### Accpetance Criteria :
 - [ ] Validation of the request. 
 - [ ] Query to ``` deleteMember ```.
 - [ ] Testing
   
  -----
 
-#### The shape of the ideal request body  : 
+##### The shape of the ideal request body  : 
 ```javascript
 { user_id: 1};
 ```
 
-#### The query   : 
+##### The query   : 
   
   ``` deleteMember```
 
   the query function must takes a object contains ```user_id```
 
-#### Examples : 
+##### Examples : 
 
-#####  Sucessfull Path :
+######  Sucessfull Path :
    output : 
      ``` data = { 
        msg : 'Success',
       } ```
 
-#####  Error Path : 
+######  Error Path : 
   output : 
      ``` data = { 
        msg : 'Bad Request'
