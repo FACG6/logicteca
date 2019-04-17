@@ -42,7 +42,7 @@ class Users extends Component {
 		});
 
 		//Store them in the state
-		this.setState({ users, fullNameOptions, nameOptions });
+		this.setState({ users: [...users, {"id": users.length+1, "user_name": "", "full_name": "", role: "developer" }], fullNameOptions, nameOptions });
 	}
 
 	handleAddUser = event => {
