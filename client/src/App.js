@@ -6,8 +6,8 @@ import { faTrash, faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Login from "./components/Login";
 import Header from "./components/Layout/Header";
 import Projects from "./components/Projects";
-import ProjectsNew from "./components/Projects/ProjectsNew";
-import ProjectsEdit from "./components/Projects/ProjectsEdit";
+import ProjectNew from "./components/Projects/ProjectNew";
+import ProjectEdit from "./components/Projects/ProjectEdit";
 import Members from "./components/Members";
 import Scrum from "./components/scrum";
 
@@ -27,26 +27,22 @@ class App extends Component {
             <Switch>
               <Route
                 exact
-                path={"/"}
-                component={() => <Redirect to={"/projects"} />}
+                path="/"
+                component={() => <Redirect to="/projects" />}
               />
-              <Route exact path={"/projects"} component={() => <Projects />} />
+              <Route exact path="/projects" component={Projects} />
+              <Route exact path="/project/new" component={ProjectNew} />
               <Route
                 exact
-                path={"/projects/new"}
-                component={() => <ProjectsNew />}
-              />
-              <Route
-                exact
-                path={"/projects/:projectId/edit"}
-                component={ProjectsEdit}
+                path="/project/:projectId/edit"
+                component={ProjectEdit}
               />
               <Route
                 exact
-                path={"/projects/:projectId/:scrumId"}
+                path="/project/:projectId/:scrumId"
                 component={Scrum}
               />
-              <Route exact path={"/members"} component={() => <Members />} />
+              <Route exact path="/members" component={Members} />
             </Switch>
           </>
         ) : (
