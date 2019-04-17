@@ -6,8 +6,8 @@ export default class Scrum extends Component {
     const id = this.props.match.params.scrumId;
     return (
       <>
-      <Link to={'/projects/1/1'}>scrum 1</Link>
-      <Link to={'/projects/1/2'}>scrum 2</Link>
+      <Link to={'/project/1/1'}>scrum 1</Link>
+      <Link to={'/project/1/2'}>scrum 2</Link>
         <div>scrum {id}</div>
       </>
     );
