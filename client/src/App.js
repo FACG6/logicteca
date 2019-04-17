@@ -8,7 +8,7 @@ import Header from "./components/Layout/Header";
 import Projects from "./components/Projects";
 import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
-import Members from "./components/Members";
+import Users from "./components/Members";
 import Scrum from "./components/scrum";
 
 library.add(faTrash, faFilter, faPlus);
@@ -42,7 +42,7 @@ class App extends Component {
                 path="/project/:projectId/:scrumId"
                 component={Scrum}
               />
-              <Route exact path="/members" component={Members} />
+              <Route exact path="/users" component={Users} />
             </Switch>
           </>
         ) : (
