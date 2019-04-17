@@ -8,14 +8,12 @@ export class Search extends Component {
     }
     render() {
         return (
-
             <div className='search'>
                 <button className='search__btn' type="submit">
                     <FontAwesomeIcon className='search__icon' icon='search' />
                 </button>
                 <input className='search__input'  type="text" placeholder="  Search.." name="search" />
             </div>
-
         );
     }
 }
