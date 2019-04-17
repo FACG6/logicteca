@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash, faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Login from "./components/Login";
 import Header from "./components/Layout/Header";
 import Projects from "./components/Projects";
@@ -11,7 +11,7 @@ import ProjectEdit from "./components/Projects/ProjectEdit";
 import Users from "./components/Members";
 import Scrum from "./components/scrum";
 
-library.add(faTrash, faFilter, faPlus);
+library.add(faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit);
 
 class App extends Component {
   state = {
