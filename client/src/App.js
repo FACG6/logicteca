@@ -25,7 +25,11 @@ class App extends Component {
           <>
             <Header />
             <Switch>
-              <Route exact path={"/"} Redirect={"/projects"} />
+              <Route
+                exact
+                path={"/"}
+                component={() => <Redirect to={"/projects"} />}
+              />
               <Route exact path={"/projects"} component={() => <Projects />} />
               <Route
                 exact
