@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash, faFilter, faPlus, faSearchMinus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faFilter, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Login from "./components/Login";
 import Header from "./components/Layout/Header";
 import Projects from "./components/Projects";
