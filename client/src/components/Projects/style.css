@@ -1,0 +1,10 @@
+.projects__table {
+  width: 80%;
+  margin: 0 auto;
+}
+.projects__table--header {
+  color: red;
+}
+.projects__table--edit {
+  margin-left: 10px;
+}
