@@ -8,7 +8,7 @@ import Header from "./components/Layout/Header";
 import Projects from "./components/Projects";
 import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
-import Users from "./components/Members";
+import Users from "./components/Users";
 import Scrum from "./components/scrum";
 
 library.add(faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit);
