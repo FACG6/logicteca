@@ -1,0 +1,51 @@
+.users__table {
+  width: 60%;
+  margin: 4rem auto;
+}
+
+th {
+  background: #1890ff !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.users__cell {
+  display: block;
+  padding: .5rem .6rem;
+  width: 100%;
+}
+
+.users__cell:hover {
+  cursor: pointer;
+}
+
+.ant-table-column-sorter-down {
+  color: white !important;
+}
+
+.anticon-filter {
+  color: white !important;
+  background: #1890ff !important;
+}
+
+.anticon-sorter:hover {
+  background: #1890ff !important;
+}
+
+.user__ellipsis {
+  display: none !important;
+  font-size: 1.4rem
+}
+
+.users__row:hover .user__ellipsis {
+  display: inline-block !important;
+  cursor: pointer;
+}
+
+select.users__select {
+  outline: none;
+  border-radius: 3px;
+  padding: .3rem .5rem;
+  background: #eee;
+  cursor: pointer;
+}

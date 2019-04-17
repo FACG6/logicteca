@@ -101,8 +101,8 @@ class Users extends Component {
 					);
 				},
 				filters: this.state.nameOptions,
-        onFilter: (value, record) => record['user_name'].indexOf(value) === 0,
-        defaultSort: 'descend',
+				onFilter: (value, record) => record['user_name'] === value,
+				defaultSort: 'descend',
 				sorter: (a, b) => {
 					if (a['user_name'] > b['user_name']) {
 						return -1;
@@ -142,12 +142,23 @@ class Users extends Component {
 				dataIndex: 'role',
 				render: (value, record) => {
 					return (
-						<select className="users__select">
-							<option value="developer">Developer</option>
-							<option value="scrum-master">Scrum Master</option>
+						<select disabled defaultValue={record.role} className="users__select">
+							<option id='1' value="developer">Developer</option>
+							<option id='2' value="scrum master">Scrum Master</option>
 						</select>
 					);
 				},
+				filters: [
+					{
+						text: 'developer',
+						value: 'developer',
+					},
+					{
+						text: 'scrum master',
+						value: 'scrum master',
+					},
+        ],
+        onFilter: (value, record) => record['role'] === value,
 			},
 			{
 				render: props => {
