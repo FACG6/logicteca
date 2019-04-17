@@ -6,6 +6,7 @@ class Header extends Component {
   state = {
     userList: false
   }
+
   handleUserList = (e) => {
     this.setState({userList: !this.state.userList})
   }
