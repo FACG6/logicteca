@@ -6,9 +6,19 @@ import ContentEditable from 'react-contenteditable';
 import './style.css';
 const data = require('../utils/projects');
 
+const EditDelete = () => {
+  return (
+    <div className="edit-delete_main">
+      <span>edit</span>
+      <span>delete</span>
+    </div>
+  );
+};
+
 class Projects extends Component {
   state = {
-    data: data
+    data: data,
+    hidden: null
   };
 
   render() {
@@ -49,7 +59,24 @@ class Projects extends Component {
           return (
             <div>
               <span>{rowInfo.value}</span>
-              <span className="projects__table--edit">...</span>
+              <span
+                className="projects__table--edit"
+                onClick={e => {
+                  return this.setState({
+                    hidden: !this.state.hidden ? rowInfo.index + 1 : null
+                  });
+                }}
+                onMouseLeave={e => {
+                  return this.setState({ hidden: null });
+                }}
+              >
+                ...
+              </span>
+              {this.state.hidden === rowInfo.index + 1 ? (
+                <EditDelete />
+              ) : (
+                <span />
+              )}
             </div>
           );
         }
@@ -63,7 +90,18 @@ class Projects extends Component {
           filterable
           showPagination={false}
           defaultPageSize={this.state.data.length}
+          false
           noDataText="....loading"
+          minRows={this.state.data.length + 2}
+          getTrProps={(state, rowInfo) => {
+            if (rowInfo && rowInfo.row) {
+              return {
+                className: 'projects__row'
+              };
+            } else {
+              return {};
+            }
+          }}
         />
       </section>
     );
