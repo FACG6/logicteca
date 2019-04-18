@@ -18,7 +18,7 @@ export default class TableMember extends Component {
     filterArray: [],
     pagination: false,
     rowSelection: {
-      onChange: (selectedRows) => {
+      onChange: selectedRows => {
         this.props.handleCheck({
           row: selectedRows
         });
@@ -26,14 +26,6 @@ export default class TableMember extends Component {
     },
     scroll: { y: 400 }
   };
-
-  // componentWillMount() {
-  //   const member = require("./member.json");
-  //   this.setState({
-  //     member,
-  //     filterArray: filterData(member)
-  //   });
-  // }
 
   columns = [
     {
