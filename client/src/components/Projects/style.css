@@ -1,16 +1,17 @@
-.project__page--container {
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  flex-flow: row wrap;
-  align-content: space-around;
-}
-.button {
-  margin-bottom: 10px;
-}
 .ant-btn-primary {
   background-color: #3f7baa;
 }
 .button--caption {
   color: white;
+}
+.project__page--button-and-search-container {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.projects__page--container {
+  width: 80%;
+  margin: 0 auto;
 }

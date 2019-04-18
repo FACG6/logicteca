@@ -47,3 +47,6 @@
 .projects__table--row-link:hover {
   color: #3f7baa;
 }
+.ant-table-column-sorter-inner {
+  color: white !important;
+}

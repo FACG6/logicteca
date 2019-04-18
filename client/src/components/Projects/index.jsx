@@ -7,17 +7,19 @@ import './style.css';
 
 const Projects = () => {
   return (
-    <>
-      <section className="project__page--container">
-        <Button type="primary" icon="plus" className="button">
-          <Link to="/project/new">
-            <span className="button--caption"> Project </span>
-          </Link>
-        </Button>
-        <Search />
+    <React.Fragment>
+      <section className="projects__page--container">
+        <div className="project__page--button-and-search-container">
+          <Button type="primary" icon="plus" className="button">
+            <Link to="/project/new">
+              <span className="button--caption"> Project </span>
+            </Link>
+          </Button>
+          <Search className="search" />
+        </div>
         <ProjectsTable />
       </section>
-    </>
+    </React.Fragment>
   );
 };
 
