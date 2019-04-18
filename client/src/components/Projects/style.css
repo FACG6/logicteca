@@ -8,14 +8,13 @@
 .projects__table--edit {
   visibility: hidden;
   margin-left: 20px;
-  vertical-align: super;
 }
 .projects__row {
   position: relative;
 }
 .projects__row:hover .projects__table--edit {
   visibility: visible;
-  vertical-align: super;
+
   cursor: pointer;
 }
 .edit-delete_main {
@@ -27,4 +26,7 @@
   right: 50px;
   height: 70px;
   border-radius: 5px;
+}
+.table__menu--item-span {
+  margin-left: 10px;
 }

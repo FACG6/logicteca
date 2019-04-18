@@ -1,107 +1,115 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
-import ContentEditable from 'react-contenteditable';
+import { Link, Redirect } from 'react-router-dom';
+import { Table, Dropdown, Icon, Menu } from 'antd';
+import 'antd/dist/antd.css';
 import './style.css';
 const data = require('../utils/projects');
 
-const EditDelete = () => {
-  return (
-    <div className="edit-delete_main">
-      <span>edit</span>
-      <span>delete</span>
-    </div>
-  );
-};
-
 class Projects extends Component {
   state = {
-    data: data,
-    hidden: null
+    data: [],
+    rowSelected: null
   };
+  componentDidMount() {
+    //Todo: Fetch to get projects data from database//
+    // fetch('/api/v1/projects')
+    //   .then(response=>response.json())
+    //   .then(results=>results.data)
+    //   .then(**...........**)
 
+    this.setState({ data });
+  }
+  handleRow = id => {
+    console.log(id);
+    this.setState({ rowSelected: id });
+  };
   render() {
-    const comlums = [
+    const { data } = this.state;
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <Link to={`/project/${this.state.rowSelected}/edit`}>
+            <Icon type="form" />
+            <span className="table__menu--item-span">Edit</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Icon type="delete" />
+          Delete
+        </Menu.Item>
+      </Menu>
+    );
+    const columns = [
       {
-        Header: 'Id',
-        accessor: 'id',
-        maxWidth: 80,
-        style: {
-          textAlign: 'center'
-        },
-        headerClassName: 'projects__table--header'
+        title: 'ID',
+        dataIndex: 'id',
+        defaultSort: 'descend',
+        sorter: (a, b) => {
+          if (a.id > b.id) {
+            return -1;
+          }
+          if (a.id < b.id) {
+            return 1;
+          }
+          return 0;
+        }
       },
       {
-        Header: 'Name',
-        accessor: 'name',
-        style: {
-          textAlign: 'center'
-        },
-        headerClassName: 'projects__table--header'
+        title: 'Name',
+        dataIndex: 'name',
+        defaultSort: 'descend',
+        sorter: (a, b) => {
+          if (a['name'] > b['name']) {
+            return -1;
+          }
+          if (a['name'] < b['name']) {
+            return 1;
+          }
+          return 0;
+        }
       },
       {
-        Header: 'Description',
-        accessor: 'description',
-        style: {
-          textAlign: 'center'
-        },
-        headerClassName: 'projects__table--header'
+        title: 'Description',
+        dataIndex: 'description'
       },
       {
-        Header: 'Created At',
-        accessor: 'created_at',
-        style: {
-          textAlign: 'center'
-        },
-        headerClassName: 'projects__table--header',
-        Cell: rowInfo => {
+        title: 'Created At',
+        dataIndex: 'created_at',
+        defaultSort: 'descend',
+        sorter: (a, b) => {
+          if (a['created_at'] > b['created_at']) {
+            return -1;
+          }
+          if (a['created_at'] < b['created_at']) {
+            return 1;
+          }
+          return 0;
+        }
+      },
+      {
+        render: props => {
           return (
-            <div>
-              <span>{rowInfo.value}</span>
-              <span
+            <Dropdown key={props.id} overlay={menu}>
+              <Icon
+                onClick={() => this.handleRow(props.id)}
+                title="click"
                 className="projects__table--edit"
-                onClick={e => {
-                  return this.setState({
-                    hidden: !this.state.hidden ? rowInfo.index + 1 : null
-                  });
-                }}
-                onMouseLeave={e => {
-                  return this.setState({ hidden: null });
-                }}
-              >
-                ...
-              </span>
-              {this.state.hidden === rowInfo.index + 1 ? (
-                <EditDelete />
-              ) : (
-                <span />
-              )}
-            </div>
+                type="ellipsis"
+              />
+            </Dropdown>
           );
         }
       }
     ];
     return (
       <section className="projects__table">
-        <ReactTable
-          columns={comlums}
-          data={this.state.data}
-          filterable
-          showPagination={false}
-          defaultPageSize={this.state.data.length}
-          false
-          noDataText="....loading"
-          minRows={this.state.data.length + 2}
-          getTrProps={(state, rowInfo) => {
-            if (rowInfo && rowInfo.row) {
-              return {
-                className: 'projects__row'
-              };
-            } else {
-              return {};
-            }
-          }}
+        <Table
+          dataSource={data}
+          columns={columns}
+          pagination={false}
+          rowKey={record => record.id}
+          rowClassName="projects__row"
+          className="projects__table"
         />
       </section>
     );
