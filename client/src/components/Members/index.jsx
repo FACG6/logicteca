@@ -3,6 +3,7 @@ import { Table, Icon, Dropdown, Menu } from 'antd';
 import Editable from 'react-contenteditable';
 import 'antd/dist/antd.css';
 import './style.css';
+import Swal from 'sweetalert2';
 
 const users = require('../../utils/users.json');
 
@@ -70,19 +71,28 @@ class Users extends Component {
 	};
 
 	handleDeleteUser = event => {
-		console.log(this.state.rowSelected);
 		const row = this.state.rowSelected;
 		const { users} = this.state;
-		console.log(users);
-		//Deleting
+		const deletedRow = users.filter(user => user.id ===row)[0];
+		this.showSwal(deletedRow);
 	};
 
-	showSwal = () => {
+	showSwal = (deleteMember) => {
 		//Swal before deleting
+		Swal.fire({
+			type: 'warning',
+			text: 'Are you sure?',
+			showConfirmButton: true,
+			showCancelButton: true,
+		}).then(response=>{
+			if(response.value) this.confirmDelete(deleteMember)
+		})
 	};
 
-	confirmDelete = () => {
-		//Confirm Delete
+	confirmDelete = (deleteMember) => {
+		console.log(deleteMember);
+		//Fetch deleteMember to delete from datatabase
+		//Update state//
 	};
 
 	validateUserInfo = (user) => {
@@ -92,6 +102,7 @@ class Users extends Component {
 		if (!user['full_name'].length >= 8) {
 			return this.setState({ fullNameError: true });
 		}
+
 		this.updateUserInfo(user);
 	};
 
