@@ -63,7 +63,6 @@ export default class TableMember extends Component {
   ];
 
   render() {
-    console.log(this.state.filterArray[0]);
     const { pagination, rowSelection, scroll } = this.state;
     return (
       <Table
