@@ -16,6 +16,7 @@ class Users extends Component {
 		userNameError: null,
 		fullNameError: null,
 		rowSelected: null,
+		newRow: {},
 	};
 
 	componentDidMount() {
@@ -42,7 +43,6 @@ class Users extends Component {
 				fullNameOptions.push({ text: fullName, value: fullName });
 			}
 		});
-
 		//Store them in the state
 		this.setState({
 			users: [...users, { id: users.length + 1, user_name: '', full_name: '', role: 'developer' }],
@@ -51,64 +51,76 @@ class Users extends Component {
 		});
 	}
 
-	handleAddUser = event => {
-		//Adding New Users
+	handleAddUser = (event, columnName) => {		
+		const newValue = event.target.value;
+		this.setState(prevState => {
+			const updatedState = { ...prevState };
+			updatedState.users[users.length][columnName] = newValue;
+			return { newRow: updatedState, showSaveButton: true };
+		});
 	};
 
+	save = (event) => {
+		this.validateUserInfo(this.state.users[users.length]);
+	}
+
 	handleEditUserInfo = (event, record, columnName) => {
+		if (record.id === this.state.users.length) {
+			this.handleAddUser(event, columnName);
+		}
 		// const newValue = event.target.value;
-		//updatedRow
+		// // updatedRow
 		// const memberId = record.id;
 
-		//Editing UserInfo
+		// // Editing UserInfo
 
-			// const { users} = this.state;
-			// const updatedUser = users.find(user => user.id === memberId);
-			// updatedUser[columnName] = newValue;
+		// const { users} = this.state;
+		// const updatedUser = users.find(user => user.id === memberId);
+		// updatedUser[columnName] = newValue;
 
-		//Validate
-				// this.validateUserInfo(updateUserInfo);
+		// //Validate
+		// if(this.validateUserInfo(updatedUser)){
+		// 	this.updateUserInfo(updatedUser);
+		// };
 	};
 
 	handleDeleteUser = event => {
 		const row = this.state.rowSelected;
-		const { users} = this.state;
-		const deletedRow = users.filter(user => user.id ===row)[0];
+		const { users } = this.state;
+		const deletedRow = users.filter(user => user.id === row)[0];
 		this.showSwal(deletedRow);
 	};
 
-	showSwal = (deleteMember) => {
+	showSwal = deleteMember => {
 		//Swal before deleting
 		Swal.fire({
 			type: 'warning',
 			text: 'Are you sure?',
 			showConfirmButton: true,
 			showCancelButton: true,
-		}).then(response=>{
-			if(response.value) this.confirmDelete(deleteMember)
-		})
+		}).then(response => {
+			if (response.value) this.confirmDelete(deleteMember);
+		});
 	};
 
-	confirmDelete = (deleteMember) => {
+	confirmDelete = deleteMember => {
 		//Fetch deleteMember to delete from datatabase
 		//Update state//
 	};
 
-	validateUserInfo = (user) => {
+	validateUserInfo = user => {
 		if (!user['user_name'].length >= 6) {
 			return this.setState({ userNameError: true });
 		}
 		if (!user['full_name'].length >= 8) {
 			return this.setState({ fullNameError: true });
 		}
-
-		this.updateUserInfo(user);
+		return true;
 	};
 
-	updateUserInfo = (user) => {
+	updateUserInfo = user => {
 		//Fetch to update userInfo//
 		//Then update the state//
-
 	};
 
 	handleRow = id => {
@@ -187,9 +199,11 @@ class Users extends Component {
 				dataIndex: 'role',
 				render: (value, record) => {
 					return (
-						<select 
+						<select
 							onChange={event => this.handleEditUserInfo(event, record, 'role')}
-						 defaultValue={record.role} className="users__select">
+							defaultValue={record.role}
+							className="users__select"
+						>
 							<option id="1" value="developer">
 								Developer
 							</option>
@@ -227,6 +241,7 @@ class Users extends Component {
 			},
 		];
 		return (
+			<>
 			<Table
 				rowKey={record => record.id}
 				dataSource={this.state.users}
@@ -234,8 +249,9 @@ class Users extends Component {
 				pagination={false}
 				rowClassName="users__row"
 				className="users__table"
-				
 			/>
+			{this.state.showSaveButton? <button className='users__submitBtn' onClick={this.save}>Save</button>:null}
+			</>
 		);
 	}
 }
