@@ -17,6 +17,8 @@ class Users extends Component {
 		fullNameError: false,
 		rowSelected: null,
 		newRow: {},
+		saving: false,
+		saved: false,
 	};
 
 	componentDidMount() {
@@ -61,6 +63,8 @@ class Users extends Component {
 	saveNewUser = () => {
 		if (this.validateUserInfo(this.state.newRow)) {
 			//fetch to add user in the database
+			//change message
+			this.setState({ saved: true });
 		}
 	};
 
@@ -68,6 +72,7 @@ class Users extends Component {
 		if (record.id === this.state.users.length) {
 			return this.handleAddUser(event, columnName);
 		}
+		this.setState({ saving: true, saved: false });
 		const newValue = event.target.value;
 		const memberId = record.id;
 
@@ -106,6 +111,7 @@ class Users extends Component {
 	};
 
 	validateUserInfo = user => {
+		this.setState({ fullNameError: false, userNameError: false });
 		if (user['user_name'].trim().length < 6) {
 			this.setState({ userNameError: true });
 			return false;
@@ -114,12 +120,15 @@ class Users extends Component {
 			this.setState({ fullNameError: true });
 			return false;
 		}
+		this.setState({ userNameError: false, fullNameError: false });
 		return true;
 	};
 
 	updateUserInfo = user => {
 		//Fetch to update userInfo//
-		//Then update the state//
+		//Then update users in the state//
+		//change message//
+		this.setState({ saving: false, saved: true });
 	};
 
 	handleRow = id => {
@@ -240,6 +249,22 @@ class Users extends Component {
 		];
 		return (
 			<>
+				{this.state.userNameError ? (
+					<div className="users__error">
+						<Icon className="users__alert" type="warning" />
+						<span>Username should consist of 6 characters</span>
+					</div>
+				) : this.state.fullNameError ? (
+					<div className="users__error">
+						<Icon type="warning" />
+						<span className="users__alert">Full Name should consist of at least 8 characters</span>
+					</div>
+				) : null}
+				{this.state.showSaveButton ? (
+					<button className="users__submitBtn" onClick={this.saveNewUser}>
+						Save
+					</button>
+				) : null}
 				<Table
 					rowKey={record => record.id}
 					dataSource={this.state.users}
@@ -248,11 +273,6 @@ class Users extends Component {
 					rowClassName="users__row"
 					className="users__table"
 				/>
-				{this.state.showSaveButton ? (
-					<button className="users__submitBtn" onClick={this.saveNewUser}>
-						Save
-					</button>
-				) : null}
 			</>
 		);
 	}
