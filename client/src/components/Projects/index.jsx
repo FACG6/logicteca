@@ -98,7 +98,11 @@ class Projects extends Component {
           return 0;
         },
         render: (text, record) => {
-          return <Link to={`/project/${record.id}/1`}>{text}</Link>;
+          return (
+            <Link to={`/project/${record.id}/1`}>
+              <span className="projects__table--row-link">{text}</span>
+            </Link>
+          );
         }
       },
       {
