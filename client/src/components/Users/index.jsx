@@ -136,7 +136,6 @@ class Users extends Component {
 	};
 
 	render() {
-		//DropDown Menue
 		const menu = (
 			<Menu>
 				<Menu.Item onClick={this.handleDeleteUser}>
@@ -252,7 +251,7 @@ class Users extends Component {
 				{this.state.userNameError ? (
 					<div className="users__error">
 						<Icon className="users__alert" type="warning" />
-						<span>Username should consist of 6 characters</span>
+						<span>Username should consist of at least 6 characters</span>
 					</div>
 				) : this.state.fullNameError ? (
 					<div className="users__error">
