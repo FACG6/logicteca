@@ -96,6 +96,9 @@ class Projects extends Component {
             return 1;
           }
           return 0;
+        },
+        render: (text, record) => {
+          return <Link to={`/project/${record.id}/1`}>{text}</Link>;
         }
       },
       {

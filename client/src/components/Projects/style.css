@@ -30,3 +30,10 @@
 .table__menu--item-span {
   margin-left: 10px;
 }
+.projects__table th {
+  background-color: #3f7baa !important;
+  color: #ffff !important;
+}
+.ant-table-column-sorter-inner {
+  color: #ffff !important;
+}
