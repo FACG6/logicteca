@@ -13,72 +13,73 @@ class Users extends Component {
 		nameOptions: [],
 		fullNameOptions: [],
 		showSaveButton: false,
-		userNameError: null,
-		fullNameError: null,
+		userNameError: false,
+		fullNameError: false,
 		rowSelected: null,
 		newRow: {},
 	};
 
 	componentDidMount() {
 		//Fetch to get users from database//
-
-		//Filtering the members to get unique names and fullnames for filtering//
-		const usernames = [];
-		const nameOptions = [];
-		const fullNames = [];
-		const fullNameOptions = [];
-		users.forEach(user => {
-			const username = user['user_name'];
-			const fullName = user['full_name'];
-			if (usernames.indexOf(username) === -1) {
-				usernames.push(username);
-				nameOptions.push({ text: username, value: username });
-			}
-			if (fullNames.indexOf(fullName) === -1) {
-				fullNames.push(fullName);
-				fullNameOptions.push({ text: fullName, value: fullName });
-			}
-		});
 		//Store them in the state
 		this.setState({
 			users: [...users, { id: users.length + 1, user_name: '', full_name: '', role: 'developer' }],
-			fullNameOptions,
-			nameOptions,
 		});
+	}
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.users !== this.state.users) {
+			const users = this.state.users.slice(0, this.state.users.length - 1);
+			//Filtering users to get unique names and fullnames for filtering//
+			const usernames = [];
+			const nameOptions = [];
+			const fullNames = [];
+			const fullNameOptions = [];
+			users.forEach(user => {
+				const username = user['user_name'];
+				const fullName = user['full_name'];
+				if (usernames.indexOf(username) === -1) {
+					usernames.push(username);
+					nameOptions.push({ text: username, value: username });
+				}
+				if (fullNames.indexOf(fullName) === -1) {
+					fullNames.push(fullName);
+					fullNameOptions.push({ text: fullName, value: fullName });
+				}
+			});
+			this.setState({ fullNameOptions, nameOptions });
+		}
 	}
 	handleAddUser = (event, columnName) => {
 		const newValue = event.target.value;
 		this.setState(prevState => {
-			const updatedState = { ...prevState };
-			updatedState.users[users.length][columnName] = newValue;
-			return { newRow: updatedState, showSaveButton: true };
+			const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
+			clonedUsers[clonedUsers.length - 1][columnName] = newValue;
+			return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1], showSaveButton: true };
 		});
 	};
 
 	saveNewUser = () => {
-		if (this.validateUserInfo(this.state.users[users.length])) {
+		if (this.validateUserInfo(this.state.newRow)) {
 			//fetch to add user in the database
 		}
 	};
 
 	handleEditUserInfo = (event, record, columnName) => {
 		if (record.id === this.state.users.length) {
-			this.handleAddUser(event, columnName);
+			return this.handleAddUser(event, columnName);
 		}
-		// const newValue = event.target.value;
-
-		// updatedRow
-		// const memberId = record.id;
+		const newValue = event.target.value;
+		const memberId = record.id;
 
 		// Editing UserInfo
-		// const { users} = this.state;
-		// const updatedUser = users.find(user => user.id === memberId);
-		// updatedUser[columnName] = newValue;
+		const { users } = this.state;
+		const updatedUser = users.find(user => user.id === memberId);
+		updatedUser[columnName] = newValue;
 
 		//Validate
-		// if(this.validateUserInfo(updatedUser)){
-		// 	this.updateUserInfo(updatedUser);
-		// };
+		if (this.validateUserInfo(updatedUser)) {
+			this.updateUserInfo(updatedUser);
+		}
 	};
 
 	handleDeleteUser = event => {
@@ -105,11 +106,13 @@ class Users extends Component {
 	};
 
 	validateUserInfo = user => {
-		if (!user['user_name'].length >= 6) {
-			return this.setState({ userNameError: true });
+		if (user['user_name'].trim().length < 6) {
+			this.setState({ userNameError: true });
+			return false;
 		}
-		if (!user['full_name'].length >= 8) {
-			return this.setState({ fullNameError: true });
+		if (user['full_name'].trim().length < 8) {
+			this.setState({ fullNameError: true });
+			return false;
 		}
 		return true;
 	};
@@ -246,7 +249,7 @@ class Users extends Component {
 					className="users__table"
 				/>
 				{this.state.showSaveButton ? (
-					<button className="users__submitBtn" onClick={this.saveNew}>
+					<button className="users__submitBtn" onClick={this.saveNewUser}>
 						Save
 					</button>
 				) : null}
