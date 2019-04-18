@@ -1,6 +1,6 @@
 .users__table {
   width: 60%;
-  margin: 4rem auto;
+  margin: 2.5rem auto;
 }
 
 .users__table tr:nth-child(even) {
@@ -27,7 +27,7 @@
 }
 
 .users__cell:hover {
-  cursor: pointer;
+  cursor: text;
 }
 
 .ant-table-column-sorter-down {
@@ -45,7 +45,7 @@
 
 .user__ellipsis {
   visibility: hidden !important;
-  font-size: 1.4rem
+  font-size: 2rem;
 }
 
 .users__row:hover .user__ellipsis {
@@ -67,4 +67,27 @@
 
 .ant-table-tbody>tr:nth-child(even):hover:not(.ant-table-expanded-row)>td {
   background: rgb(213, 238, 241, 0.2) !important;
+}
+
+.users__error{
+    color: red;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.users__alert{
+  padding-right: 1rem;
+}
+
+.users__submitBtn{
+  padding: .4rem .8rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background: #3F7BAA;
+  margin: 0 75%;
+  color: #eee;
+  font-weight: bold;
+  margin-top: .5rem;
+  cursor: pointer;
 }
