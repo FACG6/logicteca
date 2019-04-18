@@ -3,7 +3,7 @@
   margin: 4rem auto;
 }
 
-th {
+.users__table th {
   background: #3F7BAA !important;
   color: white !important;
   font-weight: bold;

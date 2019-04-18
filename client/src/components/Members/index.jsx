@@ -90,7 +90,6 @@ class Users extends Component {
 	};
 
 	confirmDelete = (deleteMember) => {
-		console.log(deleteMember);
 		//Fetch deleteMember to delete from datatabase
 		//Update state//
 	};
@@ -235,6 +234,7 @@ class Users extends Component {
 				pagination={false}
 				rowClassName="users__row"
 				className="users__table"
+				
 			/>
 		);
 	}
