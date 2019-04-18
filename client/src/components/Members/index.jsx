@@ -14,6 +14,7 @@ class Users extends Component {
 		showSaveButton: false,
 		userNameError: null,
 		fullNameError: null,
+		rowSelected: null,
 	};
 
 	componentDidMount() {
@@ -42,18 +43,34 @@ class Users extends Component {
 		});
 
 		//Store them in the state
-		this.setState({ users: [...users, {"id": users.length+1, "user_name": "", "full_name": "", role: "developer" }], fullNameOptions, nameOptions });
+		this.setState({
+			users: [...users, { id: users.length + 1, user_name: '', full_name: '', role: 'developer' }],
+			fullNameOptions,
+			nameOptions,
+		});
 	}
 
 	handleAddUser = event => {
 		//Adding New Users
 	};
 
-	handleEditUserInfo = () => {
+	handleEditUserInfo = (event, record, columnName) => {
+		// const newValue = event.target.value;
+		//updatedRow
+		// const memberId = record.id;
+
 		//Editing UserInfo
+
+			// const { users} = this.state;
+			// const updatedUser = users.find(user => user.id === memberId);
+			// updatedUser[columnName] = newValue;
+
+		//Validate
+				// this.validateUserInfo(updateUserInfo);
 	};
 
-	deleteUser = () => {
+	handleDeleteUser = event => {
+		console.log(this.state.rowSelected);
 		//Deleting
 	};
 
@@ -65,11 +82,26 @@ class Users extends Component {
 		//Confirm Delete
 	};
 
-	validateUserInfo = () => {
-		//Validation
+	validateUserInfo = (user) => {
+		if (!user['user_name'].length >= 6) {
+			return this.setState({ userNameError: true });
+		}
+		if (!user['full_name'].length >= 8) {
+			return this.setState({ fullNameError: true });
+		}
+		this.updateUserInfo(user);
 	};
 
-	updateUserInfo = () => {};
+	updateUserInfo = (user) => {
+		//Fetch to update userInfo//
+		//Then update the state//
+
+	};
+
+	handleRow = id => {
+		this.setState({ rowSelected: id });
+	};
+
 	render() {
 		//DropDown Menue//
 		const menu = (
@@ -94,7 +126,7 @@ class Users extends Component {
 						<Editable
 							innerRef={this.contentEditable}
 							html={value}
-							onChange={event => this.handleEditUserInfo(event, record, 'Username')}
+							onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
 							tagName="span"
 							className="users__cell"
 						/>
@@ -120,7 +152,7 @@ class Users extends Component {
 					return (
 						<Editable
 							html={value}
-							onChange={event => this.handleEdit(event, record, 'Full Name')}
+							onChange={event => this.handleEditUserInfo(event, record, 'full_name')}
 							tagName="span"
 							className="users__cell"
 						/>
@@ -142,9 +174,15 @@ class Users extends Component {
 				dataIndex: 'role',
 				render: (value, record) => {
 					return (
-						<select disabled defaultValue={record.role} className="users__select">
-							<option id='1' value="developer">Developer</option>
-							<option id='2' value="scrum master">Scrum Master</option>
+						<select 
+							onChange={event => this.handleEditUserInfo(event, record, 'role')}
+						 defaultValue={record.role} className="users__select">
+							<option id="1" value="developer">
+								Developer
+							</option>
+							<option id="2" value="scrum master">
+								Scrum Master
+							</option>
 						</select>
 					);
 				},
@@ -157,14 +195,19 @@ class Users extends Component {
 						text: 'scrum master',
 						value: 'scrum master',
 					},
-        ],
-        onFilter: (value, record) => record['role'] === value,
+				],
+				onFilter: (value, record) => record['role'] === value,
 			},
 			{
 				render: props => {
 					return (
-						<Dropdown key={props.key} trigger={['click']} overlay={menu}>
-							<Icon title="click" className="user__ellipsis" type="ellipsis" />
+						<Dropdown key={props.key} trigger={['click']} rowId={props.id} overlay={menu}>
+							<Icon
+								onClick={() => this.handleRow(props.id)}
+								title="click"
+								className="user__ellipsis"
+								type="ellipsis"
+							/>
 						</Dropdown>
 					);
 				},
