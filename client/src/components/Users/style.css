@@ -9,8 +9,9 @@
 
 .users__table th {
   background: #3F7BAA !important;
-  color: white !important;
+  color: #eee!important;
   font-size: .8rem;
+  
 }
 
 .users__table th span {
@@ -22,7 +23,7 @@
   display: block;
   padding: .5rem .6rem;
   width: 100%;
-  font-size: .8rem
+  font-size: .9rem
 }
 
 .users__cell:hover {
@@ -56,11 +57,10 @@
   outline: none;
   border-radius: 3px;
   padding: .3rem .5rem;
-  background: #eee;
   cursor: pointer;
   border: none;
+  font-size: .9rem
 }
-
 .ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td {
   background: white !important;
 }
