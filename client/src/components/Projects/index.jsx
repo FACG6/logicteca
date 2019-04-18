@@ -20,8 +20,12 @@ class Projects extends Component {
     this.setState({ data });
   }
   handleRow = id => {
-    console.log(id);
     this.setState({ rowSelected: id });
+  };
+  deleteProject = () => {
+    // fetch database
+    let data = this.state.data.filter(ele => ele.id !== this.state.rowSelected);
+    this.setState({ data });
   };
   render() {
     const { data } = this.state;
@@ -33,7 +37,7 @@ class Projects extends Component {
             <span className="table__menu--item-span">Edit</span>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item onClick={this.deleteProject}>
           <Icon type="delete" />
           Delete
         </Menu.Item>
