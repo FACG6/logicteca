@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./style.css";
-import TableMember from "./TableMember";
+import TableMember from "./TableMember/TableMember";
 
 export default class index extends Component {
   state = {
@@ -37,13 +37,29 @@ export default class index extends Component {
       selection: { rowKey, row },
       newProject: { name }
     } = this.state;
-    if (!Array.isArray(rowKey) || !Array.isArray(row)) {
-      //show error here for selection
-      this.setState({error:{errorStatus:true,errorMsg:"please "}})
-    } else if (name.trim().length === 0) {
+    if (name.trim().length === 0) {
       //show error here for project name
+      this.setState({
+        error: {
+          errorStatus: true,
+          errorMsg: "Please enter the project name"
+        }
+      });
+    } else if (!Array.isArray(rowKey) || !Array.isArray(row)) {
+      //show error here for selection
+      this.setState({
+        error: {
+          errorStatus: true,
+          errorMsg: "Please select at least one team member"
+        }
+      });
     } else {
-      //show error here
+      //fetch to add new project and redirect to projects page (/projects)
+      this.setState({
+        error: {
+          errorStatus: false
+        }
+      });
     }
   };
 
@@ -84,10 +100,10 @@ export default class index extends Component {
                 <TableMember handleCheck={this.handleCheck} />
               </div>
             </div>
-            {this.state.error.errorStatus && (
-              <span className="error">{this.state.error.errorMsg}</span>
-            )}
             <div className="main-submit">
+              {this.state.error.errorStatus && (
+                <span className="error">{this.state.error.errorMsg}</span>
+              )}
               <input className="main-add" type="submit" value="Add" />
             </div>
           </form>

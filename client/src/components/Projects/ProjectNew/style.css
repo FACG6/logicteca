@@ -106,18 +106,7 @@ h3.main-h3 {
   justify-content: flex-end;
 }
 
-.table-font-row {
-  font-size: 1.2rem;
-  font-weight: 400;
-}
-
-.table-font-header th {
-  font-size: 1.2rem;
-  background: rgb(187, 184, 184) !important;
-  border-radius: 0 !important;
-}
-
-.ant-table-fixed-header .ant-table-scroll .ant-table-header {
-  overflow: hidden !important;
-  margin-bottom: 0px !important;
+.error {
+  margin-right: 100px;
+  color: red;
 }
