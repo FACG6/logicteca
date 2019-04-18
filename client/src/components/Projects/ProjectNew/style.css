@@ -26,6 +26,7 @@ label.main-label {
 .main-input {
   width: 50%;
   height: 40px;
+  border: 1px solid black;
 }
 
 .main-textArea {
@@ -92,12 +93,13 @@ h3.main-h3 {
 }
 
 .main-add {
-  width: 15%;
+  width: 20%;
   height: 45px;
   background: #3F7BAA;
   color: white;
   border: none;
   border-radius: 5px;
+  cursor: pointer
 }
 
 .main-submit {

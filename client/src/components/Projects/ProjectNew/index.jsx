@@ -5,7 +5,6 @@ import TableMember from "./TableMember/TableMember";
 export default class index extends Component {
   state = {
     selection: {
-      rowKey: null,
       row: null
     },
     newProject: {
@@ -34,7 +33,7 @@ export default class index extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const {
-      selection: { rowKey, row },
+      selection: { row },
       newProject: { name }
     } = this.state;
     if (name.trim().length === 0) {
@@ -45,7 +44,7 @@ export default class index extends Component {
           errorMsg: "Please enter the project name"
         }
       });
-    } else if (!Array.isArray(rowKey) || !Array.isArray(row)) {
+    } else if (!Array.isArray(row)) {
       //show error here for selection
       this.setState({
         error: {
@@ -64,7 +63,6 @@ export default class index extends Component {
   };
 
   render() {
-    console.log(this.state.selection);
     return (
       <section className="main">
         <div className="main--div">
@@ -80,7 +78,6 @@ export default class index extends Component {
                 type="text"
                 id="name"
                 className="main-input"
-                required
               />
             </label>
             <label className="main-label" htmlFor="name">
@@ -104,7 +101,7 @@ export default class index extends Component {
               {this.state.error.errorStatus && (
                 <span className="error">{this.state.error.errorMsg}</span>
               )}
-              <input className="main-add" type="submit" value="Add" />
+              <input className="main-add" type="submit" value="Submit" />
             </div>
           </form>
         </div>
