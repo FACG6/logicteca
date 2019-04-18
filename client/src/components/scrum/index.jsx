@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default class Scrum extends Component {
   render() {
     const id = this.props.match.params.scrumId;
+    console.log(id)
     return (
       <>
       <Link to={'/project/1/1'}>scrum 1</Link>

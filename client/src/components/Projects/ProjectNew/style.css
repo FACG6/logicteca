@@ -3,7 +3,7 @@
 }
 
 section.main {
-  width: 40%;
+  width: 50%;
   margin: auto;
 }
 
@@ -14,7 +14,7 @@ h1.main--h1 {
 form.main--form {
   margin-top: 60px;
   margin-left: 60px;
-  width: 70%;
+  width: 90%;
 }
 
 label.main-label {
@@ -91,8 +91,8 @@ h3.main-h3 {
   visibility: hidden;
 }
 
-input.main-add {
-  width: 25%;
+.main-add {
+  width: 15%;
   height: 45px;
   background: #3F7BAA;
   color: white;
@@ -104,4 +104,20 @@ input.main-add {
   padding: 50px 0;
   display: flex;
   justify-content: flex-end;
+}
+
+.table-font-row {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.table-font-header th {
+  font-size: 1.2rem;
+  background: rgb(187, 184, 184) !important;
+  border-radius: 0 !important;
+}
+
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  overflow: hidden !important;
+  margin-bottom: 0px !important;
 }
