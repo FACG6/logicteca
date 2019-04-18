@@ -8,9 +8,8 @@ export default class TableMember extends Component {
     super(props);
     this.state.member = require("./member.json");
     this.state.filterArray = filterData(this.state.member);
-    this.columns[0].filters = this.state.filterArray[0];
-    this.columns[1].filters = this.state.filterArray[1];
-    this.columns[2].filters = this.state.filterArray[2];
+    this.columns[0].filters = this.state.filterArray[1];
+    this.columns[1].filters = this.state.filterArray[2];
   }
 
   state = {
@@ -28,13 +27,6 @@ export default class TableMember extends Component {
   };
 
   columns = [
-    {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-      width: 70,
-      onFilter: (value, record) => record.id.indexOf(value) === 0
-    },
     {
       title: "Name",
       dataIndex: "name",
