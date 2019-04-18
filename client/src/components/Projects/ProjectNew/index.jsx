@@ -1,19 +1,9 @@
 import React, { Component } from "react";
 import "./style.css";
+import TableMember from "./TableMember";
 
 export default class index extends Component {
-  state = {
-    members: require("./member.json")
-  };
-
-  handleCheck = e => {
-    const rightCheck = e.target
-      .closest(".main--label")
-      .querySelector(".check-right");
-    rightCheck.classList.toggle("hidden");
-  };
   render() {
-    const { members } = this.state;
     return (
       <section className="main">
         <div className="main--div">
@@ -34,28 +24,13 @@ export default class index extends Component {
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>
               </div>
+
               <div className="main-memberSelect">
-                {members.map(member => (
-                  <label className="main--label" key={member.id}>
-                    <span className="check-border">
-                      <span className="check-right hidden"> &#10004;</span>
-                    </span>
-                    <input
-                      onClick={this.handleCheck}
-                      style={{ display: "none" }}
-                      type="checkbox"
-                      name={member.name}
-                      value={member.name}
-                      required
-                    />{" "}
-                    {member.name}
-                  </label>
-                ))}
+                <TableMember />
               </div>
             </div>
-            <div className="main-input">
-              <input type="submit" />
-              <input type="submit" />
+            <div className="main-submit">
+              <input className="main-add" type="submit" value="Add" />
             </div>
           </form>
         </div>
