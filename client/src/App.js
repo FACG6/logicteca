@@ -10,6 +10,7 @@ import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
 import Members from "./components/Members";
 import Scrum from "./components/scrum";
+import { SearchIcon } from "./components/common components/search";
 
 library.add(faTrash, faFilter, faPlus, faCaretDown);
 
