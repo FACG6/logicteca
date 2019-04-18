@@ -1,49 +1,16 @@
-.projects__table {
+.project__page--container {
   width: 80%;
   margin: 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-around;
 }
-.projects__table--header {
-  color: red;
+.button {
+  margin-bottom: 10px;
 }
-.projects__table--edit {
-  visibility: hidden;
-  margin-left: 20px;
+.ant-btn-primary {
+  background-color: #3f7baa;
 }
-.projects__row {
-  position: relative;
-}
-.projects__row:hover .projects__table--edit {
-  visibility: visible;
-
-  cursor: pointer;
-}
-.edit-delete_main {
-  position: absolute;
-  z-index: 2;
-  background-color: rgb(80, 206, 133);
-  top: 0px;
-  width: 40%;
-  right: 50px;
-  height: 70px;
-  border-radius: 5px;
-}
-.table__menu--item-span {
-  margin-left: 10px;
-}
-.projects__table th {
-  background-color: #3f7baa !important;
-  color: #ffff !important;
-}
-.projects__table ant-table-column-sorter-inner {
-  color: #ffff !important;
-}
-
-.projects__table tr:nth-child(even) {
-  background-color: rgb(213, 238, 241, 0.3);
-}
-.projects__table--row-link {
-  color: rgb(0, 0, 0, 0.65);
-}
-.projects__table--row-link:hover {
-  color: #3f7baa;
+.button--caption {
+  color: white;
 }
