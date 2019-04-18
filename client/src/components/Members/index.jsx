@@ -71,6 +71,9 @@ class Users extends Component {
 
 	handleDeleteUser = event => {
 		console.log(this.state.rowSelected);
+		const row = this.state.rowSelected;
+		const { users} = this.state;
+		console.log(users);
 		//Deleting
 	};
 
@@ -110,7 +113,7 @@ class Users extends Component {
 					<Icon type="user-delete" />
 					delete
 				</Menu.Item>
-				<Menu.Item>
+				<Menu.Item onClick={this.handleDeleteUser}>
 					<Icon type="lock" />
 					change password
 				</Menu.Item>
@@ -201,7 +204,7 @@ class Users extends Component {
 			{
 				render: props => {
 					return (
-						<Dropdown key={props.key} trigger={['click']} rowId={props.id} overlay={menu}>
+						<Dropdown key={props.id} trigger={['click']} rowId={props.id} overlay={menu}>
 							<Icon
 								onClick={() => this.handleRow(props.id)}
 								title="click"
