@@ -24,11 +24,12 @@ class Projects extends Component {
     this.setState({ rowSelected: id });
   };
   deleteProject = () => {
+    if (!this.state.rowSelected) {
+      return;
+    }
     const name = this.state.data.find(
       project => project.id === this.state.rowSelected
     )['name'];
-    console.log(name);
-
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -118,7 +119,7 @@ class Projects extends Component {
       {
         render: props => {
           return (
-            <Dropdown key={props.id} overlay={menu}>
+            <Dropdown key={props.id} trigger={['click']} overlay={menu}>
               <Icon
                 onClick={() => this.handleRow(props.id)}
                 title="click"
