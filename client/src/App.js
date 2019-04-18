@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
-<<<<<<< HEAD
-import "antd/dist/antd.css";
-=======
 import 'antd/dist/antd.css';
->>>>>>> 45a1646b8f96ffda6d933efaafd86030ce4e7f71
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Login from "./components/Login";
