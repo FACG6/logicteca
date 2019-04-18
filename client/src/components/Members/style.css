@@ -3,16 +3,26 @@
   margin: 4rem auto;
 }
 
+.users__table tr:nth-child(even) {
+  background: rgb(213, 238, 241, 0.3);
+}
+
 .users__table th {
   background: #3F7BAA !important;
   color: white !important;
+  font-size: .8rem;
+}
+
+.users__table th span{
   font-weight: bold;
+  letter-spacing: .04rem;
 }
 
 .users__cell {
   display: block;
   padding: .5rem .6rem;
   width: 100%;
+  font-size: .8rem
 }
 
 .users__cell:hover {
@@ -42,10 +52,19 @@
   cursor: pointer;
 }
 
-select.users__select {
+.users__select {
   outline: none;
   border-radius: 3px;
   padding: .3rem .5rem;
   background: #eee;
   cursor: pointer;
+  border:none;
+}
+
+.ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td{
+  background: white !important;
+}
+
+.ant-table-tbody>tr:nth-child(even):hover:not(.ant-table-expanded-row)>td {
+  background: rgb(213, 238, 241, 0.2) !important;
 }

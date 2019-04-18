@@ -50,8 +50,7 @@ class Users extends Component {
 			nameOptions,
 		});
 	}
-
-	handleAddUser = (event, columnName) => {		
+	handleAddUser = (event, columnName) => {
 		const newValue = event.target.value;
 		this.setState(prevState => {
 			const updatedState = { ...prevState };
@@ -60,28 +59,29 @@ class Users extends Component {
 		});
 	};
 
-	save = (event) => {
-		this.validateUserInfo(this.state.users[users.length]);
-	}
+	saveNewUser = () => {
+		if (this.validateUserInfo(this.state.users[users.length])) {
+			//fetch to add user in the
+		}
+	};
 
 	handleEditUserInfo = (event, record, columnName) => {
 		if (record.id === this.state.users.length) {
 			this.handleAddUser(event, columnName);
 		}
 		// const newValue = event.target.value;
-		// // updatedRow
-		// const memberId = record.id;
+		// updatedRow
+			// const memberId = record.id;
 
-		// // Editing UserInfo
+		// Editing UserInfo
+		  // const { users} = this.state;
+			// const updatedUser = users.find(user => user.id === memberId);
+			// updatedUser[columnName] = newValue;
 
-		// const { users} = this.state;
-		// const updatedUser = users.find(user => user.id === memberId);
-		// updatedUser[columnName] = newValue;
-
-		// //Validate
-		// if(this.validateUserInfo(updatedUser)){
-		// 	this.updateUserInfo(updatedUser);
-		// };
+		//Validate
+			// if(this.validateUserInfo(updatedUser)){
+			// 	this.updateUserInfo(updatedUser);
+			// };
 	};
 
 	handleDeleteUser = event => {
@@ -128,7 +128,7 @@ class Users extends Component {
 	};
 
 	render() {
-		//DropDown Menue//
+		//DropDown Menue
 		const menu = (
 			<Menu>
 				<Menu.Item onClick={this.handleDeleteUser}>
@@ -141,7 +141,7 @@ class Users extends Component {
 				</Menu.Item>
 			</Menu>
 		);
-		//Table Columns//
+		// Table Columns
 		const columns = [
 			{
 				title: 'Username',
@@ -242,15 +242,19 @@ class Users extends Component {
 		];
 		return (
 			<>
-			<Table
-				rowKey={record => record.id}
-				dataSource={this.state.users}
-				columns={columns}
-				pagination={false}
-				rowClassName="users__row"
-				className="users__table"
-			/>
-			{this.state.showSaveButton? <button className='users__submitBtn' onClick={this.save}>Save</button>:null}
+				<Table
+					rowKey={record => record.id}
+					dataSource={this.state.users}
+					columns={columns}
+					pagination={false}
+					rowClassName="users__row"
+					className="users__table"
+				/>
+				{this.state.showSaveButton ? (
+					<button className="users__submitBtn" onClick={this.save}>
+						Save
+					</button>
+				) : null}
 			</>
 		);
 	}
