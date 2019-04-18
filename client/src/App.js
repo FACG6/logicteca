@@ -40,7 +40,7 @@ class App extends Component {
               />
               <Route
                 exact
-                path="/project/:projectId/:scrumId"
+                path="/project/:projectId"
                 component={Scrum}
               />
               <Route exact path="/users" component={Users} />

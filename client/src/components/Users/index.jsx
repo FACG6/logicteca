@@ -21,10 +21,6 @@ class Users extends Component {
 
 	componentDidMount() {
 		//Fetch to get users from database//
-		// fetch('/api/v1/members')
-		//   .then(response=>response.json())
-		//   .then(results=>results.data)
-		//   .then(**what is done bellow should be inside this then**)
 
 		//Filtering the members to get unique names and fullnames for filtering//
 		const usernames = [];
@@ -61,7 +57,7 @@ class Users extends Component {
 
 	saveNewUser = () => {
 		if (this.validateUserInfo(this.state.users[users.length])) {
-			//fetch to add user in the
+			//fetch to add user in the database
 		}
 	};
 
@@ -70,18 +66,19 @@ class Users extends Component {
 			this.handleAddUser(event, columnName);
 		}
 		// const newValue = event.target.value;
+
 		// updatedRow
-			// const memberId = record.id;
+		// const memberId = record.id;
 
 		// Editing UserInfo
-		  // const { users} = this.state;
-			// const updatedUser = users.find(user => user.id === memberId);
-			// updatedUser[columnName] = newValue;
+		// const { users} = this.state;
+		// const updatedUser = users.find(user => user.id === memberId);
+		// updatedUser[columnName] = newValue;
 
 		//Validate
-			// if(this.validateUserInfo(updatedUser)){
-			// 	this.updateUserInfo(updatedUser);
-			// };
+		// if(this.validateUserInfo(updatedUser)){
+		// 	this.updateUserInfo(updatedUser);
+		// };
 	};
 
 	handleDeleteUser = event => {
@@ -92,7 +89,6 @@ class Users extends Component {
 	};
 
 	showSwal = deleteMember => {
-		//Swal before deleting
 		Swal.fire({
 			type: 'warning',
 			text: 'Are you sure?',
@@ -141,7 +137,6 @@ class Users extends Component {
 				</Menu.Item>
 			</Menu>
 		);
-		// Table Columns
 		const columns = [
 			{
 				title: 'Username',
@@ -251,7 +246,7 @@ class Users extends Component {
 					className="users__table"
 				/>
 				{this.state.showSaveButton ? (
-					<button className="users__submitBtn" onClick={this.save}>
+					<button className="users__submitBtn" onClick={this.saveNew}>
 						Save
 					</button>
 				) : null}
