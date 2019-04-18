@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Table, Dropdown, Icon, Menu } from 'antd';
+import Swal from 'sweetalert2';
 import 'antd/dist/antd.css';
 import './style.css';
 const data = require('../utils/projects');
@@ -23,9 +24,33 @@ class Projects extends Component {
     this.setState({ rowSelected: id });
   };
   deleteProject = () => {
-    // fetch database
-    let data = this.state.data.filter(ele => ele.id !== this.state.rowSelected);
-    this.setState({ data });
+    const name = this.state.data.find(
+      project => project.id === this.state.rowSelected
+    )['name'];
+    console.log(name);
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: `Yes, ! delete "${name}"`
+    }).then(result => {
+      if (result.value) {
+        // fetch database
+        let data = this.state.data.filter(
+          ele => ele.id !== this.state.rowSelected
+        );
+        this.setState({ data });
+        Swal.fire(
+          'Deleted!',
+          `Your Project >> ${name} << has been deleted.`,
+          'success'
+        );
+      }
+    });
   };
   render() {
     const { data } = this.state;
