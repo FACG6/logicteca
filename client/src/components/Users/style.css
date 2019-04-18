@@ -13,7 +13,7 @@
   font-size: .8rem;
 }
 
-.users__table th span{
+.users__table th span {
   font-weight: bold;
   letter-spacing: .04rem;
 }
@@ -58,10 +58,10 @@
   padding: .3rem .5rem;
   background: #eee;
   cursor: pointer;
-  border:none;
+  border: none;
 }
 
-.ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td{
+.ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td {
   background: white !important;
 }
 
