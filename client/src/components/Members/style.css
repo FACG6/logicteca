@@ -4,7 +4,7 @@
 }
 
 th {
-  background: #1890ff !important;
+  background: #3F7BAA !important;
   color: white !important;
   font-weight: bold;
 }
@@ -25,20 +25,20 @@ th {
 
 .anticon-filter {
   color: white !important;
-  background: #1890ff !important;
+  background: #3F7BAA !important;
 }
 
 .anticon-sorter:hover {
-  background: #1890ff !important;
+  background: #3F7BAA !important;
 }
 
 .user__ellipsis {
-  display: none !important;
+  visibility: hidden !important;
   font-size: 1.4rem
 }
 
 .users__row:hover .user__ellipsis {
-  display: inline-block !important;
+  visibility: visible !important;
   cursor: pointer;
 }
 
