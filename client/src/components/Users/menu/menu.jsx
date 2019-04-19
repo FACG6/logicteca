@@ -1,12 +1,14 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
+import { Link } from 'react-router-dom';
 
-export default ({ handleDeleteUser, rowId, usersLength, handleAddPassword }) => {
+export default ({ handleDeleteUser, rowId, usersLength, showPasswordPopup }) => {
 	return rowId === usersLength ? (
 		<Menu>
-			<Menu.Item onClick={handleAddPassword}>
-				<Icon type="lock" />
-				Add password
+			<Menu.Item onClick={showPasswordPopup}>
+				<Link to='/users/add-password'>
+					<Icon type="lock" /> Add password
+				</Link>
 			</Menu.Item>
 		</Menu>
 	) : (
