@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Table, Dropdown, Icon, Menu } from "antd";
 import Swal from "sweetalert2";
 import "antd/dist/antd.css";
@@ -9,7 +9,8 @@ const data = require("../../utils/projects");
 class ProjectsTable extends Component {
   state = {
     data: [],
-    rowSelected: null
+    rowSelected: null,
+    redirect: false
   };
   componentDidMount() {
     //Todo: Fetch to get projects data from database//
@@ -55,6 +56,9 @@ class ProjectsTable extends Component {
   };
   render() {
     const { data } = this.state;
+    if (this.state.redirect) {
+      return <Redirect to={`/project/${this.state.rowSelected}/1`} />;
+    }
     const menu = (
       <Menu>
         <Menu.Item>
@@ -147,6 +151,16 @@ class ProjectsTable extends Component {
           rowKey={record => record.id}
           rowClassName="projects__row"
           className="projects__table"
+          onRow={(record, index) => {
+            return {
+              onDoubleClick: () => {
+                return this.setState({
+                  redirect: true,
+                  rowSelected: record.id
+                });
+              }
+            };
+          }}
         />
       </section>
     );
