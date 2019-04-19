@@ -4,30 +4,17 @@ import Swal from 'sweetalert2';
 function filter(users) {
   const usernames = [];
   const nameOptions = [];
-  const fullNames = [];
-  const fullNameOptions = [];
   users.forEach(user => {
     const username = user['user_name'];
-    const fullName = user['full_name'];
-    if (usernames.indexOf(username) === -1) {
+    if (usernames.indexOf(username) === -1 && username) {
       usernames.push(username);
       nameOptions.push({
         text: username,
         value: username
       });
     }
-    if (fullNames.indexOf(fullName) === -1) {
-      fullNames.push(fullName);
-      fullNameOptions.push({
-        text: fullName,
-        value: fullName
-      });
-    }
   });
-  return {
-    fullNameOptions,
-    nameOptions
-  }
+  return nameOptions
 }
 
 //Sort Function
