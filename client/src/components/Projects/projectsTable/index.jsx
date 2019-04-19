@@ -57,7 +57,9 @@ class ProjectsTable extends Component {
   render() {
     const { data } = this.state;
     if (this.state.redirect) {
-      return <Redirect to={`/project/${this.state.rowSelected}/1`} />;
+      return (
+        <Redirect to={`/project/${this.state.rowSelected}/1`} push={true} />
+      );
     }
     const menu = (
       <Menu>
