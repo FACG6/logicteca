@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Table, Dropdown, Icon, Menu } from "antd";
 import Swal from "sweetalert2";
 import "antd/dist/antd.css";
