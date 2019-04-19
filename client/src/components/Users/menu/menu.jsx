@@ -5,7 +5,7 @@ export default ({ handleDeleteUser, rowId, usersLength, showPasswordPopup }) => 
 	return rowId === usersLength ? (
 		<Menu>
 			<Menu.Item onClick={showPasswordPopup}>
-					<Icon type="lock" /> Add password
+				<Icon type="lock" /> Add password
 			</Menu.Item>
 		</Menu>
 	) : (

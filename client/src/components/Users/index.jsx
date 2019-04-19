@@ -45,8 +45,8 @@ class Users extends Component {
 		const newValue = event.target.value;
 		this.setState(prevState => {
 			const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
-      clonedUsers[clonedUsers.length - 1][columnName] = newValue;
-      //Not sure if I should update the state now or after inserting the user in database!
+			clonedUsers[clonedUsers.length - 1][columnName] = newValue;
+			//Not sure if I should update the state now or after inserting the user in database!
 			return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1], showSaveButton: true };
 		});
 	};
@@ -55,8 +55,8 @@ class Users extends Component {
 		if (this.validateUserInfo(this.state.newRow)) {
 			if (this.state.password) {
 				//fetch to add user in the database
-        //change message
-        this.setState({ passwordError: false, saved: true });
+				//change message
+				this.setState({ passwordError: false, saved: true });
 			} else {
 				this.setState({ passwordError: true });
 			}
@@ -81,8 +81,8 @@ class Users extends Component {
 		if (this.validateUserInfo(updatedUser)) {
 			this.updateUserInfo(updatedUser, clonedUsers);
 		}
-  };
-  
+	};
+
 	handleDeleteUser = event => {
 		const { users, rowSelected } = this.state;
 		const deletedRow = users.filter(user => user.id === rowSelected)[0];
@@ -124,16 +124,16 @@ class Users extends Component {
 
 	handleRow = id => {
 		this.setState({ rowSelected: id });
-  };
-  
-  showForm = ()=>{
-    this.setState({show: true})
-  }
+	};
+
+	showForm = () => {
+		this.setState({ show: true });
+	};
 
 	AddPassword = password => {
 		this.setState({ password, show: false });
-  };
-  
+	};
+
 	render() {
 		const columns = [
 			{
@@ -198,12 +198,7 @@ class Users extends Component {
 								/>
 							}
 						>
-							<Icon
-								onClick={() => this.handleRow(props.id)}
-								title="click"
-								className="user__ellipsis"
-								type="ellipsis"
-							/>
+							<Icon onClick={() => this.handleRow(props.id)} title="click" className="user__ellipsis" type="ellipsis" />
 						</Dropdown>
 					);
 				},
@@ -227,10 +222,12 @@ class Users extends Component {
 						<Icon className="users__alert" type="warning" />
 						<span>Full Name should consist of at least 6 characters</span>
 					</div>
-          ) : this.state.passwordError ? <div className="users__error">
-            <Icon className="users__alert" type="warning" />
-            <span>Please add Password</span>
-          </div>: null}
+				) : this.state.passwordError ? (
+					<div className="users__error">
+						<Icon className="users__alert" type="warning" />
+						<span>Please add Password</span>
+					</div>
+				) : null}
 				<Table
 					rowKey={record => record.id}
 					dataSource={this.state.users}
