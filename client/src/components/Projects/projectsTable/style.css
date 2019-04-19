@@ -2,9 +2,6 @@
   width: 100%;
   margin: 0 auto;
 }
-.projects__table--header {
-  color: red;
-}
 .projects__table--edit {
   visibility: hidden;
   margin-left: 20px;
