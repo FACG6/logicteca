@@ -10,7 +10,8 @@ import Projects from "./components/Projects";
 import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
 import Users from "./components/Users";
-import Scrum from "./components/scrum";
+import Scrums from "./components/scrums/index";
+import Scrum from './components/scrums/scrum/index';
 
 library.add(faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit);
 
@@ -37,6 +38,11 @@ class App extends Component {
                 exact
                 path="/project/:projectId/edit"
                 component={ProjectEdit}
+              />
+              <Route
+                exact
+                path="/project/:projectId"
+                component={Scrums}
               />
               <Route
                 exact
