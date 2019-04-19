@@ -1,0 +1,43 @@
+.users__password-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.users__password-wrapper {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #000;
+  background: white;
+  border-radius: 3px;
+  padding: 1rem;
+  border: 1px solid #eee;
+}
+
+.users__password-form__label {
+  margin-bottom: .4rem;
+
+}
+
+.users__password-form__input {
+  margin-bottom: 1rem;
+  padding: .3rem;
+  outline: none;
+  border: .4px solid #3F7BAA;
+}
+
+.users__password-submit {
+  border: none;
+  margin: 1rem 0;
+  padding: .4rem .8rem;
+  color: white;
+  cursor: pointer;
+  background: #3F7BAA;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24),
+    0px 0px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+}
