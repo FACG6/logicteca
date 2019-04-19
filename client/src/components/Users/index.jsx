@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Table, Icon, Dropdown } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Editable from 'react-contenteditable';
 import 'antd/dist/antd.css';
 import './style.css';
@@ -211,7 +210,7 @@ class Users extends Component {
         {this.state.showSaveButton ? (
           <button className="users__submitBtn" onClick={this.saveNewUser}>
             Save
-					</button>
+          </button>
         ) : null}
 
         {this.state.userNameError ? (

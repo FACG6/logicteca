@@ -6,18 +6,18 @@ export default ({ handleDeleteUser, rowId, usersLength, showPasswordPopup }) => 
     <Menu>
       <Menu.Item onClick={showPasswordPopup}>
         <Icon type="lock" /> Add password
-			</Menu.Item>
+      </Menu.Item>
     </Menu>
   ) : (
       <Menu>
         <Menu.Item onClick={handleDeleteUser}>
           <Icon type="user-delete" />
           Delete member
-			</Menu.Item>
+      </Menu.Item>
         <Menu.Item>
           <Icon type="lock" />
           Change password
-			</Menu.Item>
+      </Menu.Item>
       </Menu>
     );
 };

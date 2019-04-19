@@ -43,7 +43,7 @@ export default class Password extends Component {
           <h3 className='users__password-form__heading'>Add Password</h3>
           <label className="users__password-form__label" htmlFor="password">
             Password
-					</label>
+          </label>
           <input
             className="users__password-form__input"
             name="password"
@@ -54,7 +54,7 @@ export default class Password extends Component {
           />
           <label className="users__password-form__label" htmlFor="confirmPassword">
             Re-enter Password
-					</label>
+          </label>
           <input
             className="users__password-form__input"
             name="confirmPassword"
@@ -72,10 +72,10 @@ export default class Password extends Component {
           <div className='users__password-form_btns'>
             <button className="users__password-submit" onClick={this.validation}>
               Confirm
-						</button>
+            </button>
             <button className="users__password-cancel" onClick={this.cancel}>
               Cancel
-						</button>
+            </button>
           </div>
         </form>
       </div>

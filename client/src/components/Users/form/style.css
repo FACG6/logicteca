@@ -17,15 +17,15 @@
   padding: 1rem;
   border: 1px solid #eee;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-  0 1px 2px rgba(0, 0, 1, 0.1);
+    0 1px 2px rgba(0, 0, 1, 0.1);
 }
 
-.users__password-form__heading{
+.users__password-form__heading {
   text-align: center;
   margin-bottom: 1rem;
   font-weight: bold;
   font-size: 1.2rem;
-  color:  #3F7BAA;
+  color: #3F7BAA;
   letter-spacing: .02rem
 }
 
@@ -38,17 +38,17 @@
   margin-bottom: 1rem;
   padding: .3rem;
   outline: none;
-  border: 1px solid rgba(63,123,170,.2);
+  border: 1px solid rgba(63, 123, 170, .2);
   border-radius: 5px;
 }
 
-.users__password-form_btns{
+.users__password-form_btns {
   display: flex;
   justify-content: center;
 }
 
 .users__password-submit,
-.users__password-cancel{
+.users__password-cancel {
   border: none;
   margin: 1rem 0;
   padding: .4rem .9rem;
