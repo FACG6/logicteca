@@ -21,43 +21,46 @@ export default class TableMember extends Component {
     this.setState({ filterArray: filterData(this.state.member) });
   }
 
-  render() {
-    const columns = [
-      {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        width: 150,
-        filters: this.state.filterArray[1],
-        onFilter: (value, record) => record.name.indexOf(value) === 0,
-        sorter: (a, b) => {
-          if (a.id > b.id) {
-            return -1;
-          }
-          if (a.id < b.id) {
-            return 1;
-          }
-          return 0;
+  columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: 150,
+      filters: this.state.filterArray[1],
+      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      sorter: (a, b) => {
+        if (a.id > b.id) {
+          return -1;
         }
-      },
-      {
-        title: "role",
-        dataIndex: "role",
-        key: "role",
-        width: 150,
-        filters: this.state.filterArray[2],
-        onFilter: (value, record) => record.role.indexOf(value) === 0
+        if (a.id < b.id) {
+          return 1;
+        }
+        return 0;
       }
-    ];
-    const { pagination, rowSelection, scroll } = this.state;
-    console.log(this.state.filterArray);
+    },
+    {
+      title: "role",
+      dataIndex: "role",
+      key: "role",
+      width: 150,
+      filters: this.state.filterArray[2],
+      onFilter: (value, record) => record.role.indexOf(value) === 0
+    }
+  ];
+  render() {
+    const { pagination, rowSelection, scroll, filterArray } = this.state;
+    const columns = this.columns
+    columns[0].filters = filterArray[1];
+    columns[1].filters = filterArray[2];
+
     return (
       <Table
         rowKey={record => record.id}
         pagination={pagination}
         rowSelection={rowSelection}
         scroll={scroll}
-        columns={columns}
+        columns={this.columns}
         dataSource={this.state.member}
         rowClassName="table-font-row"
         className="table-font-header"
