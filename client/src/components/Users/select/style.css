@@ -1,0 +1,8 @@
+.users__select {
+  outline: none;
+  border-radius: 3px;
+  padding: .3rem .5rem;
+  cursor: pointer;
+  border: none;
+  font-size: .9rem
+}

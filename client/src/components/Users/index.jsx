@@ -75,7 +75,7 @@ class Users extends Component {
 	};
 
 	handleDeleteUser = event => {
-    const { users, rowSelected } = this.state;
+		const { users, rowSelected } = this.state;
 		const deletedRow = users.filter(user => user.id === rowSelected)[0];
 		this.showSwal(deletedRow);
 	};
@@ -92,7 +92,7 @@ class Users extends Component {
 	};
 
 	validateUserInfo = user => {
-    this.setState({ fullNameError: false, userNameError: false });
+		this.setState({ fullNameError: false, userNameError: false });
 		if (user['user_name'].length < 3) {
 			this.setState({ userNameError: true });
 			return false;
@@ -114,11 +114,11 @@ class Users extends Component {
 
 	handleRow = id => {
 		this.setState({ rowSelected: id });
-  };
-  
-  handleAddPassword = () => {
-    //Function to add password
-  }
+	};
+
+	handleAddPassword = () => {
+		//Function to add password
+	};
 
 	render() {
 		const columns = [
@@ -161,10 +161,7 @@ class Users extends Component {
 				dataIndex: 'role',
 				render: (value, record) => {
 					return (
-						<Select
-							onChange={event => this.handleEditUserInfo(event, record, 'role')}
-							defaultValue={record.role}
-						/>
+						<Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
 					);
 				},
 				filters: roleFilter,
@@ -177,14 +174,16 @@ class Users extends Component {
 							key={props.id}
 							trigger={['click']}
 							rowId={props.id}
-							overlay={<UserMenu rowId={props.id} handleAddPassword={this.handleAddPassword} usersLength={this.state.users.length} handleDeleteUser={this.handleDeleteUser} />}
+							overlay={
+								<UserMenu
+									rowId={props.id}
+									handleAddPassword={this.handleAddPassword}
+									usersLength={this.state.users.length}
+									handleDeleteUser={this.handleDeleteUser}
+								/>
+							}
 						>
-							<Icon
-								onClick={() => this.handleRow(props.id)}
-								title="click"
-								className="user__ellipsis"
-								type="ellipsis"
-							/>
+							<Icon onClick={() => this.handleRow(props.id)} title="click" className="user__ellipsis" type="ellipsis" />
 						</Dropdown>
 					);
 				},
