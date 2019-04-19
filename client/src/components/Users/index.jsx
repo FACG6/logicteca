@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Table, Icon, Dropdown } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Editable from 'react-contenteditable';
 import 'antd/dist/antd.css';
 import './style.css';
 import { filter, sort, deleteSwal, roleFilter } from './helpers.js';
 import Select from './select';
 import UserMenu from './menu/menu';
-import Password from './password/index';
+import Form from './form/index';
+import Error from './error/Error'
 
 const users = require('../../utils/users.json');
 
@@ -118,8 +120,7 @@ class Users extends Component {
     //Fetch to update userInfo//
     //Then update users in the state//
     //change message//
-    // this.setState({users})
-    this.setState({ saving: false, saved: true });
+    this.setState({ users, saving: false, saved: true });
   };
 
   handleRow = id => {
@@ -154,7 +155,6 @@ class Users extends Component {
         },
         filters: this.state.nameOptions,
         onFilter: (value, record) => record['user_name'] === value,
-        defaultSort: 'descend',
         sorter: (a, b) => sort(a, b, 'user_name'),
       },
       {
@@ -170,7 +170,6 @@ class Users extends Component {
             />
           );
         },
-        defaultSort: 'descend',
         sorter: (a, b) => sort(a, b, 'full_name'),
       },
       {
@@ -216,20 +215,11 @@ class Users extends Component {
         ) : null}
 
         {this.state.userNameError ? (
-          <div className="users__error">
-            <Icon className="users__alert" type="warning" />
-            <span>Username should consist of at least 3 characters</span>
-          </div>
+          <Error errorClass='users__error--wd-60' errorMsg='Username should consist of at least 3 characters' />
         ) : this.state.fullNameError ? (
-          <div className="users__error">
-            <Icon className="users__alert" type="warning" />
-            <span>Full Name should consist of at least 6 characters</span>
-          </div>
+          <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
-          <div className="users__error">
-            <Icon className="users__alert" type="warning" />
-            <span>Please add Password</span>
-          </div>
+          <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
         ) : null}
         <Table
           rowKey={record => record.id}
@@ -239,7 +229,7 @@ class Users extends Component {
           rowClassName="users__row"
           className="users__table"
         />
-        {this.state.show ? <Password submitPassword={this.AddPassword} cancel={this.cancel} /> : null}
+        {this.state.show ? <Form submitPassword={this.AddPassword} cancel={this.cancel} /> : null}
       </>
     );
   }
