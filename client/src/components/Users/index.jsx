@@ -7,7 +7,7 @@ import { filter, sort, deleteSwal, roleFilter } from './helpers.js';
 import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
-import Error from './error/Error'
+import Error from './error/Error';
 
 const users = require('../../utils/users.json');
 
@@ -133,6 +133,7 @@ class Users extends Component {
   AddPassword = password => {
     this.setState({ password, show: false });
   };
+  
   cancel = () => {
     this.setState({ show: false })
   }
