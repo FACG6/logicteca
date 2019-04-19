@@ -20,13 +20,15 @@ export default class Scrums extends Component {
       <div>
         <h2> {projectName} </h2>
         <Tabs defaultActiveKey={scrumsId[0]}>
-          {this.state.scrumsId.map(item => {
+          {scrumsId.map(item => {
             return (
-                <TabPane tab={item} key={item} onClick={() => this.props.history.push(`/project/${projectId}/$     {item}`)}>
-                  <Scrum item={item}/>
+                <TabPane tab={item} key={item} onClick={() => this.props.history.push(`/project/${projectId}/${item}`)}>
+                  <Scrum item={item} projectName={projectName}/>
                 </TabPane>
             )
-          })}
+           }
+            )
+          }          
         </Tabs>
       </div>
     );

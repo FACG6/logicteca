@@ -3,18 +3,17 @@ import React, { Component } from 'react';
 import { Table } from 'antd';
 
 class Scrum extends Component {
-
     state = {
         tasks: []
     }
 
     componentDidMount(){
-         return fetch('https://jsonplaceholder.typicode.com/typicode/demo/posts', {
-             method: 'GET'
-         })
-        .then(posts => posts.json())
-        // .then(res => console.log(res))
-        .then(result => this.setState({tasks: result}))
+        return fetch('https://jsonplaceholder.typicode.com/typicode/demo/posts', {
+            method: 'GET'
+            })
+                .then(posts => posts.json())
+             // .then(res => console.log(res))
+                .then(result => this.setState({tasks: result}))
     }
 
     render() { 
@@ -59,8 +58,7 @@ class Scrum extends Component {
                     title: 'Ticket',
                     dataIndex: 'id'
                 },
-
-            ]
+            ];
         })
         
         return ( 
