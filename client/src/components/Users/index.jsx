@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Table, Icon, Dropdown, Menu } from 'antd';
+import { Table, Icon, Dropdown } from 'antd';
 import Editable from 'react-contenteditable';
 import 'antd/dist/antd.css';
 import './style.css';
-import Swal from 'sweetalert2';
+import { filter, sort, deleteSwal, roleFilter } from './helpers.js';
+import Select from './select';
+import UserMenu from './menu/menu';
 
 const users = require('../../utils/users.json');
 
@@ -29,30 +31,15 @@ class Users extends Component {
 		});
 	}
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.users !== this.state.users) {
-			const users = this.state.users.slice(0, this.state.users.length - 1);
-			//Filtering users to get unique names and fullnames for filtering//
-			const usernames = [];
-			const nameOptions = [];
-			const fullNames = [];
-			const fullNameOptions = [];
-			users.forEach(user => {
-				const username = user['user_name'];
-				const fullName = user['full_name'];
-				if (usernames.indexOf(username) === -1) {
-					usernames.push(username);
-					nameOptions.push({ text: username, value: username });
-				}
-				if (fullNames.indexOf(fullName) === -1) {
-					fullNames.push(fullName);
-					fullNameOptions.push({ text: fullName, value: fullName });
-				}
-			});
+		const { users } = this.state;
+		if (prevState.users !== users) {
+			const allUsers = users.slice(0, users.length - 1);
+			const { fullNameOptions, nameOptions } = filter(allUsers);
 			this.setState({ fullNameOptions, nameOptions });
 		}
 	}
 	handleAddUser = (event, columnName) => {
-		const newValue = event.target.value;
+		const newValue = event.target.value.trim();
 		this.setState(prevState => {
 			const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
 			clonedUsers[clonedUsers.length - 1][columnName] = newValue;
@@ -73,7 +60,7 @@ class Users extends Component {
 			return this.handleAddUser(event, columnName);
 		}
 		this.setState({ saving: true, saved: false });
-		const newValue = event.target.value;
+		const newValue = event.target.value.trim();
 		const memberId = record.id;
 
 		// Editing UserInfo
@@ -88,19 +75,13 @@ class Users extends Component {
 	};
 
 	handleDeleteUser = event => {
-		const row = this.state.rowSelected;
-		const { users } = this.state;
-		const deletedRow = users.filter(user => user.id === row)[0];
+    const { users, rowSelected } = this.state;
+		const deletedRow = users.filter(user => user.id === rowSelected)[0];
 		this.showSwal(deletedRow);
 	};
 
 	showSwal = deleteMember => {
-		Swal.fire({
-			type: 'warning',
-			text: 'Are you sure?',
-			showConfirmButton: true,
-			showCancelButton: true,
-		}).then(response => {
+		deleteSwal().then(response => {
 			if (response.value) this.confirmDelete(deleteMember);
 		});
 	};
@@ -111,12 +92,12 @@ class Users extends Component {
 	};
 
 	validateUserInfo = user => {
-		this.setState({ fullNameError: false, userNameError: false });
-		if (user['user_name'].trim().length < 6) {
+    this.setState({ fullNameError: false, userNameError: false });
+		if (user['user_name'].length < 3) {
 			this.setState({ userNameError: true });
 			return false;
 		}
-		if (user['full_name'].trim().length < 8) {
+		if (user['full_name'].length < 6) {
 			this.setState({ fullNameError: true });
 			return false;
 		}
@@ -133,21 +114,13 @@ class Users extends Component {
 
 	handleRow = id => {
 		this.setState({ rowSelected: id });
-	};
+  };
+  
+  handleAddPassword = () => {
+    //Function to add password
+  }
 
 	render() {
-		const menu = (
-			<Menu>
-				<Menu.Item onClick={this.handleDeleteUser}>
-					<Icon type="user-delete" />
-					delete
-				</Menu.Item>
-				<Menu.Item onClick={this.handleDeleteUser}>
-					<Icon type="lock" />
-					change password
-				</Menu.Item>
-			</Menu>
-		);
 		const columns = [
 			{
 				title: 'Username',
@@ -155,7 +128,6 @@ class Users extends Component {
 				render: (value, record) => {
 					return (
 						<Editable
-							innerRef={this.contentEditable}
 							html={value}
 							onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
 							tagName="span"
@@ -166,15 +138,7 @@ class Users extends Component {
 				filters: this.state.nameOptions,
 				onFilter: (value, record) => record['user_name'] === value,
 				defaultSort: 'descend',
-				sorter: (a, b) => {
-					if (a['user_name'] > b['user_name']) {
-						return -1;
-					}
-					if (a['user_name'] < b['user_name']) {
-						return 1;
-					}
-					return 0;
-				},
+				sorter: (a, b) => sort(a, b, 'user_name'),
 			},
 			{
 				title: 'Full Name',
@@ -190,51 +154,31 @@ class Users extends Component {
 					);
 				},
 				defaultSort: 'descend',
-				sorter: (a, b) => {
-					if (a['full_name'] < b['full_name']) {
-						return -1;
-					}
-					if (a['full_name'] > b['full_name']) {
-						return 1;
-					}
-					return 0;
-				},
+				sorter: (a, b) => sort(a, b, 'full_name'),
 			},
 			{
 				title: 'Role',
 				dataIndex: 'role',
 				render: (value, record) => {
 					return (
-						<select
+						<Select
 							onChange={event => this.handleEditUserInfo(event, record, 'role')}
 							defaultValue={record.role}
-							className="users__select"
-						>
-							<option id="1" value="developer">
-								Developer
-							</option>
-							<option id="2" value="scrum master">
-								Scrum Master
-							</option>
-						</select>
+						/>
 					);
 				},
-				filters: [
-					{
-						text: 'developer',
-						value: 'developer',
-					},
-					{
-						text: 'scrum master',
-						value: 'scrum master',
-					},
-				],
+				filters: roleFilter,
 				onFilter: (value, record) => record['role'] === value,
 			},
 			{
 				render: props => {
 					return (
-						<Dropdown key={props.id} trigger={['click']} rowId={props.id} overlay={menu}>
+						<Dropdown
+							key={props.id}
+							trigger={['click']}
+							rowId={props.id}
+							overlay={<UserMenu rowId={props.id} handleAddPassword={this.handleAddPassword} usersLength={this.state.users.length} handleDeleteUser={this.handleDeleteUser} />}
+						>
 							<Icon
 								onClick={() => this.handleRow(props.id)}
 								title="click"
@@ -248,21 +192,22 @@ class Users extends Component {
 		];
 		return (
 			<>
-				{this.state.userNameError ? (
-					<div className="users__error">
-						<Icon className="users__alert" type="warning" />
-						<span>Username should consist of at least 6 characters</span>
-					</div>
-				) : this.state.fullNameError ? (
-					<div className="users__error">
-						<Icon type="warning" />
-						<span className="users__alert">Full Name should consist of at least 8 characters</span>
-					</div>
-				) : null}
 				{this.state.showSaveButton ? (
 					<button className="users__submitBtn" onClick={this.saveNewUser}>
 						Save
 					</button>
+				) : null}
+
+				{this.state.userNameError ? (
+					<div className="users__error">
+						<Icon className="users__alert" type="warning" />
+						<span>Username should consist of at least 3 characters</span>
+					</div>
+				) : this.state.fullNameError ? (
+					<div className="users__error">
+						<Icon className="users__alert" type="warning" />
+						<span>Full Name should consist of at least 6 characters</span>
+					</div>
 				) : null}
 				<Table
 					rowKey={record => record.id}
