@@ -1,0 +1,62 @@
+.users__password-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.users__password-wrapper {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #000;
+  background: white;
+  border-radius: 3px;
+  padding: 1rem;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+  0 1px 2px rgba(0, 0, 1, 0.1);
+}
+
+.users__password-form__heading{
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color:  #3F7BAA;
+  letter-spacing: .02rem
+}
+
+.users__password-form__label {
+  margin-bottom: .4rem;
+  color: #333;
+}
+
+.users__password-form__input {
+  margin-bottom: 1rem;
+  padding: .3rem;
+  outline: none;
+  border: 1px solid rgba(63,123,170,.2);
+  border-radius: 5px;
+}
+
+.users__password-form_btns{
+  display: flex;
+  justify-content: center;
+}
+
+.users__password-submit,
+.users__password-cancel{
+  border: none;
+  margin: 1rem 0;
+  padding: .4rem .9rem;
+  color: white;
+  cursor: pointer;
+  background: #3F7BAA;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24),
+    0px 0px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  margin-right: 1rem;
+}
