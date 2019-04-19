@@ -27,7 +27,7 @@ export default class TableMember extends Component {
       dataIndex: "name",
       key: "name",
       width: 150,
-      filters: this.state.filterArray[1],
+      filters: [],
       onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => {
         if (a.id > b.id) {
@@ -44,7 +44,7 @@ export default class TableMember extends Component {
       dataIndex: "role",
       key: "role",
       width: 150,
-      filters: this.state.filterArray[2],
+      filters: [],
       onFilter: (value, record) => record.role.indexOf(value) === 0
     }
   ];
