@@ -6,6 +6,7 @@ import './style.css';
 import { filter, sort, deleteSwal, roleFilter } from './helpers.js';
 import Select from './select';
 import UserMenu from './menu/menu';
+import Password from './password/index';
 
 const users = require('../../utils/users.json');
 
@@ -13,14 +14,16 @@ class Users extends Component {
 	state = {
 		users: [],
 		nameOptions: [],
-		fullNameOptions: [],
 		showSaveButton: false,
 		userNameError: false,
 		fullNameError: false,
+		password: null,
+		passwordError: false,
 		rowSelected: null,
 		newRow: {},
 		saving: false,
 		saved: false,
+		show: false,
 	};
 
 	componentDidMount() {
@@ -33,25 +36,30 @@ class Users extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		const { users } = this.state;
 		if (prevState.users !== users) {
-			const allUsers = users.slice(0, users.length - 1);
-			const { fullNameOptions, nameOptions } = filter(allUsers);
-			this.setState({ fullNameOptions, nameOptions });
+			const allUsers = users.slice(0);
+			const nameOptions = filter(allUsers);
+			this.setState({ nameOptions });
 		}
 	}
 	handleAddUser = (event, columnName) => {
-		const newValue = event.target.value.trim();
+		const newValue = event.target.value;
 		this.setState(prevState => {
 			const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
-			clonedUsers[clonedUsers.length - 1][columnName] = newValue;
+      clonedUsers[clonedUsers.length - 1][columnName] = newValue;
+      //Not sure if I should update the state now or after inserting the user in database!
 			return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1], showSaveButton: true };
 		});
 	};
 
 	saveNewUser = () => {
 		if (this.validateUserInfo(this.state.newRow)) {
-			//fetch to add user in the database
-			//change message
-			this.setState({ saved: true });
+			if (this.state.password) {
+				//fetch to add user in the database
+        //change message
+        this.setState({ passwordError: false, saved: true });
+			} else {
+				this.setState({ passwordError: true });
+			}
 		}
 	};
 
@@ -60,20 +68,21 @@ class Users extends Component {
 			return this.handleAddUser(event, columnName);
 		}
 		this.setState({ saving: true, saved: false });
-		const newValue = event.target.value.trim();
+		const newValue = event.target.value;
 		const memberId = record.id;
 
 		// Editing UserInfo
 		const { users } = this.state;
-		const updatedUser = users.find(user => user.id === memberId);
+		const clonedUsers = JSON.parse(JSON.stringify(users));
+		const updatedUser = clonedUsers.find(user => user.id === memberId);
 		updatedUser[columnName] = newValue;
 
 		//Validate
 		if (this.validateUserInfo(updatedUser)) {
-			this.updateUserInfo(updatedUser);
+			this.updateUserInfo(updatedUser, clonedUsers);
 		}
-	};
-
+  };
+  
 	handleDeleteUser = event => {
 		const { users, rowSelected } = this.state;
 		const deletedRow = users.filter(user => user.id === rowSelected)[0];
@@ -105,21 +114,26 @@ class Users extends Component {
 		return true;
 	};
 
-	updateUserInfo = user => {
+	updateUserInfo = (user, users) => {
 		//Fetch to update userInfo//
 		//Then update users in the state//
 		//change message//
+		// this.setState({users})
 		this.setState({ saving: false, saved: true });
 	};
 
 	handleRow = id => {
 		this.setState({ rowSelected: id });
-	};
+  };
+  
+  showForm = ()=>{
+    this.setState({show: true})
+  }
 
-	handleAddPassword = () => {
-		//Function to add password
-	};
-
+	AddPassword = password => {
+		this.setState({ password, show: false });
+  };
+  
 	render() {
 		const columns = [
 			{
@@ -177,13 +191,19 @@ class Users extends Component {
 							overlay={
 								<UserMenu
 									rowId={props.id}
-									handleAddPassword={this.handleAddPassword}
+									submitPassword={this.handleAddPassword}
 									usersLength={this.state.users.length}
 									handleDeleteUser={this.handleDeleteUser}
+									showPasswordPopup={this.showForm}
 								/>
 							}
 						>
-							<Icon onClick={() => this.handleRow(props.id)} title="click" className="user__ellipsis" type="ellipsis" />
+							<Icon
+								onClick={() => this.handleRow(props.id)}
+								title="click"
+								className="user__ellipsis"
+								type="ellipsis"
+							/>
 						</Dropdown>
 					);
 				},
@@ -207,7 +227,10 @@ class Users extends Component {
 						<Icon className="users__alert" type="warning" />
 						<span>Full Name should consist of at least 6 characters</span>
 					</div>
-				) : null}
+          ) : this.state.passwordError ? <div className="users__error">
+            <Icon className="users__alert" type="warning" />
+            <span>Please add Password</span>
+          </div>: null}
 				<Table
 					rowKey={record => record.id}
 					dataSource={this.state.users}
@@ -216,6 +239,7 @@ class Users extends Component {
 					rowClassName="users__row"
 					className="users__table"
 				/>
+				{this.state.show ? <Password submitPassword={this.AddPassword} /> : null}
 			</>
 		);
 	}
