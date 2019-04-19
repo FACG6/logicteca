@@ -128,7 +128,7 @@ class ProjectsTable extends Component {
           return (
             <Dropdown key={props.id} trigger={["click"]} overlay={menu}>
               <Icon
-                onClick={() => this.handleRow(props.id)}
+                onMouseOver={() => this.handleRow(props.id)}
                 title="click"
                 className="projects__table--edit"
                 type="ellipsis"
