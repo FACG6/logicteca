@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { Table, Dropdown, Icon, Menu } from 'antd';
-import Swal from 'sweetalert2';
-import 'antd/dist/antd.css';
-import './style.css';
-const data = require('../../utils/projects');
+import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { Table, Dropdown, Icon, Menu } from "antd";
+import Swal from "sweetalert2";
+import "antd/dist/antd.css";
+import "./style.css";
+const data = require("../../utils/projects");
 
 class ProjectsTable extends Component {
   state = {
@@ -29,14 +29,14 @@ class ProjectsTable extends Component {
     }
     const name = this.state.data.find(
       project => project.id === this.state.rowSelected
-    )['name'];
+    )["name"];
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      type: 'warning',
+      type: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
       confirmButtonText: `Yes, ! delete "${name}"`
     }).then(result => {
       if (result.value) {
@@ -46,9 +46,9 @@ class ProjectsTable extends Component {
         );
         this.setState({ data });
         Swal.fire(
-          'Deleted!',
+          "Deleted!",
           `Your Project >> ${name} << has been deleted.`,
-          'success'
+          "success"
         );
       }
     });
@@ -71,9 +71,9 @@ class ProjectsTable extends Component {
     );
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
-        defaultSort: 'descend',
+        title: "ID",
+        dataIndex: "id",
+        defaultSort: "descend",
         sorter: (a, b) => {
           if (a.id > b.id) {
             return -1;
@@ -85,14 +85,14 @@ class ProjectsTable extends Component {
         }
       },
       {
-        title: 'Name',
-        dataIndex: 'name',
-        defaultSort: 'descend',
+        title: "Name",
+        dataIndex: "name",
+        defaultSort: "descend",
         sorter: (a, b) => {
-          if (a['name'] > b['name']) {
+          if (a["name"] > b["name"]) {
             return -1;
           }
-          if (a['name'] < b['name']) {
+          if (a["name"] < b["name"]) {
             return 1;
           }
           return 0;
@@ -106,18 +106,18 @@ class ProjectsTable extends Component {
         }
       },
       {
-        title: 'Description',
-        dataIndex: 'description'
+        title: "Description",
+        dataIndex: "description"
       },
       {
-        title: 'Created At',
-        dataIndex: 'created_at',
-        defaultSort: 'descend',
+        title: "Created At",
+        dataIndex: "created_at",
+        defaultSort: "descend",
         sorter: (a, b) => {
-          if (a['created_at'] > b['created_at']) {
+          if (a["created_at"] > b["created_at"]) {
             return -1;
           }
-          if (a['created_at'] < b['created_at']) {
+          if (a["created_at"] < b["created_at"]) {
             return 1;
           }
           return 0;
@@ -126,7 +126,7 @@ class ProjectsTable extends Component {
       {
         render: props => {
           return (
-            <Dropdown key={props.id} trigger={['click']} overlay={menu}>
+            <Dropdown key={props.id} trigger={["click"]} overlay={menu}>
               <Icon
                 onClick={() => this.handleRow(props.id)}
                 title="click"
