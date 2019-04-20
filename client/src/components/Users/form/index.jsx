@@ -84,5 +84,5 @@ export default class Password extends Component {
 
 Password.propTypes = {
   submitPassword: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,  
 }

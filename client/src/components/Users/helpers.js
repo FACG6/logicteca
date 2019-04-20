@@ -48,10 +48,9 @@ function deleteSwal() {
   })
 }
 
-
-
 export {
   filter,
   sort,
   deleteSwal,
 };
+

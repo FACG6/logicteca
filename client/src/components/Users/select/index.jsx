@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style.css'
 
-export default ({ defaultValue, onChange }) => {
+export default function Select ({ defaultValue, onChange }) {
   return (
     <select className="users__select" defaultValue={defaultValue} onChange={onChange}>
       <option id="1" value="developer">Developer</option>
@@ -11,3 +12,10 @@ export default ({ defaultValue, onChange }) => {
     </select>
   );
 };
+
+Select.propTypes = {
+  defaultValue: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
+
+
