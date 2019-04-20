@@ -126,6 +126,11 @@ class Users extends Component {
   }
 
   render() {
+    if (this.state.saved) {
+      setTimeout(() => {
+        this.setState({ saved: false })
+      }, 4000);
+    }
     const columns = [
       {
         title: 'Username',
@@ -200,7 +205,7 @@ class Users extends Component {
           <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
-            ) : this.state.saving ? <Notification notificationClass='users__saving-msg' notification='Saving...' /> : this.state.saved ? <Notification notificationClass='users__saved-msg' notification='Saved' /> : null}
+        ) : this.state.saved ? <Notification notification='Saved' /> : <Notification notificationClass='hidden' notification='Saved' />}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}

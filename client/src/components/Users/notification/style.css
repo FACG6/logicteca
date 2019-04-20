@@ -2,12 +2,11 @@
 .users__notification-div{
   width: 60%;
   margin: 0 auto;
+  visibility: visible;
 }
 
-.users__saving-msg{
-  font-weight: bold;
-  font-size: 1rem;
-  color: #3F7BAA;
+.hidden{
+  visibility: hidden;
 }
 
 .users__saved-msg {
@@ -17,10 +16,11 @@
 }
 
 .users__notification-icon{
-  padding-right: 1rem;
+  padding-right: .6rem;
   font-size: .9rem;
 }
 
 .users__notification-icon--saved{
   color: green;
 }
+
