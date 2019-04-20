@@ -1,6 +1,6 @@
 .users__table {
   width: 60%;
-  margin: 2.5rem auto;
+  margin: 1.5rem auto;
 }
 
 .users__table tr:nth-child(even) {
@@ -76,6 +76,11 @@
   font-weight: bold;
   margin-top: .5rem;
   cursor: pointer;
+  visibility: visible;
+}
+
+.hidden{
+  visibility: hidden;
 }
 
 .users__error--wd-60 {
