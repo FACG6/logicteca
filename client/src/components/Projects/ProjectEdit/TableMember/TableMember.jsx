@@ -10,20 +10,10 @@ export default class TableMember extends Component {
     filterArray: [],
     pagination: false,
     selectedRowKeys: [],
-    // {
-    //   onChange: selectedRows => {
-    //     this.props.handleCheck({
-    //       row: selectedRows
-    //     });
-    //     this.setState({ rowSelection: { selectedRowKeys: selectedRows } });
-    //     console.log(111111111111);
-    //   }
-    // }
     scroll: { y: 400 }
   };
 
   componentDidMount() {
-    //   selectedRowKeys: filterIdMember(this.props.teamMember),
     const selectedRowsKeys = filterIdMember(this.props.teamMember);
     // fetch all member from DB
     const member = require("../../ProjectNew/TableMember/member.json");

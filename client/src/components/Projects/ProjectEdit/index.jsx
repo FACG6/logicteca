@@ -76,7 +76,6 @@ export default class index extends Component {
   };
 
   render() {
-    console.log(this.state.selection);
     const projectId = this.props.match.params.projectId;
     return (
       <section className="main">
