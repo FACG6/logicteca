@@ -57,7 +57,7 @@ export default class index extends Component {
           errorMsg: "Please enter the project name"
         }
       });
-    } else if (!Array.isArray(row)) {
+    } else if (!Array.isArray(row) || row.length === 0) {
       //show error here for selection
       this.setState({
         error: {
@@ -76,6 +76,7 @@ export default class index extends Component {
   };
 
   render() {
+    console.log(this.state.selection);
     const projectId = this.props.match.params.projectId;
     return (
       <section className="main">
@@ -118,10 +119,7 @@ export default class index extends Component {
                   <TableMember
                     projectId={projectId}
                     handleCheck={this.handleCheck}
-                    teamMember={
-                      this.state.project.teamMember &&
-                      this.state.project.teamMember
-                    }
+                    teamMember={this.state.project.teamMember}
                   />
                 )}
               </div>

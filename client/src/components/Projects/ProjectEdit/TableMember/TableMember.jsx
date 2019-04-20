@@ -9,23 +9,31 @@ export default class TableMember extends Component {
     member: [],
     filterArray: [],
     pagination: false,
-    rowSelection: {
-      onChange: selectedRows => {
-        this.props.handleCheck({
-          row: selectedRows
-        });
-      }
-    },
+    selectedRowKeys: [],
+    // {
+    //   onChange: selectedRows => {
+    //     this.props.handleCheck({
+    //       row: selectedRows
+    //     });
+    //     this.setState({ rowSelection: { selectedRowKeys: selectedRows } });
+    //     console.log(111111111111);
+    //   }
+    // }
     scroll: { y: 400 }
   };
 
   componentDidMount() {
+    //   selectedRowKeys: filterIdMember(this.props.teamMember),
+    const selectedRowsKeys = filterIdMember(this.props.teamMember);
     // fetch all member from DB
     const member = require("../../ProjectNew/TableMember/member.json");
     this.setState({
       member,
       filterArray: filterData(member),
-      rowSelection: { selectedRowKeys: filterIdMember(this.props.teamMember) }
+      selectedRowKeys: selectedRowsKeys
+    });
+    this.props.handleCheck({
+      row: selectedRowsKeys
     });
   }
 
@@ -59,11 +67,20 @@ export default class TableMember extends Component {
   render() {
     const {
       pagination,
-      rowSelection,
+      selectedRowKeys,
       scroll,
       filterArray,
       member
     } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: selectedRows => {
+        this.props.handleCheck({
+          row: selectedRows
+        });
+        this.setState({ selectedRowKeys: selectedRows });
+      }
+    };
     const columns = this.columns;
     columns[0].filters = filterArray[1];
     columns[1].filters = filterArray[2];
