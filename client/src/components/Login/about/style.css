@@ -1,0 +1,28 @@
+.login__about-section{
+  background: url('./about.png');
+  flex-basis: 676px;
+}
+
+.login__about{
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: 6rem auto;
+}
+
+.login__about__heading{
+  font-size: 3rem;
+  line-height: 74px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #56CCF2;
+  text-align: left;
+}
+
+.login__about__content{
+  font-size: 1rem;
+  line-height: 37px;
+  letter-spacing: 0.11em;
+  color: #FFFFFF;
+  text-align: left;
+}
