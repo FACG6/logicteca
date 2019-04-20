@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Icon } from 'antd';
 import './style.css'
 
@@ -11,5 +12,9 @@ export default function Error ({errorMsg, errorClass}) {
   )
 }
 
+Error.propTypes = {
+  errorMsg: PropTypes.string.isRequired,
+  errorClass: PropTypes.string,
+}
 
 

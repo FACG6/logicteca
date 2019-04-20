@@ -192,7 +192,7 @@ class Users extends Component {
                 <UserMenu
                   rowId={props.id}
                   submitPassword={this.handleAddPassword}
-                  usersLength={this.state.users.length}
+                  users={this.state.users}
                   handleDeleteUser={this.handleDeleteUser}
                   showPasswordPopup={this.showForm}
                 />

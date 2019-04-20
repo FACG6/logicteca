@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Error from '../error/Error'
 import './style.css';
 
@@ -11,8 +12,7 @@ export default class Password extends Component {
   };
 
   handlePassword = ({target:{name, value}}) => {
-    this.setState({ passwordError: false, empty: false });
-    this.setState({ name: value });
+    this.setState({ passwordError: false, empty: false, [name]: value  });
   };
 
   validation = event => {
@@ -80,4 +80,9 @@ export default class Password extends Component {
       </div>
     );
   }
+}
+
+Password.propTypes = {
+  submitPassword: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
 }
