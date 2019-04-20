@@ -34,13 +34,7 @@ class Users extends Component {
       users: [...users, { id: users.length + 1, user_name: '', full_name: '', role: 'developer' }],
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    const { users } = this.state;
-    if (prevState.users !== users) {
-      const {nameOptions, roleOptions} = filter(users);
-      this.setState({ nameOptions, roleOptions });
-    }
-  }
+  
   handleAddUser = (event, columnName) => {
     const newValue = event.target.value;
     this.setState(prevState => {
@@ -64,8 +58,8 @@ class Users extends Component {
   };
 
   handleEditUserInfo = (event, record, columnName) => {
-    const {users} = this.state;
-    if (record.id === users[users.length].id) {
+    const { users } = this.state;
+    if (record.id === users[users.length-1].id) {
       return this.handleAddUser(event, columnName);
     }
     this.setState({ saving: true, saved: false });
@@ -132,9 +126,13 @@ class Users extends Component {
   AddPassword = password => {
     this.setState({ password, show: false });
   };
-  
+
   cancel = () => {
     this.setState({ show: false })
+  }
+
+  filtering = (users) => {
+    return filter(users)
   }
 
   render() {
@@ -152,7 +150,7 @@ class Users extends Component {
             />
           );
         },
-        filters: this.state.nameOptions,
+        filters: this.filtering(this.state.users).nameOptions,
         onFilter: (value, record) => record['user_name'] === value,
         sorter: (a, b) => sort(a, b, 'user_name'),
       },
@@ -179,7 +177,7 @@ class Users extends Component {
             <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
           );
         },
-        filters: this.state.roleOptions,
+        filters: this.filtering(this.state.users).roleOptions,
         onFilter: (value, record) => record['role'] === value,
       },
       {
