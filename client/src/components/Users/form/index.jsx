@@ -10,9 +10,9 @@ export default class Password extends Component {
     passwordError: false,
   };
 
-  handlePassword = event => {
-    const target = event.target;
-    this.setState({ [target.name]: target.value });
+  handlePassword = ({target:{name, value}}) => {
+    this.setState({ passwordError: false, empty: false });
+    this.setState({ name: value });
   };
 
   validation = event => {
@@ -23,10 +23,9 @@ export default class Password extends Component {
       return false;
     }
     if (password !== confirmPassword) {
-      this.setState({ passwordError: true, empty: false });
+      this.setState({ passwordError: true });
       return false;
     }
-    this.setState({ passwordError: false, empty: false });
     this.props.submitPassword(password);
   };
 

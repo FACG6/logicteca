@@ -4,17 +4,27 @@ import Swal from 'sweetalert2';
 function filter(users) {
   const usernames = [];
   const nameOptions = [];
+  const roles = [];
+  const roleOptions = [];
   users.forEach(user => {
     const username = user['user_name'];
-    if (usernames.indexOf(username) === -1 && username) {
+    const role = user.role;
+    if (username && usernames.indexOf(username) === -1) {
       usernames.push(username);
       nameOptions.push({
         text: username,
         value: username
       });
     }
+    if(role && roles.indexOf(role) === -1){
+      roles.push(role);
+      roleOptions.push({
+        text: role,
+        value: role
+      })
+    }
   });
-  return nameOptions
+  return { nameOptions, roleOptions } 
 }
 
 //Sort Function
@@ -38,21 +48,10 @@ function deleteSwal() {
   })
 }
 
-//Role Filter Column
-const roleFilter = [{
-    text: 'developer',
-    value: 'developer',
-  },
-  {
-    text: 'scrum master',
-    value: 'scrum master',
-  },
-];
 
 
 export {
   filter,
   sort,
   deleteSwal,
-  roleFilter
 };

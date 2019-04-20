@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Icon, Dropdown } from 'antd';
 import Editable from 'react-contenteditable';
-import 'antd/dist/antd.css';
 import './style.css';
-import { filter, sort, deleteSwal, roleFilter } from './helpers.js';
+import { filter, sort, deleteSwal } from './helpers.js';
 import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
@@ -15,6 +14,7 @@ class Users extends Component {
   state = {
     users: [],
     nameOptions: [],
+    roleOptions: [],
     showSaveButton: false,
     userNameError: false,
     fullNameError: false,
@@ -37,9 +37,8 @@ class Users extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { users } = this.state;
     if (prevState.users !== users) {
-      const allUsers = users.slice(0);
-      const nameOptions = filter(allUsers);
-      this.setState({ nameOptions });
+      const {nameOptions, roleOptions} = filter(users);
+      this.setState({ nameOptions, roleOptions });
     }
   }
   handleAddUser = (event, columnName) => {
@@ -65,7 +64,8 @@ class Users extends Component {
   };
 
   handleEditUserInfo = (event, record, columnName) => {
-    if (record.id === this.state.users.length) {
+    const {users} = this.state;
+    if (record.id === users[users.length].id) {
       return this.handleAddUser(event, columnName);
     }
     this.setState({ saving: true, saved: false });
@@ -73,7 +73,6 @@ class Users extends Component {
     const memberId = record.id;
 
     // Editing UserInfo
-    const { users } = this.state;
     const clonedUsers = JSON.parse(JSON.stringify(users));
     const updatedUser = clonedUsers.find(user => user.id === memberId);
     updatedUser[columnName] = newValue;
@@ -180,7 +179,7 @@ class Users extends Component {
             <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
           );
         },
-        filters: roleFilter,
+        filters: this.state.roleOptions,
         onFilter: (value, record) => record['role'] === value,
       },
       {
