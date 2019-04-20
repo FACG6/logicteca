@@ -1,0 +1,84 @@
+.users__table {
+  width: 60%;
+  margin: 2.5rem auto;
+}
+
+.users__table tr:nth-child(even) {
+  background: rgb(213, 238, 241, 0.3);
+}
+
+.users__table th {
+  background: #3F7BAA !important;
+  color: #eee !important;
+}
+
+.users__table th span {
+  font-weight: bold;
+  letter-spacing: .04rem;
+  font-size: .9rem;
+  padding: 0 .6rem;
+}
+
+.users__cell {
+  display: block;
+  padding: .4rem .6rem;
+  width: 100%;
+  font-size: .9rem
+}
+
+.users__cell:hover {
+  cursor: text;
+}
+
+.ant-table-column-sorter-down {
+  color: white !important;
+}
+
+.anticon-filter {
+  color: white !important;
+  background: #3F7BAA !important;
+}
+
+.anticon-sorter:hover {
+  background: #3F7BAA !important;
+}
+
+.user__ellipsis {
+  visibility: hidden !important;
+  font-size: 2.4rem;
+}
+
+.users__row:hover .user__ellipsis {
+  visibility: visible !important;
+  cursor: pointer;
+}
+
+.ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td {
+  background: white !important;
+}
+
+.ant-table-tbody>tr:nth-child(even):hover:not(.ant-table-expanded-row)>td {
+  background: rgb(213, 238, 241, 0.2) !important;
+}
+
+.users__alert {
+  padding-right: .6rem;
+}
+
+.users__submitBtn {
+  padding: .4rem .8rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background: #3F7BAA;
+  margin: 0 75%;
+  color: #eee;
+  font-weight: bold;
+  margin-top: .5rem;
+  cursor: pointer;
+}
+
+.users__error--wd-60 {
+  width: 60%;
+  margin: 0 auto;
+}
