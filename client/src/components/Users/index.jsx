@@ -7,6 +7,7 @@ import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
 import Error from './error/Error';
+import Notification from './notification/index'
 
 const users = require('../../utils/users.json');
 
@@ -18,7 +19,7 @@ class Users extends Component {
     showSaveButton: false,
     userNameError: false,
     fullNameError: false,
-    password: null,
+    password: '',
     passwordError: false,
     rowSelected: null,
     newRow: {},
@@ -50,7 +51,10 @@ class Users extends Component {
       if (this.state.password) {
         //fetch to add user in the database
         //change message
-        this.setState({ passwordError: false, saved: true });
+        const { users } = this.state;
+        const id = users[users.length - 1].id+1;
+        const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
+        this.setState({ users: updatedUsers, showSaveButton: false, passwordError: false, saved: true });
       } else {
         this.setState({ passwordError: true });
       }
@@ -123,7 +127,7 @@ class Users extends Component {
     this.setState({ show: true });
   };
 
-  AddPassword = password => {
+  handleAddPassword = password => {
     this.setState({ password, show: false });
   };
 
@@ -132,9 +136,9 @@ class Users extends Component {
   }
 
   render() {
-    if (this.state.showSaveButton){
-      setTimeout(()=>{
-        this.setState({showSaveButton: false})
+    if (this.state.showSaveButton) {
+      setTimeout(() => {
+        this.setState({ showSaveButton: false })
       }, 4500);
     }
     const columns = [
@@ -191,7 +195,6 @@ class Users extends Component {
               overlay={
                 <UserMenu
                   rowId={props.id}
-                  submitPassword={this.handleAddPassword}
                   users={this.state.users}
                   handleDeleteUser={this.handleDeleteUser}
                   showPasswordPopup={this.showForm}
@@ -210,7 +213,9 @@ class Users extends Component {
           <button className="users__submitBtn" onClick={this.saveNewUser}>
             Save
           </button>
-        ) : null}
+        ) : <button className="users__submitBtn hidden">
+            Save
+          </button>}
 
         {this.state.userNameError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Username should consist of at least 3 characters' />
@@ -218,7 +223,7 @@ class Users extends Component {
           <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
-        ) : null}
+        ) : this.state.saving? <Notification notification='saving' />: this.state.saved? <Notification notification='saved'/>: null}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}
@@ -227,7 +232,7 @@ class Users extends Component {
           rowClassName="users__row"
           className="users__table"
         />
-        {this.state.show ? <Form submitPassword={this.AddPassword} cancel={this.cancel} /> : null}
+        {this.state.show ? <Form submitPassword={this.handleAddPassword} cancel={this.cancel} /> : null}
       </>
     );
   }
