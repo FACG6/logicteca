@@ -16,11 +16,9 @@ class Users extends Component {
     users: [],
     nameOptions: [],
     roleOptions: [],
-    showSaveButton: false,
     userNameError: false,
     fullNameError: false,
     password: '',
-    passwordError: false,
     rowSelected: null,
     newRow: {},
     saving: false,
@@ -42,29 +40,14 @@ class Users extends Component {
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
       clonedUsers[clonedUsers.length - 1][columnName] = newValue;
       //Not sure if I should update the state now or after inserting the user in database!
-      return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1], showSaveButton: true };
+      return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
     });
-  };
-
-  saveNewUser = () => {
-    if (this.validateUserInfo(this.state.newRow)) {
-      if (this.state.password) {
-        //fetch to add user in the database
-        //change message
-        const { users } = this.state;
-        const id = users[users.length - 1].id+1;
-        const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
-        console.log(updatedUsers)
-        this.setState({ users: updatedUsers, showSaveButton: false, passwordError: false, saved: true });
-      } else {
-        this.setState({ passwordError: true });
-      }
-    }
   };
 
   handleEditUserInfo = (event, record, columnName) => {
     const { users } = this.state;
     if (record.id === users[users.length - 1].id) {
+      this.setState({ saving: true })
       return this.handleAddUser(event, columnName);
     }
     this.setState({ saving: true, saved: false });
@@ -125,11 +108,17 @@ class Users extends Component {
   };
 
   showForm = () => {
-    this.setState({ show: true });
+    if (this.validateUserInfo(this.state.newRow)) {
+      this.setState({ show: true });
+    } else return;
   };
 
   handleAddPassword = password => {
-    this.setState({ password, show: false });
+    const { users, newRow } = this.state;
+    //fetch to add user in the database
+    const id = users[users.length - 1].id + 1;
+    const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
+    this.setState({ show: false, users: updatedUsers, passwordError: false, saving: false, saved: true });
   };
 
   cancel = () => {
@@ -205,21 +194,13 @@ class Users extends Component {
     ];
     return (
       <>
-        {this.state.showSaveButton ? (
-          <button className="users__submitBtn" onClick={this.saveNewUser}>
-            Save
-          </button>
-        ) : <button className="users__submitBtn hidden">
-            Save
-          </button>}
-
         {this.state.userNameError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Username should consist of at least 3 characters' />
         ) : this.state.fullNameError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
-        ) : this.state.saving ? <Notification notification='saving' />: this.state.saved? <Notification notification='saved'/>: null}
+            ) : this.state.saving ? <Notification notificationClass='users__saving-msg' notification='Saving...' /> : this.state.saved ? <Notification notificationClass='users__saved-msg' notification='Saved' /> : null}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}

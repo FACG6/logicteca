@@ -1,0 +1,26 @@
+
+.users__notification-div{
+  width: 60%;
+  margin: 0 auto;
+}
+
+.users__saving-msg{
+  font-weight: bold;
+  font-size: 1rem;
+  color: #3F7BAA;
+}
+
+.users__saved-msg {
+  font-size: 1rem;
+  color:#3db14b;
+  padding-left: 1rem;
+}
+
+.users__notification-icon{
+  padding-right: 1rem;
+  font-size: .9rem;
+}
+
+.users__notification-icon--saved{
+  color: green;
+}
