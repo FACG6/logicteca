@@ -54,6 +54,7 @@ class Users extends Component {
         const { users } = this.state;
         const id = users[users.length - 1].id+1;
         const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
+        console.log(updatedUsers)
         this.setState({ users: updatedUsers, showSaveButton: false, passwordError: false, saved: true });
       } else {
         this.setState({ passwordError: true });
@@ -136,11 +137,6 @@ class Users extends Component {
   }
 
   render() {
-    if (this.state.showSaveButton) {
-      setTimeout(() => {
-        this.setState({ showSaveButton: false })
-      }, 4500);
-    }
     const columns = [
       {
         title: 'Username',
@@ -223,7 +219,7 @@ class Users extends Component {
           <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
-        ) : this.state.saving? <Notification notification='saving' />: this.state.saved? <Notification notification='saved'/>: null}
+        ) : this.state.saving ? <Notification notification='saving' />: this.state.saved? <Notification notification='saved'/>: null}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}
