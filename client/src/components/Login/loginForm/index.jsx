@@ -7,6 +7,7 @@ export default class Login extends Component {
   state = {
     username: '',
     password: '',
+    loginError: false,
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -16,6 +17,9 @@ export default class Login extends Component {
   login = (event) => {
     event.preventDefault();
     const { password, username } = this.state;
+    if (!password.trim() || !username.trim()) {
+      this.setState({ loginError: true });
+    }
     //fetch//
   }
 
@@ -32,6 +36,10 @@ export default class Login extends Component {
             <Icon className='login__form__icon' type="lock" />
             <input onChange={this.handleChange} placeholder='Password' className='login__form__input' id='password' name='password' type='password' value={this.state.password}></input>
           </div>
+          {this.state.loginError ? (
+            <span className='login__error'>Fill All Fields</span>
+          )
+            : null}
           <input className='login__form__submit' id='login' type='submit' value='Login'></input>
         </form >
       </div >
