@@ -4,12 +4,13 @@ import Scrum from "./Scrums/index";
 
 class Scrums extends Component {
   state = {
-    projectName: 'Abc1',
+    projectName: '',
     scrums: []
   }
 
   componentDidMount() {
     // fetch
+    const projectName = 'Demo';
     const scrums = [
       {
         id: '1',
@@ -24,7 +25,8 @@ class Scrums extends Component {
         scrumName: 'scrum three'
       }
     ];
-    this.setState({ scrums: scrums })
+    this.setState({ scrums: scrums });
+    this.setState({projectName: projectName})
   }
 
   render() {
