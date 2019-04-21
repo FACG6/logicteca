@@ -217,14 +217,15 @@ class Users extends Component {
   render() {
     const columns = this.columns;
     columns[0].filters = filter(this.state.users).nameOptions;
-    columns[2].filters= filter(this.state.users).roleOptions;
+    columns[2].filters = filter(this.state.users).roleOptions;
 
-    if (this.state.saved) {
+    if (this.state.saved || this.state.passwordAdded) {
       setTimeout(() => {
-        this.setState({ saved: false })
+        this.setState({ saved: false, passwordAdded: false })
       }, 4000);
     }
-    
+
+
     return (
       <>
         {this.state.userNameError ? (
