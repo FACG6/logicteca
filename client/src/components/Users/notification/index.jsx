@@ -13,6 +13,5 @@ export default function Notification({notification, notificationClass}) {
 }
 
 Notification.propTypes = {
-  notification: PropTypes.string.isRequired,
   notificationClass: PropTypes.string,
 }
