@@ -1,33 +1,44 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Menu, Dropdown } from 'antd';
+import { NavLink } from 'react-router-dom';
 import './style.css';
 
 class Header extends Component {
   state = {
-    userList: false
+    username: 'Mohanned',
+    role: 'admin',
   }
 
-  handleUserList = (e) => {
-    this.setState({userList: !this.state.userList})
-  }
+  menu = (
+    <Menu>
+      <Menu.Item>
+        <a href='/logout'>Logout</a>
+      </Menu.Item>
+    </Menu>
+  );
 
-   render() { 
+  render() {
     return (
-      <div className='header'>
-          <img className='header__logo' src='http://logicteca.com/wp-content/uploads/2015/11/logicteca-logo.png'/>
-          <div className='header__right'>
-              <ul className='navbar'>
-                  <li> Projects </li>
-                  <li> Members </li> 
-              </ul>
-              <div className='header__userList'>
-              <button className='header__btn' onClick={this.handleUserList}> Username 
-                  <FontAwesomeIcon className='search__icon' icon='caret-down' />
-              </button>
-                <a className={`header__logout ${this.state.userList ? 'header__btn--hidden' : ''}`}> Logout </a>  
-              </div>
+      <header className='header'>
+        <div className='header__container'>
+          <img alt='logo' className='header__logo' src='http://logicteca.com/wp-content/uploads/2015/11/logicteca-logo.png' />
+          <div className='header__right-section'>
+            <ul className='header__navbar'>
+              <NavLink to='/projects'><li> Projects </li></NavLink>
+              {this.state.role === 'admin' ? <NavLink to='/users'><li> Users </li></NavLink> : null}
+            </ul>
+            <div className='header__username'>
+              <Dropdown trigger={['click']} overlay={this.menu} placement="bottomLeft">
+                <div>
+                  <span>{this.state.username}</span>
+                  <FontAwesomeIcon className='header__caret-down' icon='caret-down' />
+                </div>
+              </Dropdown>
+            </div>
           </div>
-      </div>
+        </div>
+      </header>
     )
   }
 }
