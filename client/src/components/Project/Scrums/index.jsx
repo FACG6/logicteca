@@ -66,7 +66,7 @@ class Scrum extends Component {
                   html={value}
                   onChange={this.handleEditTask}
                   tagName="span"
-                  className="tasks__cell"
+                  className="tasks__cell description"
                 />
               );
             },
@@ -91,7 +91,7 @@ class Scrum extends Component {
                   html={value}
                   onChange={this.handleEditTask}
                   tagName="span"
-                  className="tasks__cell"
+                  className="tasks__cell priority"
                 />
               );
             },
@@ -171,11 +171,11 @@ class Scrum extends Component {
           ]
           return(
           <React.Fragment>
-            <section>
+            <section className='Scrum__page--container'>
               {/* <h2> {this.state.scrumName} </h2> */}
-              <div>
-                <h2> Scrum Name </h2>
-                <Button type="primary" icon="plus" className="button" onClick={this.handleAddNewTask}> Task </Button>
+              <div className='Scrum__header'>
+                <h2 className='Scrum__name'> Scrum Name </h2>
+                <Button type="primary" icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
               </div>
               <Table columns={columns}
                 rowKey={record => record.id}
