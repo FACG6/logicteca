@@ -16,7 +16,12 @@
   font-weight: bold;
   letter-spacing: .04rem;
   font-size: .9rem;
-  padding: 0 .6rem;
+  padding: 0 .3rem;
+}
+
+.users__table th:last-child{
+  text-align: center;
+  padding: 0;
 }
 
 .users__cell {
