@@ -39,23 +39,23 @@ export default class Password extends Component {
     return (
       <div className="users__password-wrapper">
         <form className="users__password-form">
-          <h3 className='users__password-form__heading'>Add Password</h3>
-          <label className="users__password-form__label" htmlFor="password">
+          <h3 className='users__heading'>Add Password</h3>
+          <label className="users__label" htmlFor="password">
             Password
           </label>
           <input
-            className="users__password-form__input"
+            className="users__input"
             name="password"
             onChange={this.handlePassword}
             value={this.state.password}
             id="password"
             type="password"
           />
-          <label className="users__password-form__label" htmlFor="confirmPassword">
+          <label className="users__label" htmlFor="confirmPassword">
             Re-enter Password
           </label>
           <input
-            className="users__password-form__input"
+            className="users__input"
             name="confirmPassword"
             onChange={this.handlePassword}
             value={this.state.confirmPassword}
@@ -68,7 +68,7 @@ export default class Password extends Component {
           ) : passwordError ? (
             <Error errorMsg={'Passwords don\'t match'} />
           ) : null}
-          <div className='users__password-form_btns'>
+          <div className='users_btns'>
             <button className="users__password-submit" onClick={this.validation}>
               Confirm
             </button>
