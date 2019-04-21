@@ -139,96 +139,101 @@ class Users extends Component {
   handleRow = id => {
     this.setState({ rowSelected: id });
   };
+  columns = [
+    {
+      title: 'Username',
+      dataIndex: 'user_name',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={value}
+            onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
+            tagName="span"
+            className="users__cell"
+          />
+        );
+      },
+      // filters: filter(this.state.users).nameOptions,
+      onFilter: (value, record) => record['user_name'] === value,
+      sorter: (a, b) => sort(a, b, 'user_name'),
+    },
+    {
+      title: 'Full Name',
+      dataIndex: 'full_name',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={value}
+            onChange={event => this.handleEditUserInfo(event, record, 'full_name')}
+            tagName="span"
+            className="users__cell"
+          />
+        );
+      },
+      sorter: (a, b) => sort(a, b, 'full_name'),
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      render: (value, record) => {
+        return (
+          <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
+        );
+      },
+      // filters: filter(this.state.users).roleOptions,
+      onFilter: (value, record) => record['role'] === value,
+    },
+    {
+      render: record => {
+        if (record.id === this.state.users.length) {
+          return (
+            <div className='users__last-cell'>
+              {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
+                <button className='users__btn users__btn--change-pass'>Change Pass</button>}
+              {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
+                : null}
+            </div>
+          )
+        }
+        return (
+          <Dropdown
+            key={record.id}
+            trigger={['click']}
+            rowId={record.id}
+            overlay={
+              <UserMenu
+                rowId={record.id}
+                users={this.state.users}
+                handleDeleteUser={this.handleDeleteUser}
+              />
+            }
+          >
+            <Icon onClick={() => this.handleRow(record.id)} title="click" className="user__ellipsis" type="ellipsis" />
+          </Dropdown>
+        );
+      },
+    },
+  ];
 
   render() {
+    const columns = this.columns;
+    columns[0].filters = filter(this.state.users).nameOptions;
+    columns[2].filters= filter(this.state.users).roleOptions;
+
     if (this.state.saved) {
       setTimeout(() => {
         this.setState({ saved: false })
       }, 4000);
     }
-    const columns = [
-      {
-        title: 'Username',
-        dataIndex: 'user_name',
-        render: (value, record) => {
-          return (
-            <Editable
-              html={value}
-              onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
-              tagName="span"
-              className="users__cell"
-            />
-          );
-        },
-        filters: filter(this.state.users).nameOptions,
-        onFilter: (value, record) => record['user_name'] === value,
-        sorter: (a, b) => sort(a, b, 'user_name'),
-      },
-      {
-        title: 'Full Name',
-        dataIndex: 'full_name',
-        render: (value, record) => {
-          return (
-            <Editable
-              html={value}
-              onChange={event => this.handleEditUserInfo(event, record, 'full_name')}
-              tagName="span"
-              className="users__cell"
-            />
-          );
-        },
-        sorter: (a, b) => sort(a, b, 'full_name'),
-      },
-      {
-        title: 'Role',
-        dataIndex: 'role',
-        render: (value, record) => {
-          return (
-            <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
-          );
-        },
-        filters: filter(this.state.users).roleOptions,
-        onFilter: (value, record) => record['role'] === value,
-      },
-      {
-        render: record => {
-          if (record.id === this.state.users.length) {
-            return (
-              <div className='users__last-cell'>
-                {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> : 
-                <button className='users__btn users__btn--change-pass'>Change Pass</button>}
-                {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
-                  : null}
-              </div>
-            )
-          }
-          return (
-            <Dropdown
-              key={record.id}
-              trigger={['click']}
-              rowId={record.id}
-              overlay={
-                <UserMenu
-                  rowId={record.id}
-                  users={this.state.users}
-                  handleDeleteUser={this.handleDeleteUser}
-                />
-              }
-            >
-              <Icon onClick={() => this.handleRow(record.id)} title="click" className="user__ellipsis" type="ellipsis" />
-            </Dropdown>
-          );
-        },
-      },
-    ];
+    
     return (
       <>
         {this.state.userNameError ? (
-          <Error errorClass='users__error--wd-60' errorMsg='Username should consist of at least 3 characters' />
+          <Error errorClass='users__error--wd-70' errorMsg='Username should consist of at least 3 characters' />
         ) : this.state.fullNameError ? (
-          <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
+          <Error errorClass='users__error--wd-70' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
-          <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
+          <Error errorClass='users__error--wd-70' errorMsg='Please add Password' />
         ) : this.state.saved ? <Notification notification='Saved' /> : this.state.passwordAdded ? <Notification notification='Password was added successfully. Save all changes after you finish!' /> : <Notification notificationClass='hidden' />}
         <Table
           rowKey={record => record.id}
