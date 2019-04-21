@@ -11,7 +11,6 @@ import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
 import Users from "./components/Users";
 import Project from "./components/Project/index";
-import Scrum from './components/Project/Scrums/index';
 
 library.add(faTrash, faFilter, faPlus, faEllipsisH, faCaretDown, faSearch, faEdit);
 
