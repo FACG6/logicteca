@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
-import { Button } from "antd";
+import { Table, Button } from 'antd';
 import Editable from 'react-contenteditable';
 import {StatusSelect, ActionTypeSelect} from './select/index';
 import { Sort } from './utilis/sort';
@@ -10,8 +9,7 @@ const tasks = require('./utilis/tasks');
 class Scrum extends Component {
     state = {
         tasks: [],
-        newTask:[],
-        html: 'edit me'
+        html: ''
     }
 
     componentDidMount() {
@@ -37,7 +35,7 @@ class Scrum extends Component {
       )
     }
 
-    handleChange = (event) => this.setState({html: event.target.value}) 
+    handleEditTask = (event) => this.setState({html: event.target.value}) 
 
     render(){
       
@@ -49,7 +47,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -66,7 +64,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -91,7 +89,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -107,7 +105,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -121,7 +119,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -146,7 +144,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -163,7 +161,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditTask}
                   tagName="span"
                   className="tasks__cell"
                 />
