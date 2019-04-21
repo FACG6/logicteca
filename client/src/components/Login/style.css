@@ -9,7 +9,6 @@
   display: flex;
   height: 75vh;
   width: 70%;
-  margin: 0 auto;
   border: 1px solid rgba(104, 164, 212, .3);
   border-radius: 5px;
 }
