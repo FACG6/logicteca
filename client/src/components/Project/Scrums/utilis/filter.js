@@ -1,20 +1,17 @@
 export function Filter(tasks) {
-  // console.log(11111111, tasks);
-    const tasks_names = [];
-    const namesFilters =[];
-    const action_types = [];
-    const actionsFilters = [];
-    const priorites = [];
-    const prioritiesFilters =[];
-    const statuses = [];
-    const statusFilters =[];
-    const assignees = [];
-    const assigneesFilters=[];
+    const tasks_names = [],
+          namesFilters =[],
+          action_types = [],
+          actionsFilters = [],
+          priorites = [],
+          prioritiesFilters =[],
+          statuses = [],
+          statusFilters =[],
+          assignees = [],
+          assigneesFilters=[];
 
     tasks.map(task => {
-      // console.log(task);
       const { task_name, action_type, priority, status, assignee } = task;
-      // console.log(taskName, action, priority, status, assignee);
 
       if( task_name && tasks_names.indexOf(task_name) === -1){
           tasks_names.push(task_name);
