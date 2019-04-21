@@ -153,7 +153,6 @@ class Users extends Component {
           />
         );
       },
-      // filters: filter(this.state.users).nameOptions,
       onFilter: (value, record) => record['user_name'] === value,
       sorter: (a, b) => sort(a, b, 'user_name'),
     },
@@ -180,10 +179,10 @@ class Users extends Component {
           <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
         );
       },
-      // filters: filter(this.state.users).roleOptions,
       onFilter: (value, record) => record['role'] === value,
     },
     {
+      title: 'Action',
       render: record => {
         if (record.id === this.state.users.length) {
           return (
