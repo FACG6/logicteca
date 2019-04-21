@@ -19,11 +19,13 @@ class Users extends Component {
     userNameError: false,
     fullNameError: false,
     password: '',
+    passwordError: false,
     rowSelected: null,
     newRow: {},
     saving: false,
     saved: false,
     show: false,
+    passwordAdded: false,
   };
 
   componentDidMount() {
@@ -34,27 +36,18 @@ class Users extends Component {
     });
   }
 
-  handleAddUser = (event, columnName) => {
-    const newValue = event.target.value;
-    this.setState(prevState => {
-      const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
-      clonedUsers[clonedUsers.length - 1][columnName] = newValue;
-      //Not sure if I should update the state now or after inserting the user in database!
-      return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
-    });
-  };
-
   handleEditUserInfo = (event, record, columnName) => {
     const { users } = this.state;
+
+    //Adding a new user
     if (record.id === users[users.length - 1].id) {
-      this.setState({ saving: true })
+      this.setState({ saving: true, saved: false })
       return this.handleAddUser(event, columnName);
     }
-    this.setState({ saving: true, saved: false });
+
+    //Editing User Info//
     const newValue = event.target.value;
     const memberId = record.id;
-
-    // Editing UserInfo
     const clonedUsers = JSON.parse(JSON.stringify(users));
     const updatedUser = clonedUsers.find(user => user.id === memberId);
     updatedUser[columnName] = newValue;
@@ -63,23 +56,6 @@ class Users extends Component {
     if (this.validateUserInfo(updatedUser)) {
       this.updateUserInfo(updatedUser, clonedUsers);
     }
-  };
-
-  handleDeleteUser = event => {
-    const { users, rowSelected } = this.state;
-    const deletedRow = users.filter(user => user.id === rowSelected)[0];
-    this.showSwal(deletedRow);
-  };
-
-  showSwal = deleteMember => {
-    deleteSwal().then(response => {
-      if (response.value) this.confirmDelete(deleteMember);
-    });
-  };
-
-  confirmDelete = deleteMember => {
-    //Fetch deleteMember to delete from datatabase
-    //Update state//
   };
 
   validateUserInfo = user => {
@@ -100,30 +76,69 @@ class Users extends Component {
     //Fetch to update userInfo//
     //Then update users in the state//
     //change message//
-    this.setState({ users, saving: false, saved: true });
+    this.setState({ users, saved: true });
+  };
+
+  handleAddUser = (event, columnName) => {
+    const newValue = event.target.value;
+    this.setState(prevState => {
+      const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
+      clonedUsers[clonedUsers.length - 1][columnName] = newValue;
+      //Not sure if I should update the state now or after inserting the user in database!
+      return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
+    });
+  };
+
+  handleForm = () => {
+    this.setState({ show: true });
+  };
+
+  handlePassword = (password) => {
+    this.setState({ passwordAdded: true, passwordError: false, password, show: false })
+  }
+
+  cancel = () => {
+    this.setState({ show: false })
+  }
+
+  saveNewUser = () => {
+    const { newRow, users, password } = this.state;
+    if (this.validateUserInfo(newRow)) {
+      if (password) {
+
+        //fetch...this is the row
+        const addedRow = { user_name: newRow.user_name, full_name: newRow.full_name, password }
+
+        //Add new row to the table
+        const id = users[users.length - 1].id + 1;
+        const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
+        this.setState({ passwordAdded: false, users: updatedUsers, passwordError: false, saving: false, saved: true });
+      } else {
+        this.setState({ passwordError: true });
+      }
+    }
+  }
+
+  handleDeleteUser = event => {
+    const { users, rowSelected } = this.state;
+    const deletedRow = users.filter(user => user.id === rowSelected)[0];
+    this.showSwal(deletedRow);
+  };
+
+  showSwal = deleteMember => {
+    deleteSwal().then(response => {
+      if (response.value) this.confirmDelete(deleteMember);
+    });
+  };
+
+  confirmDelete = deleteMember => {
+    //Fetch deleteMember to delete from datatabase
+    //Update state//
   };
 
   handleRow = id => {
     this.setState({ rowSelected: id });
   };
-
-  showForm = () => {
-    if (this.validateUserInfo(this.state.newRow)) {
-      this.setState({ show: true });
-    } else return;
-  };
-
-  handleAddPassword = password => {
-    const { users, newRow } = this.state;
-    //fetch to add user in the database
-    const id = users[users.length - 1].id + 1;
-    const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
-    this.setState({ show: false, users: updatedUsers, passwordError: false, saving: false, saved: true });
-  };
-
-  cancel = () => {
-    this.setState({ show: false })
-  }
 
   render() {
     if (this.state.saved) {
@@ -176,22 +191,30 @@ class Users extends Component {
         onFilter: (value, record) => record['role'] === value,
       },
       {
-        render: props => {
+        render: record => {
+          if (record.id === this.state.users.length) {
+            return (
+              <span className='users__last-row--2icons'>
+                {!this.state.password ? <div onClick={this.handleForm}><Icon className='users__lock-icon' type="lock" />Add Password</div> : <div><Icon className='users__lock-icon' type="lock" />Change Password</div>}
+                {this.state.saving ? <div onClick={this.saveNewUser}><Icon className='users__check-icon' type="check-circle" theme="twoTone" twoToneColor="#2196f3" />Save</div>
+                  : null}
+              </span>
+            )
+          }
           return (
             <Dropdown
-              key={props.id}
+              key={record.id}
               trigger={['click']}
-              rowId={props.id}
+              rowId={record.id}
               overlay={
                 <UserMenu
-                  rowId={props.id}
+                  rowId={record.id}
                   users={this.state.users}
                   handleDeleteUser={this.handleDeleteUser}
-                  showPasswordPopup={this.showForm}
                 />
               }
             >
-              <Icon onClick={() => this.handleRow(props.id)} title="click" className="user__ellipsis" type="ellipsis" />
+              <Icon onClick={() => this.handleRow(record.id)} title="click" className="user__ellipsis" type="ellipsis" />
             </Dropdown>
           );
         },
@@ -205,7 +228,7 @@ class Users extends Component {
           <Error errorClass='users__error--wd-60' errorMsg='Full Name should consist of at least 6 characters' />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-60' errorMsg='Please add Password' />
-        ) : this.state.saved ? <Notification notification='Saved' /> : <Notification notificationClass='hidden' notification='Saved' />}
+        ) : this.state.saved ? <Notification notification='Saved' /> : this.state.passwordAdded ? <Notification notification='Password was added successfully. Save all changes after you finish!' /> : <Notification notificationClass='hidden' />}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}
@@ -214,7 +237,7 @@ class Users extends Component {
           rowClassName="users__row"
           className="users__table"
         />
-        {this.state.show ? <Form submitPassword={this.handleAddPassword} cancel={this.cancel} /> : null}
+        {this.state.show ? <Form submitPassword={this.handlePassword} cancel={this.cancel} /> : null}
       </>
     );
   }
