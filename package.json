@@ -10,7 +10,8 @@
     "test": "node ./test/index.js | tap-spec",
     "client": "npm start --prefix client",
     "server": "nodemon ./server/index.js",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "kill": "fuser -k 3000/tcp && fuser -k 5000/tcp"
   },
   "repository": {
     "type": "git",

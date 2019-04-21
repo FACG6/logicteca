@@ -2,14 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Menu, Icon } from 'antd';
 
-export default function SettingMenu ({ handleDeleteUser, rowId, users, showPasswordPopup }){
-  return rowId === users[users.length-1].id ? (
-    <Menu>
-      <Menu.Item onClick={showPasswordPopup}>
-        <Icon type="lock" /> Add password
-      </Menu.Item>
-    </Menu>
-  ) : (
+export default function SettingMenu ({ handleDeleteUser }){
+  return (
       <Menu>
         <Menu.Item onClick={handleDeleteUser}>
           <Icon type="user-delete" />
@@ -27,5 +21,4 @@ SettingMenu.propTypes = {
   handleDeleteUser: PropTypes.func.isRequired,
   rowId: PropTypes.number.isRequired,
   users: PropTypes.array.isRequired,
-  showPasswordPopup: PropTypes.func.isRequired,
 }
