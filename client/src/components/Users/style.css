@@ -44,12 +44,13 @@
 }
 
 .user__ellipsis {
-  visibility: hidden !important;
   font-size: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center
 }
 
 .users__row:hover .user__ellipsis {
-  visibility: visible !important;
   cursor: pointer;
 }
 
@@ -65,20 +66,6 @@
   padding-right: .6rem;
 }
 
-.users__submitBtn {
-  padding: .4rem .8rem;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  background: #3F7BAA;
-  margin: 0 75%;
-  color: #eee;
-  font-weight: bold;
-  margin-top: .5rem;
-  cursor: pointer;
-  visibility: visible;
-}
-
 .hidden{
   visibility: hidden;
 }
@@ -86,4 +73,34 @@
 .users__error--wd-60 {
   width: 60%;
   margin: 0 auto;
+}
+
+.users__last-cell{
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+}
+
+.users__btn{
+  border: none;
+  border-radius: 5px;
+  padding: .3rem .5rem;
+  font-size: 13px;
+  cursor: pointer;
+  background: #eee;
+  text-align:center;
+  outline:none;
+}
+
+.users__btn--save{
+    margin-left: 1.3rem;
+}
+
+.users__btn--save:hover, .users__btn--password:hover{
+  text-decoration: underline;
+}
+
+.users__table tr:nth-child(odd) .users__btn{
+  background: rgb(213, 238, 241, 0.3);
 }
