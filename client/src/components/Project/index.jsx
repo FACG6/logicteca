@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "antd";
 import Scrum from "./Scrums/index";
 
 class Scrums extends Component {
@@ -33,13 +34,19 @@ class Scrums extends Component {
     const { projectId, scrumId } = this.props.match.params;
     const { projectName, scrums } = this.state;
     return (
-      <div>
-        <h2> {projectName} </h2>
-        <ul>
-          { scrums.length !== 0 ? scrums.map(index => <li key={index.id}><Link to={`/project/${projectId}/${index.id}`}> {index.scrumName} </Link></li>) : <li></li>}
-        </ul>
-        <Scrum scrumId={scrumId} />
-      </div>
+      <React.Fragment>
+        <section>
+          <div>
+            <h2> {projectName} </h2>
+            <Button type="primary" icon="plus" className="button"> Scrum </Button>
+          </div>
+          <ul>
+            { scrums.length !== 0 ? scrums.map(index => <li key={index.id}><Link to={`/project/${projectId}/${index.id}`}> {index.scrumName} </Link></li>) : <li></li>}
+          </ul>
+          <Scrum scrumId={scrumId} />
+        </section>
+      </React.Fragment>
+      
     );
   }
 }
