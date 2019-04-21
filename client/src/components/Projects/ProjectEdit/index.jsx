@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "./style.css";
-import TableMember from "./TableMember/TableMember";
+import TableMember from "./../../commonComponents/TableMember";
 
 export default class index extends Component {
   state = {
     project: [],
     selection: {
-      row: null
+      row: []
     },
     newProject: {
       name: "",
@@ -76,6 +76,7 @@ export default class index extends Component {
   };
 
   render() {
+    console.log(this.state.selection)
     const projectId = this.props.match.params.projectId;
     return (
       <section className="main">
@@ -119,6 +120,7 @@ export default class index extends Component {
                     projectId={projectId}
                     handleCheck={this.handleCheck}
                     teamMember={this.state.project.teamMember}
+                    member={require("./../ProjectNew/TableMember/member.json")}
                   />
                 )}
               </div>
