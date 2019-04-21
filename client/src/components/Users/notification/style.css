@@ -20,7 +20,12 @@
   font-size: .9rem;
 }
 
-.users__notification-icon--saved{
-  color: green;
+.users__notification-icon-saved,
+.users__notification-msg {
+  color: #0b9d0b
+}
+
+.users__notification-msg{
+  font-size: 14px;
 }
 
