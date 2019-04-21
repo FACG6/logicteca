@@ -5,10 +5,12 @@ import './style.css'
 
 export default function Login() {
   return (
+    <main className='login__main'>
     <div className='login__container'>
       <LoginFrom />
       <About />
     </div>
+    </main>
   )
 }
 
