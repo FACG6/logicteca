@@ -194,11 +194,12 @@ class Users extends Component {
         render: record => {
           if (record.id === this.state.users.length) {
             return (
-              <span className='users__last-row--2icons'>
-                {!this.state.password ? <div onClick={this.handleForm}><Icon className='users__lock-icon' type="lock" />Add Password</div> : <div><Icon className='users__lock-icon' type="lock" />Change Password</div>}
-                {this.state.saving ? <div onClick={this.saveNewUser}><Icon className='users__check-icon' type="check-circle" theme="twoTone" twoToneColor="#2196f3" />Save</div>
+              <div className='users__last-cell'>
+                {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> : 
+                <button className='users__btn users__btn--change-pass'>Change Pass</button>}
+                {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
                   : null}
-              </span>
+              </div>
             )
           }
           return (
