@@ -53,24 +53,23 @@ class Scrum extends Component {
     handleEditTask = (event, record, column) => {
       const { tasks } = this.state;
 
-    //Adding a new task
-    if (record.id === tasks[tasks.length - 1].id) {
-      this.setState({ saving: true, saved: false })
-      return this.handleAddTask(event, column);
-    }
+      //Add a new task
+      if (record.id === tasks[tasks.length - 1].id) {
+        this.setState({ saving: true, saved: false })
+        return this.handleAddTask(event, column);
+      }
 
-    //Editing Task//
-    const newTask = event.target.value;
-    const taskId = record.id;
-    const clonedTasks = JSON.parse(JSON.stringify(tasks));
-    const updateTask = clonedTasks.find(task => task.id === taskId);
-    updateTask[column] = newTask;
+      //Edit Task
+      const newTask = event.target.value;
+      const taskId = record.id;
+      const clonedTasks = JSON.parse(JSON.stringify(tasks));
+      const updateTask = clonedTasks.find(task => task.id === taskId);
+      updateTask[column] = newTask;
 
-    //Validate
-    if (this.validateTask(updateTask)) {
-      this.updateTasks(updateTask, clonedTasks);
-    }
-
+      //Validate
+      if (this.validateTask(updateTask)) {
+        this.updateTasks(updateTask, clonedTasks);
+      }
     };
 
     updateTasks = (task, tasks) => {
@@ -86,10 +85,8 @@ class Scrum extends Component {
     }
 
     handleDeleteTask = (event) => {
-      // console.log(8888888);
       const { tasks, rowSelected } = this.state;
       const deletedTask = tasks.filter(task => task.id === rowSelected)[0];
-      // delete notification 
       this.deleteSwal(deletedTask);
     }
 
@@ -104,8 +101,7 @@ class Scrum extends Component {
     }
 
     render(){
-      
-        const columns = [
+      const columns = [
           {
             title: 'Task',
             dataIndex: 'task_description',
@@ -222,10 +218,7 @@ class Scrum extends Component {
           {
             render: () => {
               return (
-                // <button onClick={this.handleDeleteTask}>
-                  // <Icon type="setting" theme="filled" onClick={this.handleDeleteTask}/>
                   <Icon type="delete" onClick={this.handleDeleteTask}/>
-                // {/* </button> */}
               );
             },
           }
