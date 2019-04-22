@@ -1,19 +1,7 @@
- @import url('https://fonts.googleapis.com/css?family=Lato');
-
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-body {
-    min-height: 60rem;
-    font-family: 'Lato', Courier, monospace;
-}
-
 .project__page--container {
     width: 80%;
     margin: 0 auto;
+    padding-top: 6rem
 }
 
 .Project__name, .Scrum__name {
