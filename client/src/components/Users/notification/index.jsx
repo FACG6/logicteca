@@ -5,18 +5,16 @@ import {
 const createNotification = (type) => {
   switch (type) {
     case 'password':
-      NotificationManager.success('Password added successfully. Save all Changes Now', 'Great');
+      NotificationManager.success('Password added successfully. Save all Changes Now', 5000);
       break;
     case 'success':
-      NotificationManager.success('Added successfully', 'Good!');
+      NotificationManager.success('Added successfully', 4000);
       break;
     case 'warning':
-      NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+      NotificationManager.warning('warning', 3000);
       break;
     case 'error':
-      NotificationManager.error('Oops', 'Something went wrong!', 5000, () => {
-        alert('callback');
-      });
+      NotificationManager.error('Oops', 'Something went wrong!')
       break;
     default:
       return;
