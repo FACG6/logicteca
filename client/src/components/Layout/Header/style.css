@@ -1,7 +1,8 @@
 .header {
   border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 2rem;
   height: 80px;
+  width: 100%;
+  position: fixed;
 }
 
 .header__container {
