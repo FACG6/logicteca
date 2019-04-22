@@ -1,11 +1,14 @@
 .projects__main {
+  padding-top: 25vh;
   width: 80%;
   margin: 0 auto;
 }
 .ant-btn-primary {
+  z-index: -10;
   background-color: #3f7baa;
 }
 .projects__button-and-search-container {
+  z-index: -10;
   width: 100%;
   display: flex;
   flex-flow: row;
