@@ -81,13 +81,21 @@ body {
     margin: 0 auto;
 }
 
-.ant-table table {
+.tasks__table {
     width: 100%;
     text-align: left;
     border-radius: 4px 4px 0 0;
     border-collapse: collapse;
 }
 
+.tasks__table tr:nth-child(even) {
+    background: rgb(213, 238, 241, 0.3);
+}
+
+.tasks__table th:last-child{
+    text-align: center;
+    padding: 0;
+}
 
 .ant-table-thead > tr > th, 
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover, 
@@ -112,11 +120,47 @@ body {
     background: #3f7baa;
 }
 
-
 .status__select, .actionType__select {
     background: #fff;
     border: none;
     padding: 1rem
 }
 
+.tasks__cell:hover {
+    cursor: text;
+}
 
+.tasks__cell {
+    display: block;
+}
+
+.description {
+    width: 11rem;
+}
+
+.priority, .estimate_time, .remaining_time {
+    text-align: center;
+}
+
+.status__select, .actionType__select {
+    padding: 0;
+}
+
+.status__select {
+    width: 6.8rem;
+}
+
+.Project__addScrum__btn, .Scrum__addTask__btn{
+    background: #3f7baa;
+    border: none;
+}
+
+.tasks__table tr:nth-child(even) .status__select,
+.tasks__table tr:nth-child(even) .actionType__select {
+    background: #fff
+}
+
+.tasks__table tr:nth-child(odd) .status__select,
+.tasks__table tr:nth-child(odd) .actionType__select {
+    background: rgb(213, 238, 241, 0.3);
+}
