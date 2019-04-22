@@ -33,7 +33,7 @@ library.add(
 
 class App extends Component {
   state = {
-    login: false
+    login: true
   };
   render() {
     const { login } = this.state;
