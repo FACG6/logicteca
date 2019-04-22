@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Dropdown } from 'antd';
+import { Button, Table, Icon, Dropdown } from 'antd';
 import Editable from 'react-contenteditable';
 import './style.css';
 import { filter, sort, deleteSwal } from './helpers.js';
@@ -32,7 +32,7 @@ class Users extends Component {
     //Fetch to get users from database//
     //Store them in the state
     this.setState({
-      users: [...users, { id: users.length + 1, user_name: '', full_name: '', role: 'developer' }],
+      users,
     });
   }
 
@@ -79,6 +79,14 @@ class Users extends Component {
     this.setState({ users, saved: true });
   };
 
+  addRow = () => {
+    this.setState((prevState) => {
+      const clonedUsers = prevState.users;
+      const newUsers = clonedUsers.concat({ id: users[users.length - 1].id + 1, user_name: `Username ${users.length}`, full_name: `FullName ${users.length}`, role: 'developer' })
+      return {users: newUsers}
+    })
+  }
+
   handleAddUser = (event, columnName) => {
     const newValue = event.target.value;
     this.setState(prevState => {
@@ -102,7 +110,7 @@ class Users extends Component {
   }
 
   saveNewUser = () => {
-    const { newRow, users, password } = this.state;
+    const { newRow, password } = this.state;
     if (this.validateUserInfo(newRow)) {
       if (password) {
 
@@ -110,9 +118,7 @@ class Users extends Component {
         const addedRow = { user_name: newRow.user_name, full_name: newRow.full_name, password }
 
         //Add new row to the table
-        const id = users[users.length - 1].id + 1;
-        const updatedUsers = users.concat({ id, user_name: '', full_name: '', role: 'developer' });
-        this.setState({ passwordAdded: false, users: updatedUsers, passwordError: false, saving: false, saved: true });
+        this.setState({ passwordAdded: false, passwordError: false, saving: false, saved: true });
       } else {
         this.setState({ passwordError: true });
       }
@@ -190,7 +196,7 @@ class Users extends Component {
               {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
                 <button className='users__btn users__btn--change-pass'>Change Pass</button>}
               {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
-                : null}
+                : <button className='users__btn users__btn--save hidden'>Save</button>}
             </div>
           )
         }
@@ -228,6 +234,7 @@ class Users extends Component {
 
     return (
       <>
+        <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
         {this.state.userNameError ? (
           <Error errorClass='users__error--wd-70' errorMsg='Username should consist of at least 3 characters' />
         ) : this.state.fullNameError ? (
