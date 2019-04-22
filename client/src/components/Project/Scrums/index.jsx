@@ -156,7 +156,6 @@ class Scrum extends Component {
                 />
               );
             },
-            // className:'estimate_time_col'
           },
           {
             title: 'Remaining Time (hr)',
@@ -214,7 +213,6 @@ class Scrum extends Component {
               );
             },
           },
-          // column of delete
           {
             render: () => {
               return (
