@@ -1,0 +1,23 @@
+.pagenotfound__icon {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+.pagenotfound__caption {
+  color: #3f7baa;
+  font-size: 2rem;
+  margin-left: 10px;
+  letter-spacing: 0.5rem;
+}
+.pagenotfound__info {
+  flex-flow: column wrap;
+}
+.pagenotfound__main {
+  margin-top: 100px;
+  line-height: 5rem;
+}
+.pagenotfound__link--caption {
+  font-style: italic;
+  font-size: 1.2rem;
+}
