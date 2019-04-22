@@ -7,7 +7,7 @@ import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
 import Error from './error/Error';
-import createNotification from './notification/not'
+import createNotification from './notification/index'
 import {
   NotificationContainer,
 } from 'react-notifications';
@@ -49,7 +49,7 @@ class Users extends Component {
   handleEditUserInfo = (event, record, columnName) => {
     const { users } = this.state;
     //Adding a new user
-    if (record.id === users[users.length - 1].id) {
+    if (this.state.rowAdded && record.id === users[users.length - 1].id) {
       return this.handleAddUser(event, columnName);
     }
 
@@ -86,7 +86,7 @@ class Users extends Component {
     //Then update users in the state//
     //change message//
     this.setState({ users });
-    createNotification.success('success');
+    createNotification('success');
   };
 
   addRow = () => {
@@ -112,7 +112,9 @@ class Users extends Component {
   };
 
   handlePassword = (password) => {
+    console.log(111)
     this.setState({ passwordAdded: true, saving: true, passwordError: false, password, show: false })
+    createNotification('password');
   }
 
   cancel = () => {
