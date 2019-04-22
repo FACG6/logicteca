@@ -13,14 +13,13 @@ class Scrum extends Component {
     html: '',
     newRow: {},
     saving: false,
-    saved: false,
-    taskDescriptionErr: false,
+    taskDescriptionErr: '',
     rowSelected: null,
     newTask: false,
   }
 
   componentDidMount() {
-    this.setState({tasks: tasks});
+    this.setState({tasks});
   }
 
   handleAddNewTask = () => {
@@ -44,7 +43,7 @@ class Scrum extends Component {
   handleAddTask = (event, column) => {
     const newTask = event.target.value;
     this.setState(prevState => {
-      const clonedTasks = [...tasks];
+      const clonedTasks = [...prevState.tasks];
       clonedTasks[clonedTasks.length - 1][column] = newTask;
       return { tasks: clonedTasks, newRow: clonedTasks[clonedTasks.length - 1] };
     });
@@ -55,7 +54,7 @@ class Scrum extends Component {
 
     //Add a new task
     if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
-      this.setState({ saving: true, saved: false });
+      this.setState({ saving: true });
       return this.handleAddTask(event, column);
     }
 
@@ -68,19 +67,22 @@ class Scrum extends Component {
     
     //Validate
     if (this.validateTask(updateTask)) {
-      this.updateTasks(updateTask, clonedTasks);
+      this.updateTasks(clonedTasks);
     }
   };
 
-  updateTasks = (task, tasks) => {
-    this.setState({ tasks, saved: true });
+  updateTasks = tasks => {
+    this.setState({ tasks });
   };
 
-  validateTask = (task) => {
-    this.setState({ taskDescriptionErr: false });
+  validateTask = task => {
+    this.setState({ taskDescriptionErr: ' ' });
     if (task['task_description'].length < 1) {
-      this.setState({ taskDescriptionErr: true });
-    }
+      this.setState({ taskDescriptionErr: " The Description of Task shouldn't be empty. " });
+      return false;
+    } 
+      this.setState({ taskDescriptionErr: ' ' });
+      return true;
   };
 
   handleDeleteTask = (event) => {
@@ -223,19 +225,12 @@ class Scrum extends Component {
     columns[2].filters = Filter(tasks).prioritiesFilters;
     columns[5].filters = Filter(tasks).statusFilters;
     columns[6].filters = Filter(tasks).assigneesFilters;
-    if (this.state.saved) {
-      setTimeout(() => {
-        this.setState({ saved: false})
-      }, 4000);
-    }
     return(
       <React.Fragment>
         <section className='Scrum__page--container'>
         <div className='Scrum__header'>
           <Button type="primary" icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
         </div>
-        {/* notification */}
-        {/* {this.state.taskDescriptionErr ? <li>error, description should be at least 1 char</li> : <li>saved</li> } */}
         <Table columns={columns}
           rowKey={record => record.id}
           dataSource={this.state.tasks}

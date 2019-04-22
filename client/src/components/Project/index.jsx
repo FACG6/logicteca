@@ -20,20 +20,17 @@ class Scrums extends Component {
       id: 1,
       projectName: 'Demo'
     }
-    this.setState({ scrums: scrums, project: project });
-    if(this.props.match.params !== this.state.project.projectId){
-      //fetch scrums
-    }
+    this.setState({ scrums, project });
   }
 
   render() {
     const { projectId, scrumId } = this.props.match.params;
-    const { projectName, scrums } = this.state;
+    const { project, scrums } = this.state;
     return (
       <React.Fragment>
         <section className='project__page--container'>
           <div className='Project__header'>
-            <h2 className='Project__name'> {projectName} </h2>
+            <h2 className='Project__name'> {project.projectName} </h2>
             <Button type="primary" icon="plus" className="Project__addScrum__btn"> Scrum </Button>
           </div>
           <ul className='Project__tabs'>
