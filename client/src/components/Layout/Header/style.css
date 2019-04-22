@@ -3,6 +3,8 @@
   height: 80px;
   width: 100%;
   position: fixed;
+  background-color: white;
+  z-index: 3;
 }
 
 .header__container {
@@ -13,7 +15,7 @@
 }
 
 .header__logo {
-  padding: .4rem;
+  padding: 0.4rem;
 }
 
 .header__right-section {
@@ -31,7 +33,7 @@
 
 .header__navbar li {
   margin-right: 1rem;
-  color: #3F7BAA;
+  color: #3f7baa;
 }
 
 .header__navbar .active {
@@ -47,10 +49,10 @@
 .header__username {
   cursor: pointer;
   margin-left: 1rem;
-  color: #3F7BAA;
+  color: #3f7baa;
 }
 
 .header__caret-down {
-  margin-left: .5rem;
-  color: #3F7BAA
+  margin-left: 0.5rem;
+  color: #3f7baa;
 }
