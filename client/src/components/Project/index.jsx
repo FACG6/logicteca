@@ -7,15 +7,23 @@ const scrums = require('./Scrums/utilis/scrums.json')
 
 class Scrums extends Component {
   state = {
-    projectName: '',
+    project: {
+      id: '',
+      projectName: ''
+    },
     scrums: []
   }
 
   componentDidMount() {
     // fetch
-    const projectName = 'Demo';
-    this.setState({ scrums: scrums });
-    this.setState({projectName: projectName})
+    const project = {
+      id: 1,
+      projectName: 'Demo'
+    }
+    this.setState({ scrums: scrums, project: project });
+    if(this.props.match.params !== this.state.project.projectId){
+      //fetch scrums
+    }
   }
 
   render() {
