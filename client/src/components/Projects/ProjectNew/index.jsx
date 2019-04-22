@@ -63,7 +63,6 @@ export default class index extends Component {
   };
 
   render() {
-    console.log(this.state.selection);
     return (
       <section className="main">
         <div className="main--div">
