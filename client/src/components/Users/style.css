@@ -83,7 +83,7 @@
 
 .users__error--wd-70 {
   width: 70%;
-  margin: 0 auto 1rem auto;
+  margin: .8rem auto 1rem auto;
 }
 
 .users__error--wd-70 span{
@@ -113,9 +113,20 @@
 }
 
 .users__btn--save:hover, .users__btn--password:hover{
-  text-decoration: underline;
+  color:#1890ff
 }
 
 .users__table tr:nth-child(odd) .users__btn{
   background: rgb(213, 238, 241, 0.3);
+}
+
+.users__add-button{
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+  margin: 1rem 0 0 15%;
+}
+
+.users__add-button:hover{
+  background: #4b83af;
 }
