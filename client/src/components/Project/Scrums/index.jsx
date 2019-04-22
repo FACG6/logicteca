@@ -44,7 +44,7 @@ class Scrum extends Component {
     handleAddTask = (event, column) => {
       const newTask = event.target.value;
       this.setState(prevState => {
-        const clonedTasks = JSON.parse(JSON.stringify(prevState.tasks));
+        const clonedTasks = [...tasks];
         clonedTasks[clonedTasks.length - 1][column] = newTask;
         return { tasks: clonedTasks, newRow: clonedTasks[clonedTasks.length - 1] };
       });
