@@ -7,7 +7,11 @@ import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
 import Error from './error/Error';
-import Notification from './notification/index'
+import createNotification from './notification/not'
+import {
+  NotificationContainer,
+} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const users = require('../../utils/users.json');
 
@@ -25,7 +29,6 @@ class Users extends Component {
     rowAdded: false,
     newRow: {},
     saving: false,
-    saved: false,
     show: false,
     passwordAdded: false,
     error: '',
@@ -47,7 +50,6 @@ class Users extends Component {
     const { users } = this.state;
     //Adding a new user
     if (record.id === users[users.length - 1].id) {
-      this.setState({ saving: true, saved: false })
       return this.handleAddUser(event, columnName);
     }
 
@@ -83,7 +85,8 @@ class Users extends Component {
     //Fetch to update userInfo//
     //Then update users in the state//
     //change message//
-    this.setState({ users, saved: true });
+    this.setState({ users });
+    createNotification.success('success');
   };
 
   addRow = () => {
@@ -100,7 +103,7 @@ class Users extends Component {
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
       clonedUsers[clonedUsers.length - 1][columnName] = newValue;
       //Not sure if I should update the state now or after inserting the user in database!
-      return { users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
+      return { saving: true, users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
     });
   };
 
@@ -124,7 +127,9 @@ class Users extends Component {
         //fetch...this is the row
         const addedRow = { user_name: newRow.user_name, full_name: newRow.full_name, password }
         //Add new row to the table
-        this.setState({ rowAdded: false, passwordAdded: false, passwordError: false, saving: false, saved: true });
+        this.setState({ rowAdded: false, passwordAdded: false, passwordError: false, saving: false });
+        createNotification('success')
+
       } else {
         this.setState({ passwordError: true });
       }
@@ -155,6 +160,7 @@ class Users extends Component {
   columns = [
     {
       title: 'Username',
+      width: '30%',
       dataIndex: 'user_name',
       render: (value, record) => {
         return (
@@ -174,6 +180,7 @@ class Users extends Component {
     {
       title: 'Full Name',
       dataIndex: 'full_name',
+      width: '30%',
       render: (value, record) => {
         return (
           <Editable
@@ -189,6 +196,7 @@ class Users extends Component {
     },
     {
       title: 'Role',
+      width: '20%',
       dataIndex: 'role',
       render: (value, record) => {
         return (
@@ -199,6 +207,7 @@ class Users extends Component {
     },
     {
       title: 'Action',
+      width: '20%',
       render: record => {
         if (this.state.rowAdded) {
           if (record.id === this.state.users.length) {
@@ -236,15 +245,16 @@ class Users extends Component {
     const columns = this.columns;
     columns[0].filters = filter(this.state.users).nameOptions;
     columns[2].filters = filter(this.state.users).roleOptions;
-    
+
     return (
       <>
         <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
+        <NotificationContainer />
         {this.state.error ? (
           <Error errorClass='users__error--wd-70' errorMsg={this.state.error} />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-70' errorMsg='Please add Password' />
-        ) : this.state.saved ? <Notification notification='Saved' /> :<></>}
+        ) : null}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}
