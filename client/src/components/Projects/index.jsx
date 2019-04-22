@@ -10,11 +10,11 @@ const Projects = () => {
     <React.Fragment>
       <section className="projects__page--container">
         <div className="project__page--button-and-search-container">
-          <Button type="primary" icon="plus" className="button">
-            <Link to="/project/new">
-              <span className="button--caption"> Project </span>
-            </Link>
-          </Button>
+          <Link to="/project/new">
+            <Button type="primary" icon="plus" className="button">
+              Projects
+            </Button>
+          </Link>
           {/* <Search className="search" /> */}
         </div>
         <ProjectsTable />

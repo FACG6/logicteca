@@ -27,6 +27,8 @@ label.main-label {
   width: 50%;
   height: 40px;
   border: 1px solid black;
+  outline: none;
+  padding: 5px;
 }
 
 .main-textArea {
