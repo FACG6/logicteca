@@ -1,0 +1,116 @@
+.main-required {
+  color: #FF0202;
+}
+
+section.main {
+  width: 50%;
+  margin: auto;
+}
+
+h1.main--h1 {
+  font-size: 30px;
+}
+
+form.main--form {
+  margin-top: 60px;
+  margin-left: 60px;
+  width: 90%;
+}
+
+label.main-label {
+  display: flex;
+  margin-bottom: 50px;
+  justify-content: space-between;
+}
+
+.main-input {
+  width: 50%;
+  height: 40px;
+  border: 1px solid black;
+  outline: none;
+  padding: 5px;
+}
+
+.main-textArea {
+  width: 50%;
+  height: 100px;
+  resize: vertical;
+}
+
+h3.main-h3 {
+  font-size: 20px;
+}
+
+.main--h3 {
+  font-size: 25px;
+  margin: 20px;
+  color: white;
+}
+
+.main--div {
+  margin-top: 100px;
+  width: 100%;
+}
+
+.main-member {
+  background: #3F7BAA;
+  margin-top: 40px;
+}
+
+.main--titelMembers {
+  background: #3F7BAA;
+  height: 50px;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.main-memberSelect {
+  background: white;
+}
+
+.main--label {
+  width: 30%;
+  display: inline-block;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  word-wrap: break-word;
+}
+
+.check-border {
+  height: 20px;
+  width: 20px;
+  border: 4px solid #3F7BAA;
+}
+
+.fa-check {
+  color: white;
+  background: #3F7BAA;
+  border: 2px solid #3F7BAA;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.main-add {
+  width: 20%;
+  height: 45px;
+  background: #3F7BAA;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer
+}
+
+.main-submit {
+  padding: 50px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.error {
+  margin-right: 100px;
+  color: red;
+}

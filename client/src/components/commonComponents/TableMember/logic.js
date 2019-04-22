@@ -1,3 +1,11 @@
+const filterIdMember = teamMember => {
+  const filter = [];
+  teamMember.forEach(obj => {
+    filter.push(obj.id.toString());
+  });
+  return filter;
+};
+
 const filterData = data => {
   const filter = [];
   const objectKeys = Object.keys(data[0]);
@@ -17,4 +25,5 @@ const filterData = data => {
   });
   return filter;
 };
-export default filterData;
+
+export { filterData, filterIdMember };
