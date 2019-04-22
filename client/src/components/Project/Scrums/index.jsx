@@ -54,7 +54,7 @@ class Scrum extends Component {
       const { tasks } = this.state;
 
       //Add a new task
-      if (record.id === tasks[tasks.length - 1].id || this.state.newTask) {
+      if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
         this.setState({ saving: true, saved: false })
         return this.handleAddTask(event, column);
       }
