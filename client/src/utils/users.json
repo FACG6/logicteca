@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "user_name": "Ahmed",
+    "full_name": "Ahmed Sulaiman",
+    "password": "12345",
+    "role": "developer"
+  },
+  {
+    "id": 2,
+    "user_name": "Ismail",
+    "full_name": "Ismail Sulaiman",
+    "password": "12345",
+    "role": "developer"
+  },
+  {
+    "id": 3,
+    "user_name": "Moahmmed",
+    "full_name": "Mohammed Sulaiman",
+    "password": "12345",
+    "role": "scrum master"
+  },
+  {
+    "id": 4,
+    "user_name": "Ali",
+    "full_name": "Ali Sulaiman",
+    "password": "12345",
+    "role": "developer"
+  }
+]

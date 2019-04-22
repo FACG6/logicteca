@@ -1,0 +1,149 @@
+.users__main{
+  padding-top: 8rem;
+}
+
+.users__header{
+  width:70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.users__table {
+  width: 70%;
+  margin: 0 auto 4rem auto;
+}
+
+.users__table tr:nth-child(even) {
+  background: rgba(213, 238, 241, 0.3);
+}
+
+.users__table th {
+  background: #3F7BAA !important;
+  color: #eee !important;
+}
+
+.users__table th span {
+  font-weight: bold;
+  letter-spacing: .04rem;
+  font-size: .9rem;
+  padding: 0 .3rem;
+}
+
+.users__table th:last-child{
+  text-align: center;
+  padding: 0;
+}
+
+.users__cell {
+  display: block;
+  padding: .4rem .6rem;
+  width: 100%;
+  font-size: .9rem
+}
+
+.users__cell:hover {
+  cursor: text;
+}
+
+.ant-table-column-sorter-down {
+  color: white !important;
+}
+
+.anticon-filter {
+  color: white !important;
+  background: #3F7BAA !important;
+}
+
+.anticon-sorter:hover {
+  background: #3F7BAA !important;
+}
+
+.user__ellipsis {
+  font-size: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.users__table tr:last-child:hover{
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+  0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s;
+}
+
+ .user__ellipsis {
+  cursor: pointer;
+}
+
+.ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td {
+  background: white !important;
+}
+
+.ant-table-tbody>tr:nth-child(even):hover:not(.ant-table-expanded-row)>td {
+  background: rgba(213, 238, 241, 0.2) !important;
+}
+
+.users__alert {
+  padding-right: .6rem;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.users__error--wd-70 {
+  width: 70%;
+  margin: .8rem auto 1rem auto;
+}
+
+.users__error--wd-70 span{
+    font-size: .9rem;
+}
+
+.users__last-cell{
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+}
+
+.users__btn{
+  border: none;
+  border-radius: 5px;
+  padding: .3rem .5rem;
+  font-size: 13px;
+  cursor: pointer;
+  background: white;
+  text-align:center;
+  outline:none;
+}
+
+.users__btn--save{
+    margin-left: 1.3rem;
+}
+
+.users__btn--save:hover, .users__btn--password:hover{
+  color:#1890ff
+}
+
+.users__table tr:nth-child(odd) .users__btn{
+  background: rgba(213, 238, 241, 0.3);
+}
+
+.users__add-button{
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+}
+
+.users__add-button:hover{
+  background: #4b83af;
+}
+
+.focus--input{
+  outline: -webkit-focus-ring-color auto 5px;
+  border-radius: 5px;
+}
+
+
