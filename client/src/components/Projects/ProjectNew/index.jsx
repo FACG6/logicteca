@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./style.css";
-import TableMember from "./TableMember/TableMember";
+import TableMember from "./../../commonComponents/TableMember";
 
 export default class index extends Component {
   state = {
@@ -44,7 +44,7 @@ export default class index extends Component {
           errorMsg: "Please enter the project name"
         }
       });
-    } else if (!Array.isArray(row)) {
+    } else if (!Array.isArray(row) || row.length === 0) {
       //show error here for selection
       this.setState({
         error: {
@@ -94,7 +94,10 @@ export default class index extends Component {
                 <h3 className="main--h3">Memebrs</h3>
               </div>
               <div className="main-memberSelect">
-                <TableMember handleCheck={this.handleCheck} />
+                <TableMember
+                  member={require("./../../commonComponents/TableMember/member.json")}
+                  handleCheck={this.handleCheck}
+                />
               </div>
             </div>
             <div className="main-submit">
