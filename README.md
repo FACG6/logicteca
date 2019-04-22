@@ -78,6 +78,16 @@ The main project flow is divided into to main sprints
 
 ## How to use
 
+- The project is still in builing stage.....
+  In general:
+  - clone the repo.
+  - cd logicteca.
+  - npm i.
+  - cd client.
+  - npm i.
+  - cd ..
+  - npm run dev.
+
 ## Team:
 
 Ayman, Israa, Angham and Amin.
