@@ -98,10 +98,19 @@ class Scrum extends Component {
         showCancelButton: true,
         className:'deletTaskSwal'
       })
-    }
+    };
 
-    render(){
-      const columns = [
+    showSwal = deletedTask => {
+      this.deleteSwal().then(response => {
+        if (response.value) this.confirmDelete(deletedTask);
+      });
+    };
+
+    confirmDelete = deletedTask => {
+      //Fetch 
+    };
+
+      columns = [
           {
             title: 'Task',
             dataIndex: 'task_description',
@@ -214,13 +223,21 @@ class Scrum extends Component {
             },
           },
           {
-            render: () => {
+
+            render: record => {
               return (
                   <Icon type="delete" onClick={this.handleDeleteTask}/>
               );
             },
           }
-          ]
+          ];
+          render(){
+            const columns = this.columns;
+            if (this.state.saved) {
+              setTimeout(() => {
+                this.setState({ saved: false})
+              }, 4000);
+            }
           return(
           <React.Fragment>
             <section className='Scrum__page--container'>
@@ -229,6 +246,8 @@ class Scrum extends Component {
                 <h2 className='Scrum__name'> Scrum Name </h2>
                 <Button type="primary" icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
               </div>
+              {/* notification */}
+              {/* {this.state.taskDescriptionErr ? <li>error, description should be at least 1 char</li> : <li>saved</li> } */}
               <Table columns={columns}
                 rowKey={record => record.id}
                 dataSource={this.state.tasks}
