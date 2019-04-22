@@ -14,7 +14,7 @@ class Scrums extends Component {
     scrums: []
   }
 
-  componentDidMount() {
+  componentDidMount(){
     // fetch
     const project = {
       id: 1,
@@ -43,8 +43,7 @@ class Scrums extends Component {
             <Scrum scrumId={scrumId} />
           </div>
         </section>
-      </React.Fragment>
-      
+      </React.Fragment>   
     );
   }
 }

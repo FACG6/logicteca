@@ -1,82 +1,81 @@
 .project__page--container {
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 6rem
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 6rem
 }
 
 .Project__name, .Scrum__name {
-    display: inline-block;
-    color: #3f7baa;
-    
+  display: inline-block;
+  color: #3f7baa;
 }
 
 .Scrum__name {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .Project__name {
-    font-size: 1.7rem;
-    letter-spacing: 0.1rem;
-    font-family: 'Lato';
+  font-size: 1.7rem;
+  letter-spacing: 0.1rem;
+  font-family: 'Lato';
 }
 
 .Project__addScrum__btn, .Scrum__addTask__btn{
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .Project__tabs{
-    list-style: none;
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-    min-height: 2rem
+  list-style: none;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  min-height: 2rem
 }
 
 .Project__tab{
-    float: left;
+  float: left;
 }
 
 .Project__scrum--link {
-    border: 1px solid #3f7baa;
-    color: #3f7baa;
-    font-size: 1rem;
-    padding: 0.9rem;
-    border-right: none;
-    border-left: none;
+  border: 1px solid #3f7baa;
+  color: #3f7baa;
+  font-size: 1rem;
+  padding: 0.9rem;
+  border-right: none;
+  border-left: none;
 }
 
 .active, .Project__scrum--link:hover { 
-    background: #3f7baa;
-    color: #fff;
+  background: #3f7baa;
+  color: #fff;
 }
 
 .Project__scrum--link:hover{
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .Project__scrum{
-    margin-top: -4rem
+  margin-top: -4rem
 }
 
 .Scrum__header {
-    margin-top: 8rem;
-    margin-bottom: 2rem;
+  margin-top: 8rem;
+  margin-bottom: 2rem;
 }
- 
+
 .tasks__table {
-    width: 100%;
-    text-align: left;
-    border-radius: 4px 4px 0 0;
-    border-collapse: collapse;
-    margin: 0 auto;
+  width: 100%;
+  text-align: left;
+  border-radius: 4px 4px 0 0;
+  border-collapse: collapse;
+  margin: 0 auto;
 }
 
 .tasks__table tr:nth-child(even) {
-    background: rgb(213, 238, 241, 0.3);
+  background: rgb(213, 238, 241, 0.3);
 }
 
 .tasks__table th:last-child{
-    text-align: center;
-    padding: 0;
+  text-align: center;
+  padding: 0;
 }
 
 .ant-table-thead > tr > th, 
@@ -88,8 +87,8 @@
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover, 
 .ant-table-thead > tr > th .anticon-filter, 
 .ant-table-thead > tr > th .ant-table-filter-icon:hover {
-    background: #3f7baa;
-    color: #fff
+  background: #3f7baa;
+  color: #fff
 }
 
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters:hover ,
@@ -98,53 +97,53 @@
 .ant-table-filter-icon:hover
 .ant-dropdown-menu-item:hover, 
 .ant-dropdown-menu-submenu-title:hover {
-    color: #fff;
-    background: #3f7baa;
+  color: #fff;
+  background: #3f7baa;
 }
 
 .status__select, .actionType__select {
-    background: #fff;
-    border: none;
-    padding: 1rem
+  background: #fff;
+  border: none;
+  padding: 1rem
 }
 
 .tasks__cell:hover {
-    cursor: text;
+  cursor: text;
 }
 
 .tasks__cell {
-    display: block;
+  display: block;
 }
 
 .description {
-    width: 11rem;
+  width: 11rem;
 }
 
 .priority, .estimate_time, .remaining_time {
-    text-align: center;
+  text-align: center;
 }
 
 .status__select, .actionType__select {
-    padding: 0;
+  padding: 0;
 }
 
 .status__select {
-    width: 6.8rem;
+  width: 6.8rem;
 }
 
 .Project__addScrum__btn, .Scrum__addTask__btn{
-    background: #3f7baa;
-    border: none;
+  background: #3f7baa;
+  border: none;
 }
 
 .tasks__table tr:nth-child(even) .status__select,
 .tasks__table tr:nth-child(even) .actionType__select {
-    background: #fff
+  background: #fff
 }
 
 .tasks__table tr:nth-child(odd) .status__select,
 .tasks__table tr:nth-child(odd) .actionType__select {
-    background: rgb(213, 238, 241, 0.3);
+  background: rgb(213, 238, 241, 0.3);
 }
 
 
