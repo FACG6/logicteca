@@ -10,9 +10,6 @@ const createNotification = (type) => {
     case 'success':
       NotificationManager.success('Added successfully', 4000);
       break;
-    case 'warning':
-      NotificationManager.warning('warning', 3000);
-      break;
     case 'error':
       NotificationManager.error('Oops', 'Something went wrong!')
       break;

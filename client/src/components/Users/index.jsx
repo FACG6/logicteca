@@ -59,7 +59,6 @@ class Users extends Component {
     const clonedUsers = JSON.parse(JSON.stringify(users));
     const updatedUser = clonedUsers.find(user => user.id === memberId);
     updatedUser[columnName] = newValue;
-    console.log(updatedUser);
 
     //Validate
     if (this.validateUserInfo(updatedUser)) {
@@ -112,7 +111,6 @@ class Users extends Component {
   };
 
   handlePassword = (password) => {
-    console.log(111)
     this.setState({ passwordAdded: true, saving: true, passwordError: false, password, show: false })
     createNotification('password');
   }
