@@ -1,30 +1,26 @@
-import React, { Component } from 'react';
-import { Icon } from 'antd';
-import PropTypes from 'prop-types'
-import './style.css';
+import {
+  NotificationManager
+} from 'react-notifications';
 
-export default class Notification extends Component {
-  state = {
-    saved: true,
+const createNotification = (type) => {
+  switch (type) {
+    case 'password':
+      NotificationManager.success('Password added successfully. Save all Changes Now', 'Great');
+      break;
+    case 'success':
+      NotificationManager.success('Added successfully', 'Good!');
+      break;
+    case 'warning':
+      NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+      break;
+    case 'error':
+      NotificationManager.error('Oops', 'Something went wrong!', 5000, () => {
+        alert('callback');
+      });
+      break;
+    default:
+      return;
   }
+};
 
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ saved: false })
-    }, 4000);
-  }
-
-
-
-  render() {
-    return (
-      <div className={this.state.saved ? 'users__notification-div' : 'users__notification-div hidden'}>
-        <Icon className='users__notification-icon users__notification-icon-saved' type="check-circle" />
-        <span className='users__notification-msg'>{this.props.notification}</span>
-      </div>
-    )
-  }
-
-}
-
+export default createNotification;
