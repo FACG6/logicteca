@@ -1,6 +1,7 @@
 .projects__main {
   width: 80%;
   margin: 0 auto;
+  padding-top: 25vh;
 }
 .ant-btn-primary {
   background-color: #3f7baa;

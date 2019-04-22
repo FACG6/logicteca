@@ -80,7 +80,7 @@ export default class index extends Component {
     return (
       <section className="main">
         <div className="main--div">
-          <h1 className="main--h1">Create Project: </h1>
+          <h1 className="main--h1">Edit Project: </h1>
           <form onSubmit={this.handleSubmit} className="main--form">
             <label className="main-label" htmlFor="name">
               <h3 className="main-h3">
