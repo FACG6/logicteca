@@ -1,10 +1,12 @@
+.projects__main {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 25vh;
+}
 .ant-btn-primary {
   background-color: #3f7baa;
 }
-.button--caption {
-  color: white;
-}
-.project__page--button-and-search-container {
+.projects__button-and-search-container {
   width: 100%;
   display: flex;
   flex-flow: row;
@@ -14,4 +16,43 @@
 .projects__page--container {
   width: 80%;
   margin: 0 auto;
+}
+.projects__table {
+  width: 100%;
+  margin: 0 auto;
+}
+.projects__table--edit {
+  visibility: hidden;
+  margin-left: 20px;
+}
+.projects__row {
+  position: relative;
+}
+.projects__row:hover .projects__table--edit {
+  visibility: visible;
+
+  cursor: pointer;
+}
+.table__menu--item-span {
+  margin-left: 10px;
+}
+.projects__table th {
+  background-color: #3f7baa !important;
+  color: #ffff !important;
+}
+.projects__table ant-table-column-sorter-inner {
+  color: #ffff !important;
+}
+
+.projects__table tr:nth-child(even) {
+  background-color: rgba(213, 238, 241, 0.3);
+}
+.projects__table--row-link {
+  color: rgba(0, 0, 0, 0.65);
+}
+.projects__table--row-link:hover {
+  color: #3f7baa;
+}
+.ant-table-column-sorter-inner {
+  color: white !important;
 }

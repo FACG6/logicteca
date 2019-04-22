@@ -1,24 +1,24 @@
 import React, { Component } from "react";
 import { Table } from "antd";
 import "./style.css";
-import filterData from "./logic";
+import { filterIdMember, filterData } from "./logic";
 
 export default class TableMember extends Component {
   state = {
-    member: require("./member.json"),
-    filterArray: [],
+    member: this.props.member,
+    filterArray: filterData(this.props.member),
     pagination: false,
-    rowSelection: {
-      onChange: selectedRows => {
-        this.props.handleCheck({
-          row: selectedRows
-        });
-      }
-    },
     scroll: { y: 400 }
   };
+
   componentDidMount() {
-    this.setState({ filterArray: filterData(this.state.member) });
+    if (this.props.teamMember) {
+      const selectedRowKeys = filterIdMember(this.props.teamMember);
+      this.setState({ selectedRowKeys: selectedRowKeys });
+      this.props.handleCheck({
+        row: selectedRowKeys
+      });
+    }
   }
 
   columns = [
@@ -49,8 +49,24 @@ export default class TableMember extends Component {
     }
   ];
   render() {
-    const { pagination, rowSelection, scroll, filterArray } = this.state;
-    const columns = this.columns
+    // console.log(this.state.selectedRowKeys)
+    const {
+      pagination,
+      selectedRowKeys,
+      scroll,
+      filterArray,
+      member
+    } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: selectedRows => {
+        this.props.handleCheck({
+          row: selectedRows
+        });
+        this.setState({ selectedRowKeys: selectedRows });
+      }
+    };
+    const columns = this.columns;
     columns[0].filters = filterArray[1];
     columns[1].filters = filterArray[2];
 
@@ -60,8 +76,8 @@ export default class TableMember extends Component {
         pagination={pagination}
         rowSelection={rowSelection}
         scroll={scroll}
-        columns={this.columns}
-        dataSource={this.state.member}
+        columns={columns}
+        dataSource={member}
         rowClassName="table-font-row"
         className="table-font-header"
       />
