@@ -1,24 +1,7 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './style.css';
+import React from "react";
+import { Input } from "antd";
+const SearchFor = Input.Search;
 
-export default class Search extends Component {
-  state = {
-    input: ' '
-  };
-  render() {
-    return (
-      <div className="search">
-        <button className="search__btn" type="submit">
-          <FontAwesomeIcon className="search__icon" icon="search" />
-        </button>
-        <input
-          className="search__input"
-          type="text"
-          placeholder="  Search.."
-          name="search"
-        />
-      </div>
-    );
-  }
+export default function Search(props) {
+  return <SearchFor onChange={props.onChange} style={{ width: 250 }} />;
 }
