@@ -62,7 +62,8 @@ class Scrum extends Component {
       //Edit Task
       const newTask = event.target.value;
       const taskId = record.id;
-      const clonedTasks = JSON.parse(JSON.stringify(tasks));
+      // const clonedTasks = JSON.parse(JSON.stringify(tasks));
+      const clonedTasks = [...tasks];
       const updateTask = clonedTasks.find(task => task.id === taskId);
       updateTask[column] = newTask;
 
