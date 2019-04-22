@@ -12,6 +12,8 @@ import {
   NotificationContainer,
 } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import Search from '../commonComponents/search/index';
+import searchLogic from '../commonComponents/search/logic';
 
 const users = require('../../utils/users.json');
 
@@ -32,6 +34,8 @@ class Users extends Component {
     show: false,
     passwordAdded: false,
     error: '',
+    search: false,
+    searchResults: [],
   };
 
   hideFocus = (event) => {
@@ -45,6 +49,12 @@ class Users extends Component {
       users,
     });
   }
+
+  handleSearch = e => {
+    const { value } = e.target;
+    const newData = searchLogic(value, this.state.users);
+    this.setState({ search: true, searchResults: newData });
+  };
 
   handleEditUserInfo = (event, record, columnName) => {
     const { users } = this.state;
@@ -67,7 +77,7 @@ class Users extends Component {
   };
 
   validateUserInfo = user => {
-    this.setState({ saving: true, error: '' });
+    this.setState({ error: '' });
     if (user['user_name'].length < 3) {
       this.setState({ error: 'Username should consist of at least 3 characters' });
       return false;
@@ -85,7 +95,6 @@ class Users extends Component {
     //Then update users in the state//
     //change message//
     this.setState({ users });
-    createNotification('success');
   };
 
   addRow = () => {
@@ -247,8 +256,11 @@ class Users extends Component {
     columns[2].filters = filter(this.state.users).roleOptions;
 
     return (
-      <>
-        <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
+      <main className='users__main'>
+        <div className='users__header'>
+          <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
+          <Search onChange={e => this.handleSearch(e)} />
+        </div>
         <NotificationContainer />
         {this.state.error ? (
           <Error errorClass='users__error--wd-70' errorMsg={this.state.error} />
@@ -257,14 +269,14 @@ class Users extends Component {
         ) : null}
         <Table
           rowKey={record => record.id}
-          dataSource={this.state.users}
+          dataSource={this.state.search ? this.state.searchResults : this.state.users}
           columns={columns}
           pagination={false}
           rowClassName="users__row"
           className="users__table"
         />
         {this.state.show ? <Form submitPassword={this.handlePassword} cancel={this.cancel} /> : null}
-      </>
+      </main>
     );
   }
 }
