@@ -10,7 +10,7 @@ export function Filter(tasks) {
           assignees = [],
           assigneesFilters=[];
 
-    tasks.map(task => {
+    tasks.forEach(task => {
       const { task_name, action_type, priority, status, assignee } = task;
 
       if( task_name && tasks_names.indexOf(task_name) === -1){
