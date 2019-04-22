@@ -1,4 +1,5 @@
  @import url('https://fonts.googleapis.com/css?family=Lato');
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -6,7 +7,8 @@
 }
 
 body {
-    min-height: 60rem
+    min-height: 60rem;
+    font-family: 'Lato', Courier, monospace;
 }
 
 .project__page--container {
@@ -54,18 +56,14 @@ body {
     border-left: none;
 }
 
-/* li:first-child {
-    border-left: 1px solid #3f7baa;
-} */
-
 .active, .Project__scrum--link:hover { 
     background: #3f7baa;
     color: #fff;
 }
+
 .Project__scrum--link:hover{
     font-size: 1rem;
 }
-
 
 .Project__scrum{
     margin-top: -4rem
@@ -78,14 +76,10 @@ body {
  
 .tasks__table {
     width: 100%;
-    margin: 0 auto;
-}
-
-.tasks__table {
-    width: 100%;
     text-align: left;
     border-radius: 4px 4px 0 0;
     border-collapse: collapse;
+    margin: 0 auto;
 }
 
 .tasks__table tr:nth-child(even) {
@@ -164,3 +158,5 @@ body {
 .tasks__table tr:nth-child(odd) .actionType__select {
     background: rgb(213, 238, 241, 0.3);
 }
+
+
