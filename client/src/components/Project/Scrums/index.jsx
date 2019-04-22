@@ -16,6 +16,7 @@ class Scrum extends Component {
         saved: false,
         taskDescriptionErr: false,
         rowSelected: null,
+        newTask: false,
     }
 
     componentDidMount() {
@@ -23,22 +24,21 @@ class Scrum extends Component {
     }
 
     handleAddNewTask = () => {
-      return (
-          this.setState({
-          tasks: [...tasks, { 
-              id: tasks.length + 1, 
-              task_name: '', 
-              task_description: '', 
-              action_type: 'testing' ,
-              priority:'',
-              est_time:'',
-              remaining_time:'',
-              status:'in progress',
-              assignee:'',
-              ticket:''
-          }],
-        })
-      )
+      this.setState( prevState => {
+        const newTask = [...prevState.tasks, {
+          id: tasks.length + 1, 
+          task_name: '', 
+          task_description: '', 
+          action_type: 'testing' ,
+          priority:'',
+          est_time:'',
+          remaining_time:'',
+          status:'in progress',
+          assignee:'',
+          ticket:''
+          }];
+          return { tasks: newTask, newTask: true }
+        });
     };
 
     handleAddTask = (event, column) => {
@@ -54,7 +54,7 @@ class Scrum extends Component {
       const { tasks } = this.state;
 
       //Add a new task
-      if (record.id === tasks[tasks.length - 1].id) {
+      if (record.id === tasks[tasks.length - 1].id || this.state.newTask) {
         this.setState({ saving: true, saved: false })
         return this.handleAddTask(event, column);
       }
@@ -80,14 +80,14 @@ class Scrum extends Component {
       this.setState({ taskDescriptionErr: false });
       if (task['task_description'].length < 1) {
         this.setState({ taskDescriptionErr: true });
-        return false;
       }
     }
 
     handleDeleteTask = (event) => {
       const { tasks, rowSelected } = this.state;
-      const deletedTask = tasks.filter(task => task.id === rowSelected)[0];
+      const deletedTask = tasks.filter(task => task.id === rowSelected);
       this.deleteSwal(deletedTask);
+      //fetch witth deletedTask
     }
 
     deleteSwal = () => {
@@ -98,16 +98,6 @@ class Scrum extends Component {
         showCancelButton: true,
         className:'deletTaskSwal'
       })
-    };
-
-    showSwal = deletedTask => {
-      this.deleteSwal().then(response => {
-        if (response.value) this.confirmDelete(deletedTask);
-      });
-    };
-
-    confirmDelete = deletedTask => {
-      //Fetch 
     };
 
       columns = [
@@ -133,7 +123,6 @@ class Scrum extends Component {
                 <ActionTypeSelect onChange={event => this.handleEditTask(event, record, 'action_type')} defaultValue={record.action_type} />
               );
             },
-            filters: Filter(this.state.tasks).actionsFilters,
             onFilter: (value, record) => record['action_type'] === value
           },
           {
@@ -149,7 +138,6 @@ class Scrum extends Component {
                 />
               );
             },
-            filters: Filter(this.state.tasks).prioritiesFilters,
             onFilter: (value, record) => record['priority'] === value
           },
           {
@@ -188,7 +176,6 @@ class Scrum extends Component {
                 <StatusSelect onChange={event => this.handleEditTask(event, record, 'status')} defaultValue={record.status} />
               );
             },
-            filters: Filter(this.state.tasks).statusFilters,
             onFilter: (value, record) => record['status'] === value
           },
           {
@@ -204,7 +191,6 @@ class Scrum extends Component {
                 />
               );
             },
-            filters: Filter(this.state.tasks).assigneesFilters,
             onFilter: (value, record) => record['assignee'] === value,
             sorter: (a, b) => Sort(a, b, 'assignee'),
           },
@@ -233,6 +219,12 @@ class Scrum extends Component {
           ];
           render(){
             const columns = this.columns;
+            const { tasks } = this.state;
+            columns[1].filters = Filter(tasks).actionsFilters; 
+            columns[2].filters = Filter(tasks).prioritiesFilters;
+            columns[5].filters = Filter(tasks).statusFilters;
+            columns[6].filters = Filter(tasks).assigneesFilters;
+
             if (this.state.saved) {
               setTimeout(() => {
                 this.setState({ saved: false})
@@ -241,9 +233,7 @@ class Scrum extends Component {
           return(
           <React.Fragment>
             <section className='Scrum__page--container'>
-              {/* <h2> {this.state.scrumName} </h2> */}
               <div className='Scrum__header'>
-                <h2 className='Scrum__name'> Scrum Name </h2>
                 <Button type="primary" icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
               </div>
               {/* notification */}
