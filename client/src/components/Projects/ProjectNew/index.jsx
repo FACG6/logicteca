@@ -95,7 +95,7 @@ export default class index extends Component {
               </div>
               <div className="main-memberSelect">
                 <TableMember
-                  member={require("./../ProjectNew/TableMember/member.json")}
+                  member={require("./../../commonComponents/TableMember/member.json")}
                   handleCheck={this.handleCheck}
                 />
               </div>

@@ -20,7 +20,7 @@ export default class index extends Component {
 
   componentDidMount() {
     // fetch project information by take project id from this.props.match.projectId
-    const projectInf = require("./TableMember/projects.json")[0];
+    const projectInf = require("./../../commonComponents/TableMember/projects.json")[0];
     this.setState({
       project: projectInf,
       newProject: {
@@ -119,7 +119,7 @@ export default class index extends Component {
                     projectId={projectId}
                     handleCheck={this.handleCheck}
                     teamMember={this.state.project.teamMember}
-                    member={require("./../ProjectNew/TableMember/member.json")}
+                    member={require("./../../commonComponents/TableMember/member.json")}
                   />
                 )}
               </div>
