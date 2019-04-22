@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Icon } from 'antd';
+import Swal from 'sweetalert2';
 import Editable from 'react-contenteditable';
 import {StatusSelect, ActionTypeSelect} from './select/index';
 import { Sort } from './utilis/sort';
@@ -9,7 +10,12 @@ const tasks = require('./utilis/tasks');
 class Scrum extends Component {
     state = {
         tasks: [],
-        html: ''
+        html: '',
+        newRow: {},
+        saving: false,
+        saved: false,
+        taskDescriptionErr: false,
+        rowSelected: null,
     }
 
     componentDidMount() {
@@ -33,38 +39,81 @@ class Scrum extends Component {
           }],
         })
       )
+    };
+
+    handleAddTask = (event, column) => {
+      const newTask = event.target.value;
+      this.setState(prevState => {
+        const clonedTasks = JSON.parse(JSON.stringify(prevState.tasks));
+        clonedTasks[clonedTasks.length - 1][column] = newTask;
+        return { tasks: clonedTasks, newRow: clonedTasks[clonedTasks.length - 1] };
+      });
+    };
+
+    handleEditTask = (event, record, column) => {
+      const { tasks } = this.state;
+
+    //Adding a new task
+    if (record.id === tasks[tasks.length - 1].id) {
+      this.setState({ saving: true, saved: false })
+      return this.handleAddTask(event, column);
     }
 
-    handleEditTask = (event) => this.setState({html: event.target.value}) 
+    //Editing Task//
+    const newTask = event.target.value;
+    const taskId = record.id;
+    const clonedTasks = JSON.parse(JSON.stringify(tasks));
+    const updateTask = clonedTasks.find(task => task.id === taskId);
+    updateTask[column] = newTask;
+
+    //Validate
+    if (this.validateTask(updateTask)) {
+      this.updateTasks(updateTask, clonedTasks);
+    }
+
+    };
+
+    updateTasks = (task, tasks) => {
+      this.setState({ tasks, saved: true });
+    };
+
+    validateTask = (task) => {
+      this.setState({ taskDescriptionErr: false });
+      if (task['task_description'].length < 1) {
+        this.setState({ taskDescriptionErr: true });
+        return false;
+      }
+    }
+
+    handleDeleteTask = (event) => {
+      // console.log(8888888);
+      const { tasks, rowSelected } = this.state;
+      const deletedTask = tasks.filter(task => task.id === rowSelected)[0];
+      // delete notification 
+      this.deleteSwal(deletedTask);
+    }
+
+    deleteSwal = () => {
+      return Swal.fire({
+        type: 'warning',
+        text: 'Are you sure to delete this task?',
+        showConfirmButton: true,
+        showCancelButton: true,
+        className:'deletTaskSwal'
+      })
+    }
 
     render(){
       
         const columns = [
           {
-            title: 'Task Name',
-            dataIndex: 'task_name',
-            render: (value, record) => {
-              return (
-                <Editable
-                  html={value}
-                  onChange={this.handleEditTask}
-                  tagName="span"
-                  className="tasks__cell"
-                />
-              );
-            },
-            sorter: (a, b) => Sort(a, b, 'task_name'),
-            filters: Filter(this.state.tasks).namesFilters,
-            onFilter: (value, record) => record['task_name'] === value
-          },
-          {
-            title: 'Description',
+            title: 'Task',
             dataIndex: 'task_description',
             render: (value, record) => {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'task_description')}
                   tagName="span"
                   className="tasks__cell description"
                 />
@@ -76,7 +125,7 @@ class Scrum extends Component {
             dataIndex: 'action_type',
             render: (value, record) => {
               return (
-                <ActionTypeSelect defaultValue={record.action_type} />
+                <ActionTypeSelect onChange={event => this.handleEditTask(event, record, 'action_type')} defaultValue={record.action_type} />
               );
             },
             filters: Filter(this.state.tasks).actionsFilters,
@@ -89,7 +138,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'priority')}
                   tagName="span"
                   className="tasks__cell priority"
                 />
@@ -105,12 +154,13 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'est_time')}
                   tagName="span"
-                  className="tasks__cell"
+                  className="tasks__cell estimate_time"
                 />
               );
             },
+            // className:'estimate_time_col'
           },
           {
             title: 'Remaining Time (hr)',
@@ -119,9 +169,9 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'remaining_time')}
                   tagName="span"
-                  className="tasks__cell"
+                  className="tasks__cell remaining_time"
                 />
               );
             },
@@ -131,7 +181,7 @@ class Scrum extends Component {
             dataIndex: 'status',
             render: (value, record) => {
               return (
-                <StatusSelect defaultValue={record.status} />
+                <StatusSelect onChange={event => this.handleEditTask(event, record, 'status')} defaultValue={record.status} />
               );
             },
             filters: Filter(this.state.tasks).statusFilters,
@@ -144,7 +194,7 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'assignee')}
                   tagName="span"
                   className="tasks__cell"
                 />
@@ -161,10 +211,21 @@ class Scrum extends Component {
               return (
                 <Editable
                   html={value}
-                  onChange={this.handleEditTask}
+                  onChange={event => this.handleEditTask(event, record, 'ticket')}
                   tagName="span"
                   className="tasks__cell"
                 />
+              );
+            },
+          },
+          // column of delete
+          {
+            render: () => {
+              return (
+                // <button onClick={this.handleDeleteTask}>
+                  // <Icon type="setting" theme="filled" onClick={this.handleDeleteTask}/>
+                  <Icon type="delete" onClick={this.handleDeleteTask}/>
+                // {/* </button> */}
               );
             },
           }
