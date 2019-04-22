@@ -124,9 +124,16 @@
   border-radius: 5px;
   text-align: center;
   display: block;
-  margin: 1rem 0 0 15%;
+  margin: 1rem 0 2rem 15%;
 }
 
 .users__add-button:hover{
   background: #4b83af;
 }
+
+.focus--input{
+  outline: -webkit-focus-ring-color auto 5px;
+  border-radius: 5px;
+}
+
+

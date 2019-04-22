@@ -12,6 +12,7 @@ import Notification from './notification/index'
 const users = require('../../utils/users.json');
 
 class Users extends Component {
+
   state = {
     users: [],
     nameOptions: [],
@@ -21,12 +22,18 @@ class Users extends Component {
     password: '',
     passwordError: false,
     rowSelected: null,
+    rowAdded: false,
     newRow: {},
     saving: false,
     saved: false,
     show: false,
     passwordAdded: false,
+    error: '',
   };
+
+  hideFocus = (event) => {
+    event.target.className = 'users__cell'
+  }
 
   componentDidMount() {
     //Fetch to get users from database//
@@ -38,7 +45,6 @@ class Users extends Component {
 
   handleEditUserInfo = (event, record, columnName) => {
     const { users } = this.state;
-
     //Adding a new user
     if (record.id === users[users.length - 1].id) {
       this.setState({ saving: true, saved: false })
@@ -51,6 +57,7 @@ class Users extends Component {
     const clonedUsers = JSON.parse(JSON.stringify(users));
     const updatedUser = clonedUsers.find(user => user.id === memberId);
     updatedUser[columnName] = newValue;
+    console.log(updatedUser);
 
     //Validate
     if (this.validateUserInfo(updatedUser)) {
@@ -59,16 +66,16 @@ class Users extends Component {
   };
 
   validateUserInfo = user => {
-    this.setState({ fullNameError: false, userNameError: false });
+    this.setState({ saving: true, error: '' });
     if (user['user_name'].length < 3) {
-      this.setState({ userNameError: true });
+      this.setState({ error: 'Username should consist of at least 3 characters' });
       return false;
     }
     if (user['full_name'].length < 6) {
-      this.setState({ fullNameError: true });
+      this.setState({ error: 'Full Name should consist of at least 6 characters' });
       return false;
     }
-    this.setState({ userNameError: false, fullNameError: false });
+    this.setState({ error: '' });
     return true;
   };
 
@@ -81,9 +88,9 @@ class Users extends Component {
 
   addRow = () => {
     this.setState((prevState) => {
-      const clonedUsers = prevState.users;
-      const newUsers = clonedUsers.concat({ id: users[users.length - 1].id + 1, user_name: `Username ${users.length}`, full_name: `FullName ${users.length}`, role: 'developer' })
-      return {users: newUsers}
+      const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
+      const newUsers = clonedUsers.concat({ id: clonedUsers[clonedUsers.length - 1].id + 1, user_name: '', full_name: '', role: 'developer' })
+      return { users: newUsers, rowAdded: true }
     })
   }
 
@@ -102,7 +109,7 @@ class Users extends Component {
   };
 
   handlePassword = (password) => {
-    this.setState({ passwordAdded: true, passwordError: false, password, show: false })
+    this.setState({ passwordAdded: true, saving: true, passwordError: false, password, show: false })
   }
 
   cancel = () => {
@@ -110,15 +117,14 @@ class Users extends Component {
   }
 
   saveNewUser = () => {
-    const { newRow, password } = this.state;
+    const { newRow, password, users } = this.state;
     if (this.validateUserInfo(newRow)) {
       if (password) {
 
         //fetch...this is the row
         const addedRow = { user_name: newRow.user_name, full_name: newRow.full_name, password }
-
         //Add new row to the table
-        this.setState({ passwordAdded: false, passwordError: false, saving: false, saved: true });
+        this.setState({ rowAdded: false, passwordAdded: false, passwordError: false, saving: false, saved: true });
       } else {
         this.setState({ passwordError: true });
       }
@@ -145,6 +151,7 @@ class Users extends Component {
   handleRow = id => {
     this.setState({ rowSelected: id });
   };
+
   columns = [
     {
       title: 'Username',
@@ -152,10 +159,12 @@ class Users extends Component {
       render: (value, record) => {
         return (
           <Editable
+            onBlur={this.hideFocus}
+            innerRef={this.textInput}
             html={value}
             onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
             tagName="span"
-            className="users__cell"
+            className={this.state.rowAdded && record.id === this.state.users.length ? `users__cell focus--input` : 'users__cell '}
           />
         );
       },
@@ -172,6 +181,7 @@ class Users extends Component {
             onChange={event => this.handleEditUserInfo(event, record, 'full_name')}
             tagName="span"
             className="users__cell"
+
           />
         );
       },
@@ -190,15 +200,17 @@ class Users extends Component {
     {
       title: 'Action',
       render: record => {
-        if (record.id === this.state.users.length) {
-          return (
-            <div className='users__last-cell'>
-              {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
-                <button className='users__btn users__btn--change-pass'>Change Pass</button>}
-              {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
-                : <button className='users__btn users__btn--save hidden'>Save</button>}
-            </div>
-          )
+        if (this.state.rowAdded) {
+          if (record.id === this.state.users.length) {
+            return (
+              <div className='users__last-cell'>
+                {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
+                  <button className='users__btn users__btn--change-pass'>Change Pass</button>}
+                {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
+                  : <button className='users__btn users__btn--save hidden'>Save</button>}
+              </div>
+            )
+          }
         }
         return (
           <Dropdown
@@ -224,24 +236,15 @@ class Users extends Component {
     const columns = this.columns;
     columns[0].filters = filter(this.state.users).nameOptions;
     columns[2].filters = filter(this.state.users).roleOptions;
-
-    if (this.state.saved || this.state.passwordAdded) {
-      setTimeout(() => {
-        this.setState({ saved: false, passwordAdded: false })
-      }, 4000);
-    }
-
-
+    
     return (
       <>
         <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
-        {this.state.userNameError ? (
-          <Error errorClass='users__error--wd-70' errorMsg='Username should consist of at least 3 characters' />
-        ) : this.state.fullNameError ? (
-          <Error errorClass='users__error--wd-70' errorMsg='Full Name should consist of at least 6 characters' />
+        {this.state.error ? (
+          <Error errorClass='users__error--wd-70' errorMsg={this.state.error} />
         ) : this.state.passwordError ? (
           <Error errorClass='users__error--wd-70' errorMsg='Please add Password' />
-        ) : this.state.saved ? <Notification notification='Saved' /> : this.state.passwordAdded ? <Notification notification='Password was added successfully. Save all changes after you finish!' /> : <Notification notificationClass='hidden' />}
+        ) : this.state.saved ? <Notification notification='Saved' /> :<></>}
         <Table
           rowKey={record => record.id}
           dataSource={this.state.users}
