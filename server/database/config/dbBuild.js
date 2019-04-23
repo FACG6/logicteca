@@ -6,7 +6,7 @@ const sql = readFileSync(path.join(__dirname, 'dbBuild.sql')).toString();
 
 const buildDB = () => connect.query(sql);
 
-buildDB(sql)
+buildDB()
   .then(() => true)
   .catch(err => console.log(err));
 
