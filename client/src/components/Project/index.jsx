@@ -56,7 +56,7 @@ class Scrums extends Component {
 
   }
 
-  scrumTitleChange = (scrumNewName) => {
+  handleScrumName = (scrumNewName) => {
     const scrumValue = scrumNewName;
     const scrumId = this.props.match.params.scrumId;
     this.setState((prevState) => {
@@ -87,7 +87,7 @@ class Scrums extends Component {
             tagName='h2'
             html={''}
           />
-          <Scrum scrumTitleChange={this.scrumTitleChange} params={this.props.match.params} scrumId={scrumId} />
+          <Scrum scrumName={this.handleScrumName} params={this.props.match.params} scrumId={scrumId} />
         </section>
       </React.Fragment>
     );
