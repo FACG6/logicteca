@@ -17,7 +17,7 @@ CREATE TABLE projects(
     id uuid DEFAULT uuid_generate_v4(),
     name VARCHAR NOT NULL,
     description TEXT,
-    created_at date,
+    created_at date NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY(id)
 );
 
