@@ -1,5 +1,4 @@
 const test = require('tape');
-const connect = require('../../server/database/config/connection');
 const selectAllProject = require('./../../server/database/queries/selectProjects');
 
 test('test query for all projests', (t) => {
