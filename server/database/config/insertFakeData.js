@@ -18,7 +18,6 @@ Promise.all([selectAllUser(), selectAllProject()])
     });
 
     let count = 0;
-
     projects.forEach((project) => {
       count += 1;
       connect.query('insert into scrums (name,project_id) values ($1,$2)', [
