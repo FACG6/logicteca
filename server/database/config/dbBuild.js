@@ -4,13 +4,10 @@ const connect = require('./connection');
 
 const sql = readFileSync(path.join(__dirname, 'dbBuild.sql')).toString();
 
-const DBRun = cb => connect.query(sql, (err) => {
-  cb(err);
-});
+const buildDB = file => connect.query(file);
 
-DBRun((err) => {
-  if (err) console.log('err', err);
-  else console.log('DB built');
-});
+buildDB(sql)
+  .then(() => true)
+  .catch(err => console.log(err));
 
-module.exports = DBRun;
+module.exports = buildDB;
