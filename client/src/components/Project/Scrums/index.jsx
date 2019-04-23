@@ -198,7 +198,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={value?value:''}
             onChange={event => this.handleEditTask(event, record, 'spent_time')}
             tagName="span"
             className="tasks__cell spent_time"
