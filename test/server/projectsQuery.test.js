@@ -18,7 +18,7 @@ test('test query for all projests', (t) => {
         t.deepEqual(
           Object.keys(firstProject),
           ['id', 'name', 'description', 'created_at'],
-          'there is no projects in data base',
+          'correct data',
         );
         t.end();
       }
