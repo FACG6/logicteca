@@ -3,11 +3,11 @@ import React from 'react';
 function StatusSelect({ defaultValue, onChange }) {
   return (
     <select className="status__select" defaultValue={defaultValue} onChange={onChange}>
-      <option id="1" value="completed">Completed</option>
-      <option id="2" value="toDo">To Do</option>
-      <option id="3" value="inProgress">In Progress</option>
-      <option id="4" value="inReview">In Review</option>
-      <option id="5" value="requestChange">Request Change</option>
+      <option id="1" value="Completed">Completed</option>
+      <option id="2" value="To Do">To Do</option>
+      <option id="3" value="In Progress">In Progress</option>
+      <option id="4" value="Review">Review</option>
+      <option id="5" value="Request Changes">Request Change</option>
     </select>
   );
 };
