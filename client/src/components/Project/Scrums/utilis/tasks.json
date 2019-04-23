@@ -1,68 +1,66 @@
-[
-  {
-    "id": 1, 
+[{
+    "id": 1,
     "task_name": "DB",
     "task_description": "Create schema database",
-    "action_type":"coding",
+    "action_type": "coding",
     "priority": "0",
     "est_time": "2",
+    "spent_time": "1",
     "remaining_time": "2",
-    "status":"completed",
-    "assignee":"Ali",
+    "status": "completed",
+    "assignee": "Ali",
     "ticket": "url"
   },
   {
     "id": 2,
     "task_name": "login",
     "task_description": "Create schema database",
-    "action_type":"coding",
+    "action_type": "coding",
     "priority": "3",
     "est_time": "2",
+    "spent_time": "0.5",
     "remaining_time": "2",
-    "status":"to do",
-    "assignee":"Ahmed",
+    "status": "to do",
+    "assignee": "Ahmed",
     "ticket": "url"
   },
   {
     "id": 3,
     "task_name": "sign up",
     "task_description": "Create schema database",
-    "action_type":"coding",
-    "priority":"2",
+    "action_type": "coding",
+    "priority": "2",
     "est_time": "2",
+    "spent_time": "1",
     "remaining_time": "2",
-    "status":"completed",
-    "assignee":"Israa",
+    "status": "completed",
+    "assignee": "Israa",
     "ticket": "url"
   },
   {
     "id": 4,
     "task_name": "project page",
     "task_description": "Create schema database",
-    "action_type":"in progress",
+    "action_type": "in progress",
     "priority": "1",
     "est_time": "4",
+    "spent_time": "2",
     "remaining_time": "2",
-    "status":"completed",
-    "assignee":"Ameen",
+    "status": "completed",
+    "assignee": "Ameen",
     "ticket": "url"
   },
   {
-    "id":5,
+    "id": 5,
     "task_name": "DB",
     "task_description": "Create schema database",
-    "action_type":"coding",
+    "action_type": "coding",
     "priority": "1",
     "est_time": "8",
+    "spent_time": "8",
     "remaining_time": "5",
-    "status":"completed",
-    "assignee":"Mohannad",
+    "status": "completed",
+    "assignee": "Mohannad",
     "ticket": "url"
   }
-  ]
-  
-  
-
-
-  
-  
+]
