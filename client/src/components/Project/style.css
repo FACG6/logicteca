@@ -4,7 +4,8 @@
   padding-top: 6rem
 }
 
-.Project__name, .Scrum__name {
+.Project__name,
+.Scrum__name {
   display: inline-block;
   color: #3f7baa;
 }
@@ -19,89 +20,109 @@
   font-family: 'Lato';
 }
 
-.Project__addScrum__btn, .Scrum__addTask__btn{
+/* .Project__addScrum__btn{
   margin-left: 1rem;
+} */
+
+.project__tab-container {
+  display: flex;
+  align-items: center;
 }
 
-.Project__tabs{
-  list-style: none;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
-  min-height: 2rem
+.scrums__add-icon {
+  margin-bottom: 1rem;
+  align-self: center;
 }
 
-.Project__tab{
-  float: left;
+.scrums__add-icon svg {
+  font-size: 1.6rem;
+  margin-left: 1rem;
+  color: rgb(0, 0, 0, 0.8);
+  cursor: pointer;
 }
+
+.Project__tab {
+  display: flex;
+  flex-wrap: wrap;
+  width: 95%;
+}
+
+.Project__button {
+  height: 36px;
+  min-width: 65px;
+  background-color: #fafafa;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  margin-right: 2px;
+  border-radius: 3px;
+  padding: 3px;
+  align-items: center;
+  display: flex;
+}
+
+.scrums__close-icon svg {
+  font-size: 13px;
+  color: rgba(0, 0, 0, .45);
+  padding: 1px;
+  transition: all .3s;
+}
+
 
 .Project__scrum--link {
-  border: 1px solid #3f7baa;
+  font-size: 13px;
+  color: rgba(0, 0, 0, .7);
+}
+
+.Project__button:hover a {
   color: #3f7baa;
-  font-size: 1rem;
-  padding: 0.9rem;
-  border-right: none;
-  border-left: none;
 }
 
-.active, .Project__scrum--link:hover { 
-  background: #3f7baa;
-  color: #fff;
-}
-
-.Project__scrum--link:hover{
-  font-size: 1rem;
-}
-
-.Project__scrum{
-  margin-top: -4rem
-}
-
-.Scrum__header {
-  margin-top: 8rem;
-  margin-bottom: 2rem;
+.Project__button:hover .scrums__close-icon svg {
+  color: rgba(0, 0, 0, .6);
 }
 
 .tasks__table {
   width: 100%;
-  text-align: left;
   border-radius: 4px 4px 0 0;
   border-collapse: collapse;
-  margin: 0 auto;
+  margin-bottom: 8rem;
 }
 
 .tasks__table tr:nth-child(even) {
   background: rgb(213, 238, 241, 0.3);
 }
 
-.tasks__table th:last-child{
+.tasks__table th:last-child {
   text-align: center;
   padding: 0;
 }
 
-.ant-table-thead > tr > th, 
-.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover, 
-.ant-table-thead > tr > th 
-.anticon-filter, 
-.ant-table-thead > tr > th .ant-table-filter-icon:hover,
-.ant-table-thead > tr > th, 
-.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover, 
-.ant-table-thead > tr > th .anticon-filter, 
-.ant-table-thead > tr > th .ant-table-filter-icon:hover {
+.ant-table-thead>tr>th,
+.ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-sorters:hover,
+.ant-table-thead>tr>th .anticon-filter,
+.ant-table-thead>tr>th .ant-table-filter-icon:hover,
+.ant-table-thead>tr>th,
+.ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-sorters:hover,
+.ant-table-thead>tr>th .anticon-filter,
+.ant-table-thead>tr>th .ant-table-filter-icon:hover {
   background: #3f7baa;
   color: #fff
 }
 
-.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters:hover ,
-.anticon-filter:hover, 
-.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters:hover,
-.ant-table-filter-icon:hover
-.ant-dropdown-menu-item:hover, 
+.ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-filters:hover,
+.anticon-filter:hover,
+.ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-filters:hover,
+.ant-table-filter-icon:hover .ant-dropdown-menu-item:hover,
 .ant-dropdown-menu-submenu-title:hover {
   color: #fff;
   background: #3f7baa;
 }
 
-.status__select, .actionType__select {
+.status__select,
+.actionType__select {
   background: #fff;
   border: none;
   padding: 1rem
@@ -119,11 +140,14 @@
   width: 11rem;
 }
 
-.priority, .estimate_time, .remaining_time {
+.priority,
+.estimate_time,
+.remaining_time {
   text-align: center;
 }
 
-.status__select, .actionType__select {
+.status__select,
+.actionType__select {
   padding: 0;
 }
 
@@ -131,9 +155,11 @@
   width: 6.8rem;
 }
 
-.Project__addScrum__btn, .Scrum__addTask__btn{
+.Project__addScrum__btn,
+.Scrum__addTask__btn {
   background: #3f7baa;
   border: none;
+  margin-bottom: 2rem;
 }
 
 .tasks__table tr:nth-child(even) .status__select,
@@ -146,4 +172,6 @@
   background: rgb(213, 238, 241, 0.3);
 }
 
-
+.Scrum__page--container {
+  margin-top: 3rem;
+}
