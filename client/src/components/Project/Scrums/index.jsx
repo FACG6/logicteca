@@ -15,7 +15,7 @@ class Scrum extends Component {
     saving: false,
     taskDescriptionErr: '',
     newTask: false,
-    scrumTitle: '',
+    scrumName: '',
     projectTeam: [],
   }
 
@@ -26,7 +26,7 @@ class Scrum extends Component {
     const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
     const scrumName = scrumObject.scrumName;
     //Fetch to get the scrum name and its task //
-    this.setState({ projectTeam, scrumTitle: scrumName, tasks: require('./utilis/tasks') })
+    this.setState({ projectTeam, scrumName, tasks: require('./utilis/tasks') })
   }
 
   componentDidUpdate(prevProp, prevState) {
@@ -36,7 +36,7 @@ class Scrum extends Component {
       const scrumObject = scrums.find(scrum => scrum.id == scrumId);
       const scrumName = scrumObject.scrumName;
       //Fetch to get the scrum name and its task //
-      this.setState({ scrumTitle: scrumName, tasks: require('./utilis/tasks') })
+      this.setState({ scrumName, tasks: require('./utilis/tasks') })
     }
 
   }
@@ -54,7 +54,7 @@ class Scrum extends Component {
         status: 'in progress',
         assignee: '',
         ticket: '',
-        scrumTitle: '',
+        scrumName: '',
       }];
       return { tasks: newTask, newTask: true }
     });
@@ -133,8 +133,8 @@ class Scrum extends Component {
 
   handleChangeScrum = (event) => {
     const scrumNewName = event.target.value;
-    this.setState({ scrumTitle: scrumNewName });
-    this.props.scrumTitleChange(scrumNewName);
+    this.setState({ scrumName: scrumNewName });
+    this.props.scrumName(scrumNewName);
   }
 
   columns = [
@@ -212,7 +212,7 @@ class Scrum extends Component {
       render: (value, record) => {
         const remaining = calculate(record['est_time'], record['spent_time']);
         return (
-          <span className="tasks__cell remaining_time" onChange={event => this.handleEditTask(event, record, 'remaining_time')}>{remaining ? remaining : 0}</span>
+          <span className="tasks__cell remaining_time" onChange={event => this.handleEditTask(event, record, 'remaining_time')}>{remaining!=='notvalid' ? remaining : 0}</span>
         );
       },
     },
@@ -269,7 +269,7 @@ class Scrum extends Component {
     return (
       <React.Fragment>
         <Editable
-          html={this.state.scrumTitle}
+          html={this.state.scrumName}
           tagName='span'
           onChange={this.handleChangeScrum}
         />
