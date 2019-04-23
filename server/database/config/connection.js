@@ -4,7 +4,7 @@ require('dotenv').config();
 
 let { DB_URL } = process.env;
 if (process.env.NODE_ENV === 'testdb' || process.env.NODE_ENV === 'test') {
-  DB_URL = process.env.HEROKU_POSTGRESQL_TEAL_URL;
+  DB_URL = process.env.HEROKU_POSTGRESQL_COBALT_URL;
 } else if (process.env.NODE_ENV === 'dev') {
   DB_URL = process.env.DATABASE_LOCAL;
 }
