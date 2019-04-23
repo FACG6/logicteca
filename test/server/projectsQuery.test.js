@@ -15,15 +15,15 @@ test('test query for all projests', (t) => {
     .then((res) => {
       if (res) {
         const firstProject = res[0];
-        t.equal(
+        t.deepEqual(
           Object.keys(firstProject),
-          ['id', 'name', 'description', 'created_at '],
+          ['id', 'name', 'description', 'created_at'],
           'there is no projects in data base',
         );
         t.end();
       }
     })
-    .chatch((error) => {
+    .catch((error) => {
       t.error(error);
     });
 });
