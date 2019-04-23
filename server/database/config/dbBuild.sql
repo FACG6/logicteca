@@ -1,6 +1,8 @@
 BEGIN;
 DROP TABLE IF EXISTS users, users_projects, projects, scrums, tasks CASCADE;
-DROP TYPE act_type ;
+DROP TYPE IF EXISTS act_type;
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
     id SERIAL  PRIMARY KEY,
@@ -11,22 +13,23 @@ CREATE TABLE users(
 );
 
 CREATE TABLE projects(
-    id SERIAL  PRIMARY KEY,
+    id uuid DEFAULT uuid_generate_v4(),
     name VARCHAR NOT NULL,
     description TEXT,
-    created_at date
+    created_at date,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE users_projects(
     id SERIAL PRIMARY KEY,
-    project_id INTEGER REFERENCES projects(id),
+    project_id uuid REFERENCES projects(id),
     user_id INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE scrums(
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL, 
-    project_id INTEGER REFERENCES projects(id)
+    project_id uuid REFERENCES projects(id)
 );
 
 CREATE TYPE act_type AS ENUM ('DEVELOPPER, SCRUM MASTER', 'CLIENT');

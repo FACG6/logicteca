@@ -8,11 +8,8 @@ if (process.env.NODE_ENV === 'testdb' || process.env.NODE_ENV === 'test') {
 } else if (process.env.NODE_ENV === 'dev') {
   DB_URL = process.env.DATABASE_LOCAL;
 }
-
 const info = url.parse(DB_URL);
-
 const [user, password] = info.auth.split(':');
-
 const options = {
   host: info.hostname,
   port: info.port,
@@ -21,7 +18,7 @@ const options = {
   user,
   password,
   ssl: process.env.hostname !== 'localhost',
-  idleTimeoutMillis: 1000
+  idleTimeoutMillis: 1000,
 };
 
 module.exports = new Pool(options);
