@@ -4,7 +4,7 @@ const connect = require('./connection');
 
 const sql = readFileSync(path.join(__dirname, 'dbBuild.sql')).toString();
 
-const buildDB = file => connect.query(file);
+const buildDB = () => connect.query(sql);
 
 buildDB(sql)
   .then(() => true)
