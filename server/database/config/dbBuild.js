@@ -4,9 +4,8 @@ const connect = require('./connection');
 
 const sql = readFileSync(path.join(__dirname, 'dbBuild.sql')).toString();
 
-const DBRun = cb => connect.query(sql, (err, res) => {
-  if (err) cb(err);
-  cb(null, res);
+const DBRun = cb => connect.query(sql, (err) => {
+  cb(err);
 });
 
 DBRun((err) => {
