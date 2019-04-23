@@ -18,7 +18,7 @@ import Projects from "./components/Projects";
 import ProjectNew from "./components/Projects/ProjectNew";
 import ProjectEdit from "./components/Projects/ProjectEdit";
 import Users from "./components/Users";
-import Scrum from "./components/scrum";
+import Project from "./components/Project/index";
 import PageNotFound from "./components/PageNotFound";
 
 library.add(
@@ -57,8 +57,13 @@ class App extends Component {
               />
               <Route
                 exact
+                path="/project/:projectId"
+                component={Project}
+              />
+              <Route
+                exact
                 path="/project/:projectId/:scrumId"
-                component={Scrum}
+                component={Project}
               />
               <Route exact path="/users" component={Users} />
               <Route component={PageNotFound} />
