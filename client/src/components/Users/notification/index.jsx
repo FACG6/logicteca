@@ -13,6 +13,9 @@ const createNotification = (type) => {
     case 'row exist':
       NotificationManager.error('Please, save the previous member before adding a new one!', null, 5000);
       break;
+    case 'task exist':
+      NotificationManager.error('Please, save the previous task before adding a new one!', null, 5000);
+      break;
     case 'error':
       NotificationManager.error('Oops', 'Something went wrong!')
       break;

@@ -1,0 +1,66 @@
+[{
+    "id": 1,
+    "task_name": "DB",
+    "task_description": "Create schema database",
+    "action_type": "Coding",
+    "priority": "0",
+    "est_time": "2",
+    "spent_time": "1",
+    "remaining_time": "2",
+    "status": "In Progress",
+    "assignee": "Ali",
+    "ticket": "url"
+  },
+  {
+    "id": 2,
+    "task_name": "login",
+    "task_description": "Create schema database",
+    "action_type": "Coding",
+    "priority": "3",
+    "est_time": "2",
+    "spent_time": "0.5",
+    "remaining_time": "2",
+    "status": "Review",
+    "assignee": "Ahmed",
+    "ticket": "url"
+  },
+  {
+    "id": 3,
+    "task_name": "sign up",
+    "task_description": "Create schema database",
+    "action_type": "Coding",
+    "priority": "2",
+    "est_time": "2",
+    "spent_time": "1",
+    "remaining_time": "2",
+    "status": "Completed",
+    "assignee": "Israa",
+    "ticket": "url"
+  },
+  {
+    "id": 4,
+    "task_name": "project page",
+    "task_description": "Create schema database",
+    "action_type": "Testing",
+    "priority": "1",
+    "est_time": "4",
+    "spent_time": "2",
+    "remaining_time": "2",
+    "status": "Request Changes",
+    "assignee": "Ameen",
+    "ticket": "url"
+  },
+  {
+    "id": 5,
+    "task_name": "DB",
+    "task_description": "Create schema database",
+    "action_type": "Fix Bugs",
+    "priority": "1",
+    "est_time": "8",
+    "spent_time": "8",
+    "remaining_time": "5",
+    "status": "To Do",
+    "assignee": "Mohannad",
+    "ticket": "url"
+  }
+]
