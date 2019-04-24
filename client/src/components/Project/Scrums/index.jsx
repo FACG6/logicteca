@@ -299,8 +299,8 @@ class Scrum extends Component {
     {
       render: record => {
           return (
-            <span>
-             <Icon type="delete" onClick={() => this.handleDeleteTask(record.id)} />
+            <span className='tasks__delete-span'>
+             <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
              <button onClick={this.handleSaveNewTask} className={
               this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving? 'tasks__save-btn': 'tasks__save-btn hidden'
              }>Save</button>
@@ -323,10 +323,11 @@ class Scrum extends Component {
           html={this.state.scrumName}
           tagName='span'
           onChange={this.handleChangeScrum}
+          className='scrum__name'
         />
         <section className='Scrum__page--container'>
           <div className='Scrum__header'>
-            <Button type="primary" icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
+            <Button icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
           </div>
           {this.state.error?<span className='tasks__error'>{this.state.error}</span>:<span></span>}
           <Table columns={columns}
@@ -335,6 +336,7 @@ class Scrum extends Component {
             pagination={false}
             rowClassName="tasks__row"
             className="tasks__table"
+            scroll={{x: true}}
           />
         </section>
       </React.Fragment>

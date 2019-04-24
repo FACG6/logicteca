@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Icon } from "antd";
 import Scrum from "./Scrums/index";
 import Editable from 'react-contenteditable'
@@ -79,14 +79,10 @@ class Scrums extends Component {
           </div>
           <div className='project__tab-container'>
             <div className='Project__tab'>
-              {scrums.length !== 0 ? scrums.map(index => <button key={index.id} className='Project__button'><Link to={`/project/${projectId}/${index.id}`} className='Project__scrum--link'> {index.scrumName} </Link><Icon onClick={() => this.handleDeleteScrum(index.id)} type="close" className='scrums__close-icon' /></button>) : <button></button>}
+              {scrums.length !== 0 ? scrums.map(index => <button key={index.id} className='Project__button'><NavLink to={`/project/${projectId}/${index.id}`} className='Project__scrum--link'> {index.scrumName}</NavLink><Icon onClick={() => this.handleDeleteScrum(index.id)} type="close" className='scrums__close-icon' /></button>) : <button></button>}
               <Icon className='scrums__add-icon' type="plus-circle" onClick={this.handleAddScrum} />
             </div>
           </div>
-          <Editable
-            tagName='h2'
-            html={''}
-          />
           <Scrum scrumName={this.handleScrumName} params={this.props.match.params} scrumId={scrumId} />
         </section>
       </React.Fragment>
