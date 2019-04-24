@@ -43,10 +43,32 @@ class Scrum extends Component {
       //Fetch to get the scrum name and its task //
       this.setState({ scrumName, tasks: require('./utilis/tasks') })
     }
-
   }
 
   handleAddNewTask = () => {
+    if(this.state.newTask){
+      createNotification('task exist');
+      return;
+    }
+    if(this.state.tasks.length){
+      this.setState(prevState => {
+        const newTask = [...prevState.tasks, {
+          id: '1',
+          task_name: '',
+          task_description: '',
+          action_type: 'testing',
+          priority: '',
+          est_time: '',
+          remaining_time: '',
+          status: 'in progress',
+          assignee: '',
+          ticket: '',
+          scrumName: '',
+        }];
+        return { tasks: newTask, newTask: true }
+      });
+      return;
+    }
     this.setState(prevState => {
       const newTask = [...prevState.tasks, {
         id: this.state.tasks.length + 1,
