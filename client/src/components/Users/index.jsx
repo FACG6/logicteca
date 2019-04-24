@@ -70,10 +70,9 @@ class Users extends Component {
     const updatedUser = clonedUsers.find(user => user.id === memberId);
     updatedUser[columnName] = newValue;
 
-    //Validate
-    if (this.validateUserInfo(updatedUser)) {
-      this.updateUserInfo(updatedUser, clonedUsers);
-    }
+    //Update
+    this.updateUserInfo(updatedUser, clonedUsers);
+
   };
 
   validateUserInfo = user => {
@@ -99,6 +98,10 @@ class Users extends Component {
 
   addRow = () => {
     this.setState((prevState) => {
+      if (this.state.rowAdded) {
+        createNotification('row exist');
+        return;
+      }
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
       const newUsers = clonedUsers.concat({ id: clonedUsers[clonedUsers.length - 1].id + 1, user_name: '', full_name: '', role: 'developer' })
       return { users: newUsers, rowAdded: true }
@@ -147,8 +150,9 @@ class Users extends Component {
 
   handleDeleteUser = event => {
     const { users, rowSelected } = this.state;
-    const deletedRow = users.filter(user => user.id === rowSelected)[0];
-    this.showSwal(deletedRow);
+    const deletedRow = users.find(user => user.id === rowSelected);
+    const rowId = deletedRow.id;
+    this.showSwal(rowId);
   };
 
   showSwal = deleteMember => {
@@ -159,6 +163,9 @@ class Users extends Component {
 
   confirmDelete = deleteMember => {
     //Fetch deleteMember to delete from datatabase
+    const { users } = this.state;
+    const filterRows = users.filter((user) => user.id !== deleteMember);
+    this.setState({ users: filterRows });
     //Update state//
   };
 
@@ -219,7 +226,7 @@ class Users extends Component {
       width: '20%',
       render: record => {
         if (this.state.rowAdded) {
-          if (record.id === this.state.users.length) {
+          if (record.id === this.state.users[this.state.users.length - 1].id) {
             return (
               <div className='users__last-cell'>
                 {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
