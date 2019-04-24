@@ -1,3 +1,4 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
 require('./server/selectUsers');
+require('./server/projectsQuery.test');
+require('./server/projectDetailsQuery.test');
+require('./server/scrumTasks.test');
