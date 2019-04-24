@@ -3,13 +3,8 @@ const url = require('url');
 require('dotenv').config();
 
 let { DB_URL } = process.env;
-<<<<<<< HEAD
-if (process.env.NODE_ENV === 'testdb' || process.env.NODE_ENV === 'test') {
-  DB_URL = process.env.DB_TRAVIS;
-=======
 if (process.env.NODE_ENV === 'test') {
-  DB_URL = process.env.HEROKU_POSTGRESQL_TEAL_URL;
->>>>>>> ddc806fa979d538c0f13547754607f7343dbb366
+  DB_URL = process.env.DB_TRAVIS;
 } else if (process.env.NODE_ENV === 'dev') {
   DB_URL = process.env.DATABASE_LOCAL;
 }
