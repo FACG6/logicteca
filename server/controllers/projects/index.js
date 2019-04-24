@@ -1,16 +1,19 @@
 const router = require('express').Router();
-const {
-  getProject, getProjects, putProject, deleteProject, postProject,
-} = require('./projects');
+
+const { getProjects } = require('./getProjects');
+const { getProject } = require('./getProject');
+const { deleteProject } = require('./deleteProject');
+const { post } = require('./post');
+const { put } = require('./put');
 
 router.route('/').get(getProjects);
 
 router
   .route('/:projectId')
   .get(getProject)
-  .put(putProject)
+  .put(put)
   .delete(deleteProject);
 
-router.route('/new').post(postProject);
+router.route('/new', post);
 
 module.exports = router;

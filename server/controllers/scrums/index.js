@@ -1,16 +1,19 @@
 const router = require('express').Router();
-const {
-  getScrums, getTasks, putScrum, deleteScrum, postScrum,
-} = require('./scrums');
+
+const { getScrums } = require('./getScrums');
+const { deleteScrum } = require('./deleteScrum');
+const { getTasks } = require('./getTasks');
+const { put } = require('./put');
+const { post } = require('./post');
 
 router.route('/').get(getScrums);
 
 router
   .route('/:scrumId')
   .get(getTasks)
-  .put(putScrum)
+  .put(put)
   .delete(deleteScrum);
 
-router.route('/new').post(postScrum);
+router.route('/new').post(post);
 
 module.exports = router;
