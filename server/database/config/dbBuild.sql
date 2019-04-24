@@ -5,7 +5,7 @@ DROP TYPE IF EXISTS act_type;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
-   id uuid DEFAULT uuid_generate_v4(),
+    id uuid DEFAULT uuid_generate_v4(),
     user_name VARCHAR NOT NULL,
     full_name VARCHAR,
     password TEXT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE scrums(
     PRIMARY KEY(id)
 );
 
-CREATE TYPE act_type AS ENUM ('DEVELOPPER, SCRUM MASTER', 'CLIENT');
+CREATE TYPE act_type AS ENUM ('DEVELOPPER', 'SCRUM MASTER', 'CLIENT');
 
 CREATE TABLE tasks(
     id uuid DEFAULT uuid_generate_v4(),
