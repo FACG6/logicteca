@@ -15,10 +15,10 @@ function StatusSelect({ defaultValue, onChange }) {
 function ActionTypeSelect({ team, defaultValue, onChange }) {
   return (
     <select className="actionType__select" defaultValue={defaultValue} onChange={onChange}>
-      <option id="1" value="coding">Coding</option>
-      <option id="2" value="testing">Testing</option>
-      <option id="3" value="changes">Changes</option>
-      <option id="4" value="fixBugs">Fix Bugs</option>
+      <option id="1" value="Coding">Coding</option>
+      <option id="2" value="Testing">Testing</option>
+      <option id="3" value="Changes">Changes</option>
+      <option id="4" value="Fix Bugs">Fix Bugs</option>
     </select>
   );
 };
