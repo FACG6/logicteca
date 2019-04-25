@@ -11,7 +11,13 @@ test('Request projects route', (t) => {
       if (err) {
         t.error(err);
       } else {
-        //
+        const result = JSON.parse(res.text);
+        t.deepEqual(Object.keys(result), ['data', 'error'], 'returned correct object structure');
+        t.deepEqual(
+          Object.keys(result.data[0]),
+          ['id', 'name', 'description', 'created_at'],
+          'returned correct data structure',
+        );
         t.end();
       }
     });
