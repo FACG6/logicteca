@@ -4,7 +4,7 @@ DROP TYPE IF EXISTS act_type;
 
 CREATE TABLE users(
     id SERIAL  PRIMARY KEY,
-    user_name VARCHAR NOT NULL,
+    user_name VARCHAR NOT NULL UNIQUE,
     full_name VARCHAR,
     password TEXT NOT NULL,
     role TEXT
