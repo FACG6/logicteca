@@ -6,10 +6,9 @@ exports.post = (request, response) => {
   const schema = joi.object().keys({
     name: joi.string(),
     dsescription: joi.string(),
-    row: joi.array().items(joi.string()),
   });
   const { name, dsescription, row } = request.body;
-  const result = joi.validate({ name, dsescription, row }, schema);
+  const result = joi.validate({ name, dsescription }, schema);
 
   if (result.error === null) {
     insertProject(name, dsescription)

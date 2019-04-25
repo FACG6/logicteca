@@ -14,7 +14,7 @@ const insertProjectUsers = (projectID, arrayUserID) => connect.query(`INSERT INT
                                                                     AS
                                                                       projectid,
                                                                     UNNEST 
-                                                                      ($2::uuid[])
+                                                                      ($2::numeric[])
                                                                     AS
                                                                       userid 
                                                                     RETURNING
