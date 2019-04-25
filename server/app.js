@@ -1,14 +1,14 @@
 const express = require('express');
-const cookie = require('cookie-parser');
+const Cookie = require('cookie-parser');
 const { join } = require('path');
 
-const router = require('./controllers');
+const { router } = require('./router/index');
 
 const app = express();
 
 app.use(express.json());
 
-app.use(cookie());
+app.use(Cookie());
 
 app.set('port', process.env.PORT || 5000);
 
