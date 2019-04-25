@@ -5,5 +5,3 @@ INSERT INTO users (user_name,full_name,password,role) VALUES ('ahmed','Ahmed Sha
 INSERT INTO projects (name,description) VALUES ('logicteca','Custom built task management system');
 INSERT INTO projects (name,description) VALUES ('AMIDEAST','connecting students with our different programs has been a challenge');
 INSERT INTO projects (name) VALUES ('Digital Cloud');
-
-COMMIT;
