@@ -6,7 +6,7 @@ test('Request projects route', (t) => {
   request(app)
     .get('/api/v1/projects')
     .expect(200)
-    .expect('Content-Type', 'application/json')
+    .expect('Content-Type', /json/)
     .end((err, res) => {
       if (err) {
         t.error(err);
