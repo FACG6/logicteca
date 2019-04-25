@@ -11,8 +11,5 @@ if (process.env.NODE_ENV === 'test') {
 
 const buildDB = () => connect.query(sql);
 
-buildDB()
-  .then(() => true)
-  .catch(err => console.log(err));
 
 module.exports = buildDB;
