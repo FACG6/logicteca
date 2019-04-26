@@ -1,14 +1,12 @@
 const deleteUser = require('../../database/queries/deleteUser');
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = (req, res, next) => {
   const { userId } = req.params;
   deleteUser(userId)
     .then((results) => {
       if (results.rowCount) {
         res.send({ error: null, data: results.rows[0].id });
-      } else {
-        res.status(401).send({ error: { status: 401, msg: 'No user available with this id' } });
-      }
+      } else next({ code: 401 });
     })
-    .catch(() => res.send({ error: { code: 500, msg: 'Internal Server Error' }, data: null }));
+    .catch(error => next(error));
 };
