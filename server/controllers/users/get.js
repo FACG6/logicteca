@@ -4,6 +4,6 @@ exports.get = (req, res) => {
   selectUsers()
     .then(response => response.rows)
     .then((users) => {
-      res.send(users);
+      res.send({ error: null, data: users });
     });
 };

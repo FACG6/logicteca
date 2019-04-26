@@ -1,1 +1,3 @@
-exports.getProject = (req, res) => res.send('single project get');
+exports.getProject = (req, res) => {
+  res.send('single project page');
+};
