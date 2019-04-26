@@ -3,7 +3,7 @@ const selectScrumTasks = require('../../database/queries/selectScrumTasks');
 exports.getTasks = (req, res) => {
   selectScrumTasks(req.params.scrumId)
     .then(result => res.send(result.rows))
-    .catch(err => res.send({ errMsg: err }));
+    .catch(err => res.send({ msg: err, statusCode: 500 }));
 };
 
 // const connect = require('../../database/config/connection');
