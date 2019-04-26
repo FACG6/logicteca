@@ -5,8 +5,6 @@ const buildDB = require('../../server/database/config/dbBuild');
 const connect = require('../../server/database/config/connection');
 
 buildDB();
-  // .then( () => console.log(true))
-  // .catch( err => console.log(err))
 
 const selectScrum = () => {
   const getScrums = {
@@ -15,13 +13,15 @@ const selectScrum = () => {
   return connect.query(getScrums);
 };
 
+// // selectScrum()
+// //   .then(result => console.log(result.rows));
+
 test('Testing for api/v1/scrums/:scrumId route', (t) => {
   selectScrum()
     .then((result) => {
       console.log(9999999, result);
       supertest(route)
         .get(`api/v1/scrums/${result.rows[0].id}`)
-        // .get('api/v1/scrums/:scrumId')
         .expect(200)
         .expect('content-type', /html/)
         .end((err, res) => {
