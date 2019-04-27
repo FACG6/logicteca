@@ -28,10 +28,13 @@ test('Testing insertTask query function', (t) => {
     assigned_to: 1,
   };
   selectScrum()
+    // .then(res => console.log(111, res.rows[0].id))
     .then(res => newTask.scrum_id = res.rows[0].id)
     .then(() => {
+      // console.log(222, newTask);
       insertTasks(newTask)
         .then((result) => {
+          // console.log(333, result.rows[0]);
           t.deepEqual(Object.keys(result.rows[0]), columns, 'Should return the row of the task');
           t.end();
         })
