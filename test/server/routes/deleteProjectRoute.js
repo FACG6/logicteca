@@ -1,7 +1,7 @@
 const request = require('supertest');
 const test = require('tape');
-const app = require('../../server/app');
-const connection = require('../../server/database/config/connection');
+const app = require('../../../server/app');
+const connection = require('../../../server/database/config/connection');
 
 connection
   .query('insert into projects (name, description) values ($1, $2) returning id', [
@@ -10,7 +10,6 @@ connection
   ])
   .then((result) => {
     const projectId = result.rows[0].id;
-
     test('Request delete project route', (t) => {
       request(app)
         .delete(`/api/v1/projects/${projectId}`)
