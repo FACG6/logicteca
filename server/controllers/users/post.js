@@ -11,7 +11,7 @@ exports.post = (req, res, next) => {
     .then(user => checkUser(user.user_name))
     .then((results) => {
       if (results.rowCount) {
-        return res.send({ error: { code: 401, msg: 'UserName is already taken' } });
+        return res.status(401).send({ error: { code: 401, msg: 'UserName is already taken' } });
       } return true;
     })
     .then(() => insertUser(req.body))
