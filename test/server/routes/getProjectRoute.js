@@ -7,7 +7,7 @@ connection
   .query('select * from projects limit 1')
   .then((result) => {
     const projectId = result.rows[0].id;
-    test('Request projects route', (t) => {
+    test('Request project route', (t) => {
       request(app)
         .get(`/api/v1/projects/${projectId}`)
         .expect(200)
