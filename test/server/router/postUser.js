@@ -40,7 +40,7 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
   supertest(app)
     .post('/api/v1/users/new')
     .send(user)
-    .expect(401)
+    .expect(422)
     .expect('content-type', /json/)
     .end((err, response) => {
       if (err) t.error(err);
