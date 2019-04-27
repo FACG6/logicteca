@@ -17,5 +17,8 @@ test('test getUsers database Query', (t) => {
       );
       t.end();
     })
-    .catch(err => t.error(err));
+    .catch((err) => {
+      t.error(err);
+      t.end();
+    });
 });
