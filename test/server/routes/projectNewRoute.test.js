@@ -1,7 +1,7 @@
 const test = require('tape');
 const request = require('supertest');
-const connect = require('./../../../server/database/config/connection');
-const app = require('./../../../server/app');
+const connect = require('../../../server/database/config/connection');
+const app = require('../../../server/app');
 // query for dynamic test
 const selectOneUser = () => connect.query('select id from users LIMIT 1');
 

@@ -7,5 +7,5 @@ build()
   .then(() => require('./server/projectDetailsQuery.test'))
   .then(() => require('./server/projectNewQuery.test'))
   .then(() => require('./server/scrumTasks.test'))
-  .then(() => require('./server/router/projectNewRoute.test'))
+  .then(() => require('./server/routes/projectNewRoute.test'))
   .catch(err => console.log(err));
