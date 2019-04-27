@@ -40,9 +40,10 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
   supertest(app)
     .post('/api/v1/users/new')
     .send(user)
-    .expect(200)
+    .expect(401)
     .expect('content-type', /json/)
     .end((err, response) => {
+      console.log(response);
       if (err) t.error(err);
       t.deepEqual(response.body.error.msg, error, 'User name is already taken');
       t.end();
