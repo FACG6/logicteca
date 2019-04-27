@@ -16,8 +16,8 @@ exports.post = (request, response) => {
         const newProjectID = res.rows[0].id;
         return insertProjectUsers(newProjectID, row);
       })
-      .then(() => {
-        response.send({ error: null, data: [{ msg: 'add new project successfully' }] });
+      .then((res) => {
+        response.send({ error: null, data: [{ msg: res.rows[0] }] });
       })
       .catch(error => response.send({ error, data: null }));
   } else {
