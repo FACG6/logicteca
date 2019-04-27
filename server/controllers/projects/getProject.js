@@ -1,12 +1,5 @@
 const selectProjectDetails = require('../../database/queries/selectProjectDetails');
-
-const refactorData = (data) => {
-  const userId = [];
-  data.forEach(element => userId.push(element.user_id));
-  const newData = data[0];
-  newData.user_id = userId;
-  return newData;
-};
+const refactorData = require('./helper');
 
 exports.getProject = (req, res, next) => {
   const { projectId } = req.params;
