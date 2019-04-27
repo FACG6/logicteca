@@ -10,7 +10,7 @@ const selectUser = () => {
 };
 
 selectUser()
-  .then(results => console.log(777, results))
+  .then(results => console.log(777, results.rows))
   .catch(err => console.log(err));
 
 // test('Testing for api/v1/tasks/new route', (t) => {
