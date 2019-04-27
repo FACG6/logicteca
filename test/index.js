@@ -4,6 +4,7 @@ const fakeData = require('./../server/database/config/insertFakeData');
 
 build()
   .then(() => fakeData())
+  .then(() => require('./server/routes/insertTaskRoute'))
   .then(() => require('./server/projectDetailsQuery.test'))
   .then(() => require('./server/projectNewQuery.test'))
   .then(() => require('./server/scrumTasks.test'))
