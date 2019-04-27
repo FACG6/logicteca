@@ -11,7 +11,7 @@ test("testing 'api/v1/users' route", (t) => {
     .expect('content-type', /json/)
     .end((err, response) => {
       if (err) t.error(err);
-      t.deepEqual(Object.keys(response.body[0]), columns, 'should contain: id, username, fullname and role');
+      t.deepEqual(Object.keys(response.body.data[0]), columns, 'should contain: id, username, fullname and role');
       t.end();
     });
 });
