@@ -8,4 +8,6 @@ build()
   .then(() => require('./server/projectNewQuery.test'))
   .then(() => require('./server/scrumTasks.test'))
   .then(() => require('./server/routes/projectNewRoute.test'))
+  .then(() => require('./server/insertNewTask'))
+  .then(() => require('./server/routes/projectEditRoute.test'))
   .catch(err => console.log(err));

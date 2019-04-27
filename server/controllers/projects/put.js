@@ -8,13 +8,13 @@ exports.put = (request, response, next) => {
     name: joi.string(),
     dsescription: joi.string(),
   });
-  const { name, dsescription, row } = request.body;
+  const {
+    name, dsescription, projectId, row,
+  } = request.body;
   const result = joi.validate({ name, dsescription }, schema);
-
   if (!result.error) {
-    updateProject(name, dsescription)
+    updateProject(name, dsescription, projectId)
       .then((res) => {
-        console.log(res)
         const newProjectID = res.rows[0].id;
         deleteProjectUsers(newProjectID);
         return newProjectID;

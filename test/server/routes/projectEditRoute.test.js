@@ -6,9 +6,10 @@ const app = require('../../../server/app');
 const selectOneProject = () => connect.query('select id from projects LIMIT 1');
 const selectOneUser = () => connect.query('select id from users LIMIT 1');
 
-test('post in /api/v1/projects/:projectId (with valid data)', (t) => {
+test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
   Promise.all([selectOneProject(), selectOneUser()])
     .then((res) => {
+      // console.log(res);
       if (res.rowCount !== 0) {
         return { projectId: res[0].rows[0].id, userId: res[1].rows[0].id };
       }
@@ -17,6 +18,7 @@ test('post in /api/v1/projects/:projectId (with valid data)', (t) => {
       return false;
     })
     .then((Ids) => {
+      // console.log(Ids);
       const { projectId, userId } = Ids;
       request(app)
         .put(`/api/v1/projects/${projectId}`)
@@ -24,11 +26,11 @@ test('post in /api/v1/projects/:projectId (with valid data)', (t) => {
           name: 'logicteca',
           dsescription: 'Custom built task management system',
           row: [userId],
+          projectId,
         })
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          // console.log(res.text)
           if (err) {
             t.error(err);
           } else if (res.text.error) {
@@ -37,7 +39,7 @@ test('post in /api/v1/projects/:projectId (with valid data)', (t) => {
             t.deepEqual(
               Object.keys(res.body.data),
               ['id', 'project_id', 'user_id'],
-              'add project and it users sucssfully',
+              'update project and it users sucssfully',
             );
             t.end();
           }
