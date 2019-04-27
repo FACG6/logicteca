@@ -31,9 +31,9 @@ test('post in /api/v1/projects/new (with valid data)', (t) => {
           } else if (res.text.error) {
             t.error(res.text.error);
           } else {
-            t.equal(
-              res.text.includes('add new project successfully'),
-              true,
+            t.deepEqual(
+              Object.keys(res.body.data),
+              ['id', 'project_id', 'user_id'],
               'add project and it users sucssfully',
             );
             t.end();

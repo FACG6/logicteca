@@ -2,7 +2,7 @@ const joi = require('joi');
 
 const { insertProject, insertProjectUsers } = require('./../../database/queries/insertProject');
 
-exports.post = (request, response) => {
+exports.post = (request, response, next) => {
   const schema = joi.object().keys({
     name: joi.string(),
     dsescription: joi.string(),
@@ -17,10 +17,10 @@ exports.post = (request, response) => {
         return insertProjectUsers(newProjectID, row);
       })
       .then((res) => {
-        response.send({ error: null, data: [{ msg: res.rows[0] }] });
+        response.send({ error: null, data: res.rows[0] });
       })
-      .catch(error => response.send({ error, data: null }));
+      .catch(error => next(error));
   } else {
-    response.status(400).send({ error: result.error, data: null });
+    next({ code: 400 });
   }
 };
