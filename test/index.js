@@ -5,4 +5,5 @@ build()
   .then(() => fakeData())
   .then(() => require('./server/selectUsers'))
   .then(() => require('./server/routes/getUsers'))
+  .then(() => require('./server/routes/getProjectsRoute'))
   .catch(err => console.log(err));
