@@ -47,7 +47,7 @@ CREATE TABLE tasks(
     date_to_commit date,
     review_and_test_note TEXT, 
     scrum_id INTEGER REFERENCES scrums(id) on delete CASCADE,
-    assigned_to INTEGER
+    assigned_to VARCHAR
 );
 
 
