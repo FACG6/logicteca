@@ -10,7 +10,7 @@ const selectScrum = () => {
   return connect.query(getScrums);
 };
 
-test('Testing for api/v1/scrums/:scrumId route', (t) => {
+test('Testing for /api/v1/scrums/:scrumId route', (t) => {
   const columns =  [ 'id', 'action_type', 'status', 'modules', 'description', 'estimated_time', 'spent_time', 'priority', 'initial_test_status', 'ticket', 'notes', 'total_efforts', 'date_to_commit', 'review_and_test_note', 'scrum_id', 'assigned_to', 'user_name', 'role'];
   selectScrum()
     .then((result) => {
