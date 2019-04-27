@@ -14,5 +14,4 @@ router
   .put(put)
   .delete(deleteUser);
 
-
 module.exports = router;
