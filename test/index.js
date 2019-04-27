@@ -9,4 +9,5 @@ build()
   .then(() => require('./server/scrumTasks.test'))
   .then(() => require('./server/router/projectNewRoute.test'))
   .then(() => require('./server/insertNewTask'))
+  .then(() => require('./server/routes/deleteProjectRoute'))
   .catch(err => console.log(err));
