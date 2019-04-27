@@ -5,11 +5,10 @@ const updateUser = require('../../server/database/queries/updateUser');
 
 test('test getUsers database Query', (t) => {
   const newUserInfo = { user_name: 'Israa', role: 'scrum', full_name: 'al Akhsham' };
-  selectId('Israa')
+  selectId()
     .then(response => response.rows[0].id)
     .then(id => updateUser(newUserInfo, id))
     .then((user) => {
-      t.equal(typeof user.rows[0], 'object', 'return object');
       t.equal(
         Object.keys(user.rows[0]).length,
         5,
