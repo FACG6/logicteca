@@ -8,12 +8,12 @@ const { put } = require('./put');
 
 router.route('/').get(getProjects);
 
+router.route('/new').post(post);
+
 router
   .route('/:projectId')
   .get(getProject)
   .put(put)
   .delete(deleteProject);
-
-router.route('/new', post);
 
 module.exports = router;
