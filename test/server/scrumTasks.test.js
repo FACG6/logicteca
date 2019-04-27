@@ -54,6 +54,7 @@ test('test query for scrum tasks', (t) => {
     })
     .catch((error) => {
       t.error(error);
+      t.end();
     });
 });
 
