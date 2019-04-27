@@ -27,6 +27,9 @@ test('test query for projest details', (t) => {
               'correct data',
             );
             t.end();
+          })
+          .catch((error) => {
+            t.error(error);
           });
       } else {
         t.equal(dynamicData.rowCount === 0, true, 'there is no project in data base');
