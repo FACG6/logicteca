@@ -8,7 +8,7 @@ exports.getProjects = (req, res, next) => {
         data: result,
         error: null,
       };
-      return res.send(projectsData);
+      res.send(projectsData);
     })
     .catch(e => next(e));
 };
