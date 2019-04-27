@@ -7,7 +7,7 @@ const selectScrumTasks = scrumId => connect.query(`SELECT
                                                   INNER JOIN
                                                     users
                                                   ON
-                                                    users.id = tasks.assigned_to
+                                                    users.user_name = tasks.assigned_to
                                                   WHERE
                                                    tasks.scrum_id=$1;`, [scrumId]);
 
