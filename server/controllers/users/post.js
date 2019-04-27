@@ -11,13 +11,13 @@ exports.post = (req, res, next) => {
     .then(user => checkUser(user.user_name))
     .then((results) => {
       if (results.rowCount) {
-        return res.status(401).send({ error: { code: 401, msg: 'UserName is already taken' } });
+        return res.status(422).send({ error: { code: 401, msg: 'UserName is already taken' } });
       } return true;
     })
     .then(() => insertUser(req.body))
     .then((response) => {
       if (response.rowCount) return res.send({ error: null, data: response.rows[0] });
-      return next({ code: 401 });
+      return next({ code: 422 });
     })
     .catch(error => next(error));
 };
