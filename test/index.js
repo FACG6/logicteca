@@ -9,5 +9,5 @@ build()
   .then(() => require('./server/scrumTasks.test'))
   .then(() => require('./server/routes/projectNewRoute.test'))
   .then(() => require('./server/insertNewTask'))
-  .then(() => require('./server/routes/projectEditRoute.test'))
+  .then(() => require('./server/routes/projectEditRoute.test')) // last test in select and insert
   .catch(err => console.log(err));
