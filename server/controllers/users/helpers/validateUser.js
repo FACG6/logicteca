@@ -14,5 +14,5 @@ module.exports = (req, res, next) => {
   const user = req.body;
   Joi.validate(user, schema)
     .then(() => next())
-    .catch(() => next({ code: 401 }));
+    .catch(() => next({ code: 422 }));
 };
