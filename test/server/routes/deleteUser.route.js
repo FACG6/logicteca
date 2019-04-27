@@ -11,7 +11,6 @@ test('testing /users/:userId', (t) => {
         .expect(200)
         .expect('content-type', /json/)
         .end((err, response) => {
-          console.log(response.body.data, results.rows[0].id);
           if (err) t.error(err);
           t.equal(response.body.data, results.rows[0].id, 'should be equal');
           t.end();
