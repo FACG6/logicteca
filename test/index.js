@@ -11,13 +11,8 @@ build()
   .then(() => require('./server/projectDetailsQuery.test'))
   .then(() => require('./server/routes/deleteScrumRoute'))
   .then(() => require('./server/projectNewQuery.test'))
-<<<<<<< HEAD
   .then(() => require('./server/scrumTasks.test'))
   .then(() => require('./server/routes/projectNewRoute.test'))
   .then(() => require('./server/insertNewTask'))
   .then(() => require('./server/routes/projectEditRoute.test')) // last test in select and insert
-=======
-  // .then(() => require('./server/scrumTasks.test'))
-  // .then(() => require('./server/insertNewTask'))
->>>>>>> bb90713e2fa9e30493bfd3fc474335da92ac1027
   .catch(err => console.log(err));
