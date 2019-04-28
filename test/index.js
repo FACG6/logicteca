@@ -3,8 +3,7 @@ const build = require('./../server/database/config/dbBuild');
 const fakeData = require('./../server/database/config/insertFakeData');
 
 build()
-  .then(() => fakeData())
-  .then(() => require('./server/router/projectNewRoute.test'))
+  .then(fakeData)
   .then(() => require('./server/projectDetailsQuery.test'))
   .then(() => require('./server/routes/deleteScrumRoute'))
   .then(() => require('./server/projectNewQuery.test'))
