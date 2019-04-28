@@ -26,7 +26,7 @@ CREATE TABLE users_projects(
 CREATE TABLE scrums(
     id SERIAL  PRIMARY KEY,
     name VARCHAR NOT NULL, 
-    project_id INTEGER REFERENCES projects(id) on delete CASCADE on update CASCADE
+    project_id INTEGER REFERENCES projects(id) on delete CASCADE
 );
 
 CREATE TYPE act_type AS ENUM ('DEVELOPPER', 'SCRUM MASTER', 'CLIENT');
@@ -46,7 +46,7 @@ CREATE TABLE tasks(
     total_efforts float,
     date_to_commit date,
     review_and_test_note TEXT, 
-    scrum_id INTEGER REFERENCES scrums(id) on delete CASCADE on update CASCADE,
+    scrum_id INTEGER REFERENCES scrums(id) on delete CASCADE,
     assigned_to VARCHAR
 );
 
