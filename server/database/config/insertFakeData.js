@@ -38,7 +38,7 @@ module.exports = () => {
                 connect.query('insert into tasks (description,scrum_id,assigned_to) values ($1,$2,$3)', [
                   'Task1',
                   scrum.id,
-                  users[0].id,
+                  users[0].user_name,
                 ]);
               });
             });
