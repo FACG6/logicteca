@@ -12,7 +12,7 @@ router.route('/new').post(validateUser, post);
 
 router
   .route('/:userId')
-  .put(put)
+  .put(validateUser, put)
   .delete(deleteUser);
 
 module.exports = router;
