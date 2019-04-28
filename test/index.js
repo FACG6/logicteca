@@ -5,6 +5,7 @@ const fakeData = require('./../server/database/config/insertFakeData');
 build()
   .then(() => fakeData())
   .then(() => require('./server/routes/insertTaskRoute'))
+  .then(fakeData)
   .then(() => require('./server/selectUsers'))
   .then(() => require('./server/routes/getUsers'))
   .then(() => require('./server/routes/getProjectsRoute'))
