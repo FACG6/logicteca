@@ -31,19 +31,16 @@ test('Testing for api/v1/tasks/new route', (t) => {
       newTask.assigned_to = result.rows[0].user_id;
     })
     .then(() => {
-      // console.log(111, newTask);
       supertest(route)
         .post('/api/v1/tasks/new')
         .send(newTask)
         .expect(200)
         .expect('content-type', /json/)
         .end((err, res) => {
-          // console.log(222, res);
           if (err) {
             t.error(err);
             t.end();
           } else {
-            // console.log(333, res.body.data[0]);
             t.deepEqual(Object.keys(res.body.data[0]), fields, 'Should contain the same fields');
             t.end();
           }
