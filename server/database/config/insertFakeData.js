@@ -19,7 +19,7 @@ module.exports = () => new Promise((resolve) => {
       users.forEach((user) => {
         projects.forEach((project) => {
           queries.push(
-            connect.query('insert into users_projects (project_id,user_id) values ($1,$2)', [
+            connect.query('insert into users_projects  (project_id,user_id) values ($1,$2)', [
               project.id,
               user.id,
             ]),
