@@ -2,14 +2,10 @@ const test = require('tape');
 const supertest = require('supertest');
 const app = require('../../../server/app');
 const selectId = require('../../../server/database/queries/selectId');
-const runBuild = require('../../../server/database/config/dbBuild');
-const insertFakeData = require('../../../server/database/config/insertFakeData');
 
 
 test('testing /users/:userId, delete route', (t) => {
-  runBuild()
-    .then(() => insertFakeData())
-    .then(() => selectId())
+  selectId()
     .then((result) => {
       supertest(app)
         .delete(`/api/v1/users/${result.rows[0].id}`)
