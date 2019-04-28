@@ -14,5 +14,5 @@ build()
   .then(() => require('./server/router/projectNewRoute.test'))
   .then(() => require('./server/insertUser'))
   .then(() => require('./server/router/postUser'))
-  // .then(() => require('./server/insertNewTask'))
+  .then(() => require('./server/routes/deleteProjectRoute'))
   .catch(err => console.log(err));
