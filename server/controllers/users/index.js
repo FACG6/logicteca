@@ -8,11 +8,11 @@ const validateUser = require('./helpers/validateUser');
 
 router.route('/').get(get);
 
+router.route('/new').post(validateUser, post);
+
 router
   .route('/:userId')
   .put(put)
   .delete(deleteUser);
-
-router.route('/new').post(validateUser, post);
 
 module.exports = router;
