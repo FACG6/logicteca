@@ -23,10 +23,13 @@ test('test query for projest details', (t) => {
             const firstProject = res[0];
             t.deepEqual(
               Object.keys(firstProject),
-              ['id', 'name', 'description', 'created_at'],
+              ['id', 'name', 'description', 'created_at', 'user_id'],
               'correct data',
             );
             t.end();
+          })
+          .catch((error) => {
+            t.error(error);
           });
       } else {
         t.equal(dynamicData.rowCount === 0, true, 'there is no project in data base');
