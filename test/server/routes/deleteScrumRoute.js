@@ -12,17 +12,13 @@ test('delete in /api/v1/scrums/:scrumID (with valid data)', (t) => {
       if (res.rowCount !== 0) {
         return res.rows[0].id;
       }
-      t.equal(res.rowCount === 0, true, 'there is no project in data base');
-      t.end();
+      t.error();
       return false;
     })
     .then((scrumId) => {
       if (scrumId) {
         request(app)
           .delete(`/api/v1/scrums/${scrumId}`)
-          .send({
-            id: scrumId,
-          })
           .expect(200)
           .expect('Content-Type', /json/)
           .end((err, res) => {
