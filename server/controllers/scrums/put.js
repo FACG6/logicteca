@@ -13,11 +13,9 @@ exports.put = (request, response, next) => {
   if (!result.error) {
     updateScrum(name, scrumId)
       .then((res) => {
-        console.log(res);
         response.send({ error: null, data: res.rows[0] });
       })
       .catch((error) => {
-        console.log(error);
         next(error);
       });
   } else {
