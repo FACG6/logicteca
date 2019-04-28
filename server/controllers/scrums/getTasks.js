@@ -1,1 +1,7 @@
-exports.getTasks = (req, res) => res.send('single Tasks get');
+const selectScrumTasks = require('../../database/queries/selectScrumTasks');
+
+exports.getTasks = (req, res, next) => {
+  selectScrumTasks(req.params.scrumId)
+    .then(result => res.send({ data: result.rows, error: null }))
+    .catch(err => next(err));
+};
