@@ -21,6 +21,6 @@ exports.post = (request, response, next) => {
       })
       .catch(error => next(error));
   } else {
-    next({ code: 400 });
+    next({ code: 422 });
   }
 };
