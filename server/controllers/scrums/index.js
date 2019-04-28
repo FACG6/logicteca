@@ -5,6 +5,7 @@ const { deleteScrum } = require('./deleteScrum');
 const { getTasks } = require('./getTasks');
 const { put } = require('./put');
 const { post } = require('./post');
+const validateNewScrum = require('./helpers/validateNewScrum');
 
 router.route('/').get(getScrums);
 
@@ -14,6 +15,6 @@ router
   .put(put)
   .delete(deleteScrum);
 
-router.route('/new').post(post);
+router.route('/new').post(validateNewScrum, post);
 
 module.exports = router;

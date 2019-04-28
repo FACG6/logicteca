@@ -1,3 +1,3 @@
-const connect = require('../../database/config/connection');
+const connection = require('../config/connection');
 
-module.exports = () => connect.query('select id from users limit 1');
+module.exports = () => connection.query('SELECT id FROM users limit 1');
