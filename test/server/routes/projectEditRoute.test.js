@@ -9,7 +9,6 @@ const selectOneUser = () => connect.query('select id from users LIMIT 1');
 test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
   Promise.all([selectOneProject(), selectOneUser()])
     .then((res) => {
-      // console.log(res);
       if (res.rowCount !== 0) {
         return { projectId: res[0].rows[0].id, userId: res[1].rows[0].id };
       }
@@ -18,7 +17,6 @@ test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
       return false;
     })
     .then((Ids) => {
-      // console.log(Ids);
       const { projectId, userId } = Ids;
       request(app)
         .put(`/api/v1/projects/${projectId}`)
@@ -33,8 +31,8 @@ test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
         .end((err, res) => {
           if (err) {
             t.error(err);
-          } else if (res.text.error) {
-            t.error(res.text.error);
+          } else if (res.body.error) {
+            t.error(res.body.error);
           } else {
             t.deepEqual(
               Object.keys(res.body.data),
