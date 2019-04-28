@@ -8,12 +8,10 @@ const selectOneUser = () => connect.query('select id from scrums LIMIT 1');
 test('put in /api/v1/scrums/:scrumId (with valid data)', (t) => {
   selectOneUser()
     .then((res) => {
-      if (res.rowCount !== 0) {
-        console.log(res.rows[0].id.toString());
-        return res.rows[0].id;
+      if (res.rowCount === 0) {
+        return t.error();
       }
-      t.error();
-      return false;
+      return res.rows[0].id;
     })
     .then((scrumId) => {
       request(app)
