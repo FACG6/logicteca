@@ -46,6 +46,9 @@ test('test query for scrum tasks', (t) => {
               'correct data',
             );
             t.end();
+          })
+          .catch((error) => {
+            t.error(error);
           });
       } else {
         t.equal(dynamicData.rowCount === 0, true, 'there is no takes for scrum in data base');
