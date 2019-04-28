@@ -8,9 +8,8 @@ exports.put = (request, response, next) => {
     name: joi.string(),
     dsescription: joi.string(),
   });
-  const {
-    name, dsescription, projectId, row,
-  } = request.body;
+  const { projectId } = request.params;
+  const { name, dsescription, row } = request.body;
   const result = joi.validate({ name, dsescription }, schema);
   if (!result.error) {
     updateProject(name, dsescription, projectId)

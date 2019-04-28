@@ -12,8 +12,7 @@ test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
       if (res.rowCount !== 0) {
         return { projectId: res[0].rows[0].id, userId: res[1].rows[0].id };
       }
-      t.equal(res.rowCount === 0, true, 'there is no project in data base');
-      t.end();
+      t.error();
       return false;
     })
     .then((Ids) => {
@@ -24,7 +23,6 @@ test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
           name: 'logicteca',
           dsescription: 'Custom built task management system',
           row: [userId],
-          projectId,
         })
         .expect(200)
         .expect('Content-Type', /json/)
