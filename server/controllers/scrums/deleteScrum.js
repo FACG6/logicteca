@@ -16,6 +16,6 @@ exports.deleteScrum = (request, response, next) => {
       })
       .catch(error => next(error));
   } else {
-    next({ code: 401 });
+    next({ code: 422 });
   }
 };
