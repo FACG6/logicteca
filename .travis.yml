@@ -1,3 +1,14 @@
 language: node_js
 node_js:
-  - "node"
+ - "node"
+before_script: 
+  - "psql -c \"CREATE DATABASE db_travis;\" -U postgres"
+  - "psql -c \"CREATE USER logicteca WITH PASSWORD '123';\" -U postgres"
+env: 
+  global: 
+  - PGPORT=5432
+services: 
+  - postgresql
+test: 
+  adapter: postgresql
+  database: db_travis
