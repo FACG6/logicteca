@@ -11,4 +11,4 @@ services:
   - postgresql
 test: 
   adapter: postgresql
-  database: testing_db
+  database: db_travis
