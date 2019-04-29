@@ -6,7 +6,7 @@ const scrums = require('./scrums');
 const tasks = require('./tasks');
 const logout = require('./logout');
 const { auth } = require('./middleware/authentication');
-const error = require('./error');
+const error = require('./middleware/error');
 
 
 router.get('/logout', logout);

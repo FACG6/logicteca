@@ -61,10 +61,11 @@ test('testing /api/v1/users/new, case3: validation', (t) => {
   supertest(app)
     .post('/api/v1/users/new')
     .send(user)
-    .expect(500)
-    .expect('content-type', /html/)
-    .end((err) => {
+    .expect(422)
+    .expect('content-type', /json/)
+    .end((err, response) => {
       if (err) t.error(err);
+      else t.equal(response.body.message, 'Validation Error', 'validation error');
       t.end();
     });
 });
