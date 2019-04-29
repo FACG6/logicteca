@@ -3,11 +3,11 @@ import About from './about/index';
 import LoginFrom from './loginForm/index';
 import './style.css';
 
-export default function Login({ setUserInfo }) {
+export default function Login(props) {
   return (
     <main className="login__main">
       <div className="login__container">
-        <LoginFrom setUserInfo={setUserInfo} />
+        <LoginFrom {...props} />
         <About />
       </div>
     </main>
