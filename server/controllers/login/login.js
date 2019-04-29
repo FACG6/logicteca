@@ -7,6 +7,7 @@ exports.post = (request, response) => {
   let payload;
   checkUser(user_name)
     .then((res) => {
+      console.log(res.rows);
       if (res.rows[0]) {
         const { user_name, role } = res.rows[0];
         payload = {
