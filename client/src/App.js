@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import "./App.css";
-import "antd/dist/antd.css";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import './App.css';
+import 'antd/dist/antd.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faTrash,
   faFilter,
@@ -11,15 +11,16 @@ import {
   faCaretDown,
   faSearch,
   faEdit
-} from "@fortawesome/free-solid-svg-icons";
-import Login from "./components/Login";
-import Header from "./components/Layout/Header";
-import Projects from "./components/Projects";
-import ProjectNew from "./components/Projects/ProjectNew";
-import ProjectEdit from "./components/Projects/ProjectEdit";
-import Users from "./components/Users";
-import Project from "./components/Project/index";
-import PageNotFound from "./components/PageNotFound";
+} from '@fortawesome/free-solid-svg-icons';
+import Login from './components/Login';
+import Header from './components/Layout/Header';
+import Projects from './components/Projects';
+import ProjectNew from './components/Projects/ProjectNew';
+import ProjectEdit from './components/Projects/ProjectEdit';
+import Users from './components/Users';
+import Project from './components/Project/index';
+import PageNotFound from './components/PageNotFound';
+import PrivateRoute from './auth/index';
 
 library.add(
   faTrash,
@@ -33,48 +34,50 @@ library.add(
 
 class App extends Component {
   state = {
-    login: true
+    isAuth: false,
+    userInfo: {}
+  };
+  setUserInfo = userInfo => {
+    this.setState({ userInfo, isAuth: true });
   };
   render() {
-    const { login } = this.state;
     return (
       <BrowserRouter>
-        {login ? (
-          <>
-            <Header />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                component={() => <Redirect to="/projects" />}
-              />
-              <Route exact path="/projects" component={Projects} />
-              <Route exact path="/project/new" component={ProjectNew} />
-              <Route
-                exact
-                path="/project/:projectId/edit"
-                component={ProjectEdit}
-              />
-              <Route
-                exact
-                path="/project/:projectId"
-                component={Project}
-              />
-              <Route
-                exact
-                path="/project/:projectId/:scrumId"
-                component={Project}
-              />
-              <Route exact path="/users" component={Users} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </>
-        ) : (
+        <>
+          <Header />
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Redirect to="/login" />
+            <Route
+              exact
+              path="/"
+              component={() => <Redirect to="/projects" />}
+            />
+            <PrivateRoute exact path="/projects" component={Projects} />
+            <PrivateRoute exact path="/project/new" component={ProjectNew} />
+            <PrivateRoute
+              exact
+              path="/project/:projectId/edit"
+              component={ProjectEdit}
+            />
+            <PrivateRoute
+              exact
+              path="/project/:projectId"
+              component={Project}
+            />
+            <PrivateRoute
+              exact
+              path="/project/:projectId/:scrumId"
+              component={Project}
+            />
+            <PrivateRoute exact path="/users" component={Users} />
+            <Route
+              exact
+              path="/login"
+              component={Login}
+              setUserInfo={this.setUserInfo}
+            />
+            <Route component={PageNotFound} />
           </Switch>
-        )}
+        </>
       </BrowserRouter>
     );
   }
