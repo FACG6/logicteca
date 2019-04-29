@@ -9,7 +9,7 @@ const selectOneUser = () => connect.query('select id from users LIMIT 1');
 test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
   Promise.all([selectOneProject(), selectOneUser()])
     .then((res) => {
-      if (res.rowCount !== 0) {
+      if (res[0].rowCount !== 0 && res[1].rowCount !== 0) {
         return { projectId: res[0].rows[0].id, userId: res[1].rows[0].id };
       }
       t.error();
