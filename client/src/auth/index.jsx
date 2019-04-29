@@ -1,7 +1,6 @@
 import React from 'react';
 import isAuth from './isAuth';
 import { Route, Redirect } from 'react-router-dom';
-import { checkPropTypes } from 'prop-types';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -11,10 +10,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         return isAuth() ? (
           <Component {...props} />
         ) : (
-          <Redirect
-            to={{ pathname: '/login', state: { from: props.location } }}
-          />
-        );
+            <>
+              {rest.clearUserInfo()}
+              <Redirect login={false}
+                to={{ pathname: '/login', state: { from: props.location } }}
+              />
+            </>
+          );
       }}
     />
   );

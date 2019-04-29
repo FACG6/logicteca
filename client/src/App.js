@@ -21,7 +21,6 @@ import Users from "./components/Users";
 import Project from "./components/Project/index";
 import PageNotFound from "./components/PageNotFound";
 import PrivateRoute from './auth/index';
-import Logout from './components/logout'
 
 library.add(
   faTrash,
@@ -36,7 +35,7 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: true
+    isLogin: false,
   };
   setUserInfo = userInfo => {
     this.setState({ userInfo, isLogin: true });
@@ -52,42 +51,54 @@ class App extends Component {
       <BrowserRouter>
         {isLogin ? (
           <>
-            <Header userInfo={this.state.userInfo} />
+            <Header
+              clearUserInfo={this.clearUserInfo}
+              userInfo={this.state.userInfo}
+            />
             <Switch>
               <Route
                 exact
                 path="/"
                 component={() => <Redirect to="/projects" />}
               />
-              <PrivateRoute exact path="/projects" component={Projects} />
-              <PrivateRoute exact path="/project/new" component={ProjectNew} />
               <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
+                exact path="/projects"
+                component={(props) => <Projects {...props} />}
+              />
+              <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
+                exact
+                path="/project/new"
+                component={(props) => <ProjectNew {...props} />}
+              />
+              <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/edit"
-                component={ProjectEdit}
+                component={(props) => <ProjectEdit {...props} />}
               />
               <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId"
-                component={Project}
+                component={(props) => <Project {...props} />}
               />
               <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/:scrumId"
-                component={Project}
+                component={(props) => <Project {...props} />}
               />
-              <PrivateRoute exact path="/users" component={Users} />
+              <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
+                exact path="/users"
+                component={(props) => <Users {...props} />}
+              />
               <Route
                 exact
                 path="/login"
-                component={props => <Redirect to="/" />}
-              />
-              <Route
-                exact
-                path='/logout'
-                component={(props) => <Logout clearUserInfo={this.clearUserInfo}
-                  {...props}
-                />}
+                render={() => <Redirect to="/" />}
               />
               <Route component={PageNotFound} />
             </Switch>
