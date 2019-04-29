@@ -19,6 +19,12 @@ const createNotification = (type) => {
     case 'error':
       NotificationManager.error('Oops', 'Something went wrong!')
       break;
+    case 'not authenticated':
+      NotificationManager.error('Sorry', 'You\'re not authenticated!')
+      break;
+    case 'server error':
+      NotificationManager.error('Sorry', 'Something went wrong!')
+      break;
     default:
       return;
   }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Dropdown } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import {
+  NotificationContainer,
+} from 'react-notifications';
 import './style.css';
-
 class Header extends Component {
   state = {
     username: 'Mohanned',
@@ -13,7 +15,7 @@ class Header extends Component {
   menu = (
     <Menu>
       <Menu.Item>
-        <a href='/logout'>Logout</a>
+        <Link to='/logout'>Logout</Link>
       </Menu.Item>
     </Menu>
   );
@@ -35,6 +37,7 @@ class Header extends Component {
                   <FontAwesomeIcon className='header__caret-down' icon='caret-down' />
                 </div>
               </Dropdown>
+              <NotificationContainer />
             </div>
           </div>
         </div>
