@@ -7,6 +7,11 @@ const login = require('./login');
 
 
 router.use('/login', login)
+const logout = require('./logout');
+const { auth } = require('./middleware/authentication');
+
+router.get('/logout', logout);
+// router.use(auth);
 router.use('/projects', projects);
 router.use('/users', users);
 router.use('/scrums', scrums);
