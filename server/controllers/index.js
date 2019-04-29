@@ -3,8 +3,10 @@ const projects = require('./projects');
 const users = require('./users');
 const scrums = require('./scrums');
 const tasks = require('./tasks');
+const logout = require('./logout');
 const { auth } = require('./middleware/authentication');
 
+router.get('/logout', logout);
 // router.use(auth);
 router.use('/projects', projects);
 router.use('/users', users);
