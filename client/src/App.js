@@ -34,49 +34,74 @@ library.add(
 
 class App extends Component {
   state = {
-    userInfo: {}
+    userInfo: {},
+    isLogin: true
   };
   setUserInfo = userInfo => {
-    this.setState({ userInfo });
+    this.setState({ userInfo, isLogin: true });
   };
   render() {
+    const { isLogin } = this.state;
     return (
       <BrowserRouter>
-        <>
-          <Header userInfo={this.state.userInfo} />
+        {isLogin ? (
+          <>
+            <Header userInfo={this.state.userInfo} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={() => <Redirect to="/projects" />}
+              />
+              <PrivateRoute exact path="/projects" component={Projects} />
+              <PrivateRoute exact path="/project/new" component={ProjectNew} />
+              <PrivateRoute
+                exact
+                path="/project/:projectId/edit"
+                component={ProjectEdit}
+              />
+              <PrivateRoute
+                exact
+                path="/project/:projectId"
+                component={Project}
+              />
+              <PrivateRoute
+                exact
+                path="/project/:projectId/:scrumId"
+                component={Project}
+              />
+              <PrivateRoute exact path="/users" component={Users} />
+              <Route
+                exact
+                path="/login"
+                component={props => <Redirect to="/" />}
+              />
+              <Route component={PageNotFound} />
+            </Switch>
+          </>
+        ) : (
           <Switch>
             <Route
               exact
-              path="/"
-              component={() => <Redirect to="/projects" />}
-            />
-            <PrivateRoute exact path="/projects" component={Projects} />
-            <PrivateRoute exact path="/project/new" component={ProjectNew} />
-            <PrivateRoute
-              exact
-              path="/project/:projectId/edit"
-              component={ProjectEdit}
-            />
-            <PrivateRoute
-              exact
-              path="/project/:projectId"
-              component={Project}
-            />
-            <PrivateRoute
-              exact
-              path="/project/:projectId/:scrumId"
-              component={Project}
-            />
-            <PrivateRoute exact path="/users" component={Users} />
-            <Route
-              exact
               path="/login"
-              component={Login}
-              setUserInfo={this.setUserInfo}
+              component={props => (
+                <Login {...props} setUserInfo={this.setUserInfo} />
+              )}
             />
-            <Route component={PageNotFound} />
+            <Route
+              render={props => {
+                return (
+                  <Redirect
+                    to={{
+                      pathname: '/login',
+                      state: { from: props.location }
+                    }}
+                  />
+                );
+              }}
+            />
           </Switch>
-        </>
+        )}
       </BrowserRouter>
     );
   }
