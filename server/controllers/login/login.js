@@ -18,12 +18,30 @@ exports.post = (request, response) => {
     })
     .then((isHashed) => {
       if (!isHashed) {
-        response.status(401).send({ msg: 'Invalid username or password' });
+        response.status(401).send({
+          error: {
+            code: 401,
+            msg: 'Invalid username or password',
+          },
+          data: [],
+        });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
         response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
-        response.status(201).send({ msg: 'Success' });
+        response.status(201).send({
+          error: null,
+          data: {
+            code: 201,
+            msg: 'Success Login',
+          },
+        });
       }
     })
-    .catch(() => response.status(401).send({ msg: 'Invalid username or password' }));
+    .catch(() => response.status(401).send({
+      error: {
+        code: 401,
+        msg: 'Invalid username or password',
+      },
+      data: [],
+    }));
 };
