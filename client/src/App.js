@@ -34,17 +34,16 @@ library.add(
 
 class App extends Component {
   state = {
-    isAuth: false,
     userInfo: {}
   };
   setUserInfo = userInfo => {
-    this.setState({ userInfo, isAuth: true });
+    this.setState({ userInfo });
   };
   render() {
     return (
       <BrowserRouter>
         <>
-          <Header />
+          <Header userInfo={this.state.userInfo} />
           <Switch>
             <Route
               exact
