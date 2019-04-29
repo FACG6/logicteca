@@ -20,6 +20,7 @@ import ProjectEdit from "./components/Projects/ProjectEdit";
 import Users from "./components/Users";
 import Project from "./components/Project/index";
 import PageNotFound from "./components/PageNotFound";
+import Logout from './components/logout'
 
 library.add(
   faTrash,
@@ -33,13 +34,19 @@ library.add(
 
 class App extends Component {
   state = {
-    login: true
+    userInfo: {},
+    isLogin: true,
   };
+
+  clearUserInfo = () => {
+    this.setState({ userInfo: '', isLogin: false });
+  }
+
   render() {
-    const { login } = this.state;
+    const { isLogin } = this.state;
     return (
       <BrowserRouter>
-        {login ? (
+        {isLogin ? (
           <>
             <Header />
             <Switch>
@@ -66,15 +73,16 @@ class App extends Component {
                 component={Project}
               />
               <Route exact path="/users" component={Users} />
+              <Route exact path='/logout' component={(props) => <Logout clearUserInfo={this.clearUserInfo} {...props} />} />
               <Route component={PageNotFound} />
             </Switch>
           </>
         ) : (
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Redirect to="/login" />
-          </Switch>
-        )}
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Redirect to="/login" />
+            </Switch>
+          )}
       </BrowserRouter>
     );
   }
