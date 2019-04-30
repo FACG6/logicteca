@@ -28,4 +28,5 @@ build()
   .then(() => require('./server/insertScrumQuery'))
   .then(() => require('./server/routes/postScrumRoute'))
   .then(() => require('./server/routes/deleteProjectRoute'))
+  .then(() => require('./server/routes/loginPostRoute'))
   .catch(err => console.log(err));

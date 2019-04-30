@@ -4,6 +4,10 @@ const projects = require('./projects');
 const users = require('./users');
 const scrums = require('./scrums');
 const tasks = require('./tasks');
+const login = require('./login');
+
+
+router.use('/login', login)
 const logout = require('./logout');
 const { auth } = require('./middleware/authentication');
 const error = require('./middleware/error');
