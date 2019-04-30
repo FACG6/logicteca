@@ -2,7 +2,7 @@ const { compare } = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const checkUser = require('../../database/queries/checkUser');
 
-exports.post = (request, response) => {
+exports.post = (request, response, next) => {
   const { user_name, password } = request.body;
   let payload;
   checkUser(user_name)
@@ -18,13 +18,14 @@ exports.post = (request, response) => {
     })
     .then((isHashed) => {
       if (!isHashed) {
-        response.status(401).send({
-          error: {
-            code: 401,
-            msg: 'Invalid username or password',
-          },
-          data: [],
-        });
+        next({ code: 500 });
+        // response.status(401).send({
+        //   error: {
+        //     code: 401,
+        //     msg: 'Invalid username or password',
+        //   },
+        //   data: [],
+        // });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
         response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
@@ -37,11 +38,14 @@ exports.post = (request, response) => {
         });
       }
     })
-    .catch(() => response.status(401).send({
-      error: {
-        code: 401,
-        msg: 'Invalid username or password',
-      },
-      data: [],
-    }));
+    .catch(() => {
+      next({ code: 500 });
+      // response.status(401).send({
+      //   error: {
+      //     code: 401,
+      //     msg: 'Invalid username or password',
+      //   },
+      //   data: [],
+      // });
+    });
 };
