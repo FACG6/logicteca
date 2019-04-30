@@ -15,16 +15,14 @@ test('Testing /api/v1/login login route for valid user ', (t) => {
       supertest(router)
         .post('/api/v1/login')
         .send(user)
-        .expect(201)
+        .expect(200)
         .end((err, res) => {
           if (err) t.error(err);
-          t.equal(typeof res.body, 'object', ' Return typeof object ');
+          t.equal(res.header['set-cookie'][0].includes('jwt'), true, ' Should return true');
           t.end();
         });
     }).catch(err => t.error(err));
 });
-
-// const errMsg = { code: 401, msg: 'Invalid username or password' };
 
 test('Testing /api/v1/login login route for in-valid user ', (t) => {
   const user = {
@@ -36,9 +34,10 @@ test('Testing /api/v1/login login route for in-valid user ', (t) => {
       supertest(router)
         .post('/api/v1/login')
         .send(user)
-        .expect(500)
+        .expect(401)
         .end((err, res) => {
           if (err) t.error(err);
+          t.equal(res.res.statusMessage, 'Unauthorized', 'Should return Unauthorized');
           t.end();
         });
     }).catch(err => t.error(err));
@@ -54,10 +53,10 @@ test('Testing /api/v1/login login route for in-valid password ', (t) => {
       supertest(router)
         .post('/api/v1/login')
         .send(user)
-        .expect(500)
+        .expect(401)
         .end((err, res) => {
           if (err) t.error(err);
-          // t.deepEqual(res.body.error, errMsg, ' should return errMsg: check your password ');
+          t.equal(res.res.statusMessage, 'Unauthorized', 'Should return Unauthorized');
           t.end();
         });
     }).catch(err => t.error(err));
