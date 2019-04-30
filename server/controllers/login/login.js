@@ -19,13 +19,6 @@ exports.post = (request, response, next) => {
     .then((isHashed) => {
       if (!isHashed) {
         next({ code: 500 });
-        // response.status(401).send({
-        //   error: {
-        //     code: 401,
-        //     msg: 'Invalid username or password',
-        //   },
-        //   data: [],
-        // });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
         response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
@@ -40,12 +33,5 @@ exports.post = (request, response, next) => {
     })
     .catch(() => {
       next({ code: 500 });
-      // response.status(401).send({
-      //   error: {
-      //     code: 401,
-      //     msg: 'Invalid username or password',
-      //   },
-      //   data: [],
-      // });
     });
 };
