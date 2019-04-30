@@ -7,5 +7,5 @@ export default function isAuth() {
   //   .catch(e => {
   //     return false;
   //   });
-  return false;
+  return true;
 }
