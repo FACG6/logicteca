@@ -27,6 +27,7 @@ export default class TableMember extends Component {
       dataIndex: "name",
       key: "name",
       width: 150,
+      className: 'project__cell',
       filters: [],
       onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => {
@@ -40,7 +41,7 @@ export default class TableMember extends Component {
       }
     },
     {
-      title: "role",
+      title: "Role",
       dataIndex: "role",
       key: "role",
       width: 150,
@@ -49,7 +50,6 @@ export default class TableMember extends Component {
     }
   ];
   render() {
-    // console.log(this.state.selectedRowKeys)
     const {
       pagination,
       selectedRowKeys,

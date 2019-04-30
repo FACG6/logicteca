@@ -66,11 +66,11 @@ export default class index extends Component {
     return (
       <section className="main">
         <div className="main--div">
-          <h1 className="main--h1">Create Project: </h1>
+          <h1 className="main--h1">Create Project</h1>
           <form onSubmit={this.handleSubmit} className="main--form">
             <label className="main-label" htmlFor="name">
               <h3 className="main-h3">
-                Project Name <span className="main-required">*</span>:
+                Project Name <span className="main-required">*</span>
               </h3>
               <input
                 name="name"
@@ -81,14 +81,14 @@ export default class index extends Component {
               />
             </label>
             <label className="main-label" htmlFor="name">
-              <h3 className="main-h3">Description :</h3>
+              <h3 className="main-h3">Description</h3>
               <textarea
                 name="dsescription"
                 onChange={this.handleOnChange}
                 className="main-input main-textArea"
               />
             </label>
-            <h3 className="main-h3">Assign Team :</h3>
+            <h3 className="main-h3">Assign Team <span className="main-required">*</span></h3>
             <div className="main-member">
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>

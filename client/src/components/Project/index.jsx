@@ -8,6 +8,7 @@ const scrums = require('./Scrums/utilis/scrums.json')
 
 class Scrums extends Component {
   state = {
+    loading: true,
     project: {
       id: '',
       projectName: ''
@@ -17,6 +18,13 @@ class Scrums extends Component {
   }
 
   componentDidMount() {
+    const projectId = this.props.match.params.projectId;
+    const scrumId = this.props.match.params.scrumId;
+    if (Number.isInteger(parseInt(projectId)) && Number.isInteger(parseInt(scrumId))){
+      this.setState({ loading: false });
+    } else {
+      this.props.history.push('/projects');
+    }
     // fetch
     const project = {
       id: 1,
@@ -53,7 +61,6 @@ class Scrums extends Component {
     const updatedScrums = scrums.filter(scrum => scrum.id !== scrumId);
     this.setState({ scrums: updatedScrums });
     //fetch to delete the scrum from database//
-
   }
 
   handleScrumName = (scrumNewName) => {
@@ -71,7 +78,9 @@ class Scrums extends Component {
   render() {
     const { projectId, scrumId } = this.props.match.params;
     const { project, scrums } = this.state;
-    return (
+
+    return this.state.loading? <h1>Loading...</h1>:
+    (
       <React.Fragment>
         <section className='project__page--container'>
           <div className='Project__header'>
