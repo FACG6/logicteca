@@ -53,18 +53,19 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
 
 test('testing /api/v1/users/new, case3: validation', (t) => {
   const user = {
-    user_name: 'isra',
-    full_name: 'israa sulaiman',
+    user_name: 'Esraa',
+    full_name: 'Esraa sulaiman',
     role: 'developer',
     password: '123',
   };
   supertest(app)
     .post('/api/v1/users/new')
     .send(user)
-    .expect(500)
-    .expect('content-type', /html/)
-    .end((err) => {
+    .expect(422)
+    .expect('content-type', /json/)
+    .end((err, response) => {
       if (err) t.error(err);
+      else t.equal(response.body.message, 'Validation Error', 'validation error');
       t.end();
     });
 });
