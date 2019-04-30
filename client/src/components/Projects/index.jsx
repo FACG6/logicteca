@@ -130,9 +130,7 @@ class Projects extends Component {
         }
         return 0;
       },
-      render: record => {
-        return record.split('T')[0];
-      }
+      render: record => record.split('T')[0]
     }
   ];
   render() {
