@@ -10,7 +10,7 @@ const error = require('./middleware/error');
 
 
 router.get('/logout', logout);
-// router.use(auth);
+router.use(auth);
 router.use('/projects', projects);
 router.use('/users', users);
 router.use('/scrums', scrums);
