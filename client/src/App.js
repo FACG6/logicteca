@@ -112,7 +112,7 @@ class App extends Component {
                   <Login {...props} setUserInfo={this.setUserInfo} />
                 )}
               />
-              <Route
+              <Route 
                 render={props => {
                   return (
                     <Redirect
