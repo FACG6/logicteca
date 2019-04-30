@@ -18,20 +18,20 @@ exports.post = (request, response, next) => {
     })
     .then((isHashed) => {
       if (!isHashed) {
-        next({ code: 500 });
+        next({ code: 401 });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
         response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
-        response.status(201).send({
+        response.status(200).send({
           error: null,
           data: {
-            code: 201,
+            code: 200,
             msg: 'Success Login',
           },
         });
       }
     })
     .catch(() => {
-      next({ code: 500 });
+      next({ code: 401 });
     });
 };
