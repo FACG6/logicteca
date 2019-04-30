@@ -6,20 +6,22 @@ import {
   NotificationContainer,
 } from 'react-notifications';
 import logoutHelper from './logoutHelper';
-
 import './style.css';
+import axios from 'axios';
+import createNotification from '../../Users/notification';
 
 export default class Header extends Component {
-  state = {
-    logout: false,
-  }
-
   logout = () => {
     this.setState({ logout: true });
   }
-
   handleClick = () => {
-    logoutHelper(this.props.clearUserInfo, this.logout)
+    axios.get('/api/v1/logout')
+    .then(response => {
+      if(response.status === 200){
+        logoutHelper(this.props.clearUserInfo, this.logout)
+      }
+    })
+    .catch(error => createNotification('server error')) 
   }
 
   menu = (

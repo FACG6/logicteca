@@ -35,7 +35,7 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: false,
+    isLogin: true,
   };
   setUserInfo = userInfo => {
     this.setState({ userInfo, isLogin: true });
