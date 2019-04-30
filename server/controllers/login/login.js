@@ -24,10 +24,7 @@ exports.post = (request, response, next) => {
         response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
         response.status(200).send({
           error: null,
-          data: {
-            code: 200,
-            msg: 'Success Login',
-          },
+          data: payload,
         });
       }
     })
