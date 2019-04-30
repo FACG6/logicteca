@@ -53,8 +53,8 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
 
 test('testing /api/v1/users/new, case3: validation', (t) => {
   const user = {
-    user_name: 'isra',
-    full_name: 'israa sulaiman',
+    user_name: 'Esraa',
+    full_name: 'Esraa sulaiman',
     role: 'developer',
     password: '123',
   };
