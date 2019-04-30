@@ -19,6 +19,9 @@ test('put in /api/v1/projects/:projectId (with valid data)', (t) => {
       const { projectId, userId } = Ids;
       request(app)
         .put(`/api/v1/projects/${projectId}`)
+        .set('Cookie', [
+          'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
+        ])
         .send({
           name: 'logicteca',
           dsescription: 'Custom built task management system',

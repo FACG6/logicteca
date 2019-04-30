@@ -10,21 +10,23 @@ test('testing /api/v1/users/new; case1: success', (t) => {
     role: 'developer',
     password: '123556',
   };
-  const keys = [
-    'id',
-    'user_name',
-    'full_name',
-    'role',
-  ];
+  const keys = ['id', 'user_name', 'full_name', 'role'];
   supertest(app)
     .post('/api/v1/users/new')
+    .set('Cookie', [
+      'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
+    ])
     .send(user)
     .expect(200)
     .expect('content-type', /json/)
     .end((err, response) => {
       if (err) t.error(err);
       t.equal(response.error, false, 'should be null');
-      t.deepEqual(Object.keys(response.body.data), keys, 'should contain id, role, user_name, full_name');
+      t.deepEqual(
+        Object.keys(response.body.data),
+        keys,
+        'should contain id, role, user_name, full_name',
+      );
       t.end();
     });
 });
@@ -39,6 +41,9 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
   const error = 'UserName is already taken';
   supertest(app)
     .post('/api/v1/users/new')
+    .set('Cookie', [
+      'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
+    ])
     .send(user)
     .expect(422)
     .expect('content-type', /json/)
@@ -49,7 +54,7 @@ test('testing /api/v1/users/new, case2: username is already taken', (t) => {
     });
 });
 
-//This test will be edited after making the route to handle validation error//
+// This test will be edited after making the route to handle validation error//
 
 test('testing /api/v1/users/new, case3: validation', (t) => {
   const user = {
@@ -60,6 +65,9 @@ test('testing /api/v1/users/new, case3: validation', (t) => {
   };
   supertest(app)
     .post('/api/v1/users/new')
+    .set('Cookie', [
+      'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
+    ])
     .send(user)
     .expect(500)
     .expect('content-type', /html/)
