@@ -32,7 +32,14 @@ class Scrums extends Component {
         this.setState({project})
       })
       .catch(err => { throw err })
-    
+      
+      axios.get(`/api/v1/projects/${projectId}`)
+        // .then(res => console.log(545454, res.data.data))
+        .then(res => {
+          const scrums = res.data.data;
+          this.setState({scrums})
+        })
+        .catch(err => console.log(89898, err))
   }
 
   handleAddScrum = () => {
