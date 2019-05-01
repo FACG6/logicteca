@@ -31,7 +31,8 @@ class Users extends Component {
     passwordAdded: false,
     error: '',
     search: false,
-    searchResults: []
+    searchResults: [], 
+    type: '',
   };
 
   hideFocus = event => {
@@ -128,8 +129,8 @@ class Users extends Component {
     });
   };
 
-  handleForm = () => {
-    this.setState({ show: true });
+  handleForm = (type) => {
+    this.setState({ show: true, type });
   };
 
   handlePassword = password => {
@@ -138,7 +139,7 @@ class Users extends Component {
       saving: true,
       passwordError: false,
       password,
-      show: false
+      show: false, 
     });
     createNotification('password');
   };
@@ -269,7 +270,7 @@ class Users extends Component {
               <div className="users__last-cell">
                 {!this.state.passwordAdded ? (
                   <button
-                    onClick={this.handleForm}
+                    onClick={() => this.handleForm('Add')}
                     className="users__btn users__btn--password"
                   >
                     Password
@@ -305,6 +306,7 @@ class Users extends Component {
                 rowId={record.id}
                 users={this.state.users}
                 handleDeleteUser={this.handleDeleteUser}
+                changePassword = {() => this.handleChangePassword('Change')}
               />
             }
           >
@@ -358,7 +360,7 @@ class Users extends Component {
           className="users__table"
         />
         {this.state.show ? (
-          <Form submitPassword={this.handlePassword} cancel={this.cancel} />
+          <Form row={this.state.rowSelected} type={this.state.type} submitPassword={this.handlePassword} cancel={this.cancel} />
         ) : null}
       </main>
     );
