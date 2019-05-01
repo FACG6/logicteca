@@ -1,8 +1,8 @@
 const deleteTask = require('./../../database/queries/deleteTask');
 
 exports.deleteTask = (request, response, next) => {
-  const { scrumId } = request.params;
-  deleteTask(scrumId)
+  const { taskId } = request.params;
+  deleteTask(taskId)
     .then((res) => {
       response.send({ error: null, data: res.rows[0] });
     })

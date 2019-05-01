@@ -5,6 +5,6 @@ const deleteTask = taskId => connect.query(`DELETE FROM
                                               WHERE
                                                 id=$1
                                               RETURNING
-                                                *;`, [taskId]);
+                                                id;`, [taskId]);
 
 module.exports = deleteTask;

@@ -18,23 +18,20 @@ test('delete in /api/v1/tasks/:taskId (with valid data)', (t) => {
     .then((taskId) => {
       if (taskId) {
         request(app)
-          .delete(`/api/v1/scrums/${taskId}`)
+          .delete(`/api/v1/tasks/${taskId}`)
           .set('Cookie', [
             'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
           ])
           .expect(200)
           .expect('Content-Type', /json/)
           .end((err, res) => {
+            console.log(res.body);
             if (err) {
               t.error(err);
             } else if (res.body.error) {
               t.error(res.body.error);
             } else {
-              t.deepEqual(
-                Object.keys(res.body.data),
-                ['id', 'name', 'project_id'],
-                'delete task sucssfully',
-              );
+              t.deepEqual(Object.keys(res.body.data), ['id'], 'delete task sucssfully');
               t.end();
             }
           });
