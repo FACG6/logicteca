@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Icon } from 'antd';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import {
   NotificationContainer,
@@ -25,13 +26,32 @@ class Scrum extends Component {
   }
 
   componentDidMount() {
-    const { scrumId } = this.props;
-    const scrums = require('./utilis/scrums.json');
-    const projectTeam = [{ id: 1, name: 'Ahmed' }, { id: 2, name: 'Ameen' }, { id: 3, name: 'Angham' }, { id: 4, name: 'Ayman' }];
-    const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-    const scrumName = scrumObject.scrumName;
+    // console.log(444, this.props.params.projectId);
+    const { projectId, scrumId } = this.props.params;
+    // console.log(555, projectId, 333, scrumId);
+    // const scrums = require('./utilis/scrums.json');
+    // const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
+    // const scrumName = scrumObject.scrumName;
     //Fetch to get the scrum name and its task //
-    this.setState({ projectTeam, scrumName, tasks: require('./utilis/tasks') })
+    
+    axios.get(`/api/v1/scrums/${scrumId}`)
+      .then(res => {
+        this.setState({ tasks:  res.data.data}) 
+      })
+      .catch(err => {throw err});
+
+
+      fetch(`/api/v1/projects/${projectId}`, {
+        method: 'GET'
+      })
+      .then(ress => ress.json())
+      .then(res => {
+        console.log(9999999, res.data)
+        this.setState({ projectTeam: res.data.user_id})
+        // console.log(11111111111, this.state.projectTeam);
+      })
+      .catch(err => {throw err});
+    
   }
 
   componentDidUpdate(prevProp, prevState) {
