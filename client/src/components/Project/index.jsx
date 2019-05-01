@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import axios from 'axios';
 import { Icon } from "antd";
 import Scrum from "./Scrums/index";
 import Editable from 'react-contenteditable'
@@ -17,12 +18,21 @@ class Scrums extends Component {
   }
 
   componentDidMount() {
+    // console.log(333, this.props.match.params.projectId);
+    const { projectId } = this.props.match.params;
+    let project = {...this.state.project};
     // fetch
-    const project = {
-      id: 1,
-      projectName: 'Demo'
-    }
-    this.setState({ scrums, project });
+    axios.get(`/api/v1/projects/${projectId}`)
+    //  .then(res => console.log(6665, res.data.data.name, res.data.data.id))
+      .then(res => {
+        project = {
+          projId : res.data.data.id,
+          projName : res.data.data.name,
+        }
+        this.setState({project})
+      })
+      .catch(err => { throw err })
+    
   }
 
   handleAddScrum = () => {
