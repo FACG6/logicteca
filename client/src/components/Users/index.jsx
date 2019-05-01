@@ -40,17 +40,10 @@ class Users extends Component {
 
   componentDidMount() {
     //Fetch to get users from database//
-    //Store them in the state
     axios
       .get('/api/v1/users')
-      .then(result => {
-        const {
-          data: { data },
-          status
-        } = result;
-        return status === 200 ? this.setState({ users: data }) : null;
-      })
-      .catch(e => this.setState({ error: 'fetching users failed!!!' }));
+      .then(result => this.setState({ users: result.data.data }))
+      .catch(error => this.setState({ error: 'Error' }));
   }
 
   handleSearch = e => {
@@ -96,30 +89,12 @@ class Users extends Component {
   };
 
   updateUserInfo = (user, users) => {
-    //Fetch to update userInfo//
-    //Then update users in the state//
-    //change message//
-
     axios
-      .put(`/api/v1/users/${user.id}`, {
-        user
-      })
-      .then(result => {
-        const {
-          data: {
-            data: { user }
-          },
-          status
-        } = result;
-        if (status === 200) {
-          const newUsers = users.map(member =>
-            member.id === user.id ? user : member
-          );
-          this.setState({ users: [...newUsers] });
-        }
-      })
-      .catch();
-  };
+      .put(`/api/v1/users/${user.id}`, user)
+      .then(result => this.setState({ users }))
+      .catch(error => this.setState({ error: 'Error' }));
+    //change message//
+  }
 
   addRow = () => {
     this.setState(prevState => {
@@ -294,10 +269,10 @@ class Users extends Component {
                     Password
                   </button>
                 ) : (
-                  <button className="users__btn users__btn--change-pass">
-                    Change Pass
+                    <button className="users__btn users__btn--change-pass">
+                      Change Pass
                   </button>
-                )}
+                  )}
                 {this.state.saving ? (
                   <button
                     onClick={this.saveNewUser}
@@ -306,10 +281,10 @@ class Users extends Component {
                     Save
                   </button>
                 ) : (
-                  <button className="users__btn users__btn--save hidden">
-                    Save
+                    <button className="users__btn users__btn--save hidden">
+                      Save
                   </button>
-                )}
+                  )}
               </div>
             );
           }
