@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default class index extends Component {
   state = {
+    users: null,
     selection: {
       row: null
     },
@@ -17,6 +18,27 @@ export default class index extends Component {
       errorMsg: ''
     }
   };
+  componentDidMount() {
+    axios
+      .get('/api/v1/users')
+      .then(result => {
+        const {
+          data: { data },
+          status
+        } = result;
+        if (status === 200) {
+          this.setState({ users: data });
+        }
+      })
+      .catch(e =>
+        this.setState({
+          error: {
+            errorStatus: true,
+            errorMsg: 'Error loading users!!'
+          }
+        })
+      );
+  }
   handleOnChange = e => {
     const targetValue = e.target.value;
     const inputName = e.target.name;
@@ -119,10 +141,12 @@ export default class index extends Component {
                 <h3 className="main--h3">Memebrs</h3>
               </div>
               <div className="main-memberSelect">
-                <TableMember
-                  member={require('./../../commonComponents/TableMember/member.json')}
-                  handleCheck={this.handleCheck}
-                />
+                {this.state.users ? (
+                  <TableMember
+                    member={this.state.users}
+                    handleCheck={this.handleCheck}
+                  />
+                ) : null}
               </div>
             </div>
             <div className="main-submit">
