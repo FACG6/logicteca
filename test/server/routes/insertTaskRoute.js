@@ -9,12 +9,30 @@ const selectUserScrumProj = () => {
 };
 
 test('Testing for api/v1/tasks/new route', (t) => {
-  const fields = ['id', 'action_type', 'status', 'modules', 'description', 'estimated_time', 'spent_time', 'priority', 'initial_test_status', 'ticket', 'notes', 'total_efforts', 'date_to_commit', 'review_and_test_note', 'scrum_id', 'assigned_to'];
+  const fields = [
+    'id',
+    'action_type',
+    'status',
+    'modules',
+    'description',
+    'estimated_time',
+    'spent_time',
+    'priority',
+    'initial_test_status',
+    'ticket',
+    'notes',
+    'total_efforts',
+    'date_to_commit',
+    'review_and_test_note',
+    'scrum_id',
+    'assigned_to',
+  ];
   const newTask = {
     action_type: 'CLIENT',
     status: 'coding',
     modules: 'General',
-    description: 'Create new DB schema rami_test copy from Ahmed DB for Rami to make a report with DB issues',
+    description:
+      'Create new DB schema rami_test copy from Ahmed DB for Rami to make a report with DB issues',
     estimated_time: 10,
     spent_time: 6,
     priority: 1,
@@ -33,6 +51,9 @@ test('Testing for api/v1/tasks/new route', (t) => {
     .then(() => {
       supertest(route)
         .post('/api/v1/tasks/new')
+        .set('Cookie', [
+          'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJBbmdoYW0xMTYiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNTU2NTM5ODA2fQ.LH9KjeeekNZ0PAogdB8qr3Ew7V6sz_Ih9cjLSOpVNN4',
+        ])
         .send(newTask)
         .expect(200)
         .expect('content-type', /json/)

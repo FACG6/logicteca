@@ -13,13 +13,9 @@ exports.auth = (request, response, next) => {
       })
       .catch(() => {
         response.clearCookie('jwt');
-        response
-          .status(401)
-          .send({ error: { code: 401, msg: 'you are not authenticated' }, data: null });
+        next({ code: 401 });
       });
   } else {
-    response
-      .status(401)
-      .send({ error: { code: 401, msg: 'you are not authenticated' }, data: null });
+    next({ code: 401 });
   }
 };
