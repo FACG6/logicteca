@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
 import './style.css';
-import { filterIdMember, filterData } from './logic';
+import { filterData } from './logic';
 
 export default class TableMember extends Component {
   state = {
@@ -13,7 +13,7 @@ export default class TableMember extends Component {
 
   componentDidMount() {
     if (this.props.teamMember) {
-      const selectedRowKeys = filterIdMember(this.props.teamMember);
+      const selectedRowKeys = this.props.teamMember;
       this.setState({ selectedRowKeys: selectedRowKeys });
       this.props.handleCheck({
         row: selectedRowKeys
