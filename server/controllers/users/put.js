@@ -1,7 +1,8 @@
 const updateUser = require('../../database/queries/updateUser');
 
 exports.put = (req, res, next) => {
-  updateUser(req.body)
+  const { userId } = req.params;
+  updateUser(req.body.user, userId)
     .then(() => {
       res.send({ error: null, data: req.body });
     })
