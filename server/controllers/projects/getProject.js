@@ -1,15 +1,13 @@
-const selectProjectDetails = require('../../database/queries/selectProjectDetails');
-const refactorData = require('./helper');
+const { selectProjectScrums } = require('../../database/queries/selectProjectScrums');
 
 exports.getProject = (req, res, next) => {
   const { projectId } = req.params;
-  selectProjectDetails(projectId)
+  selectProjectScrums(projectId)
     .then((result) => {
-      const projectsData = {
-        data: refactorData(result.rows),
+      res.send({
+        data: result.rows,
         error: null,
-      };
-      res.send(projectsData);
+      });
     })
     .catch(e => next(e));
 };
