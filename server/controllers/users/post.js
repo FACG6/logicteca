@@ -3,8 +3,10 @@ const hashedPassword = require('./helpers/hashPassword');
 const checkUser = require('../../database/queries/checkUser');
 
 exports.post = (req, res, next) => {
+  console.log(req.body);
   checkUser(req.body.user_name)
     .then((results) => {
+      console.log(results);
       if (results.rowCount) {
         return res.status(422).send({ error: { code: 422, msg: 'UserName is already taken' } });
       }

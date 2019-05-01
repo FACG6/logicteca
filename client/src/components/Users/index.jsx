@@ -103,6 +103,7 @@ class Users extends Component {
         return;
       }
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
+      //bug in id//
       const newUsers = clonedUsers.concat({
         id: clonedUsers[clonedUsers.length - 1].id + 1,
         user_name: '',
@@ -150,20 +151,23 @@ class Users extends Component {
     const { newRow, password, users } = this.state;
     if (this.validateUserInfo(newRow)) {
       if (password) {
-        //fetch...this is the row
         const addedRow = {
           user_name: newRow.user_name,
           full_name: newRow.full_name,
-          password
+          password,
+          role: newRow.role,
         };
-        //Add new row to the table
-        this.setState({
-          rowAdded: false,
-          passwordAdded: false,
-          passwordError: false,
-          saving: false
-        });
-        createNotification('success');
+        axios.post('/api/v1/users/new', addedRow)
+          .then(result => {
+            this.setState({
+              rowAdded: false,
+              passwordAdded: false,
+              passwordError: false,
+              saving: false
+            });
+            createNotification('success');
+          })
+          .catch(error => this.setState({ error: 'Error' }));
       } else {
         this.setState({ passwordError: true });
       }
