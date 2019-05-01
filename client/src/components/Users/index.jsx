@@ -188,11 +188,13 @@ class Users extends Component {
   };
 
   confirmDelete = deleteMember => {
-    //Fetch deleteMember to delete from datatabase
     const { users } = this.state;
-    const filterRows = users.filter(user => user.id !== deleteMember);
-    this.setState({ users: filterRows });
-    //Update state//
+    axios.delete(`/api/v1/users/${deleteMember}`)
+      .then(result => {
+        const filterRows = users.filter(user => user.id !== deleteMember);
+        this.setState({ users: filterRows });
+      })
+      .catch(() => this.setState({ error: 'Error' }));
   };
 
   handleRow = id => {

@@ -11,14 +11,12 @@ const schema = Joi.object().keys({
 });
 
 module.exports = (req, res, next) => {
-  console.log(req.body)
   const user = req.body;
   Joi.validate(user, schema)
     .then(() => {
       next();
     })
-    .catch((err) => {
-      console.log(err)
+    .catch(() => {
       next({ code: 422 });
     });
 };
