@@ -32,7 +32,7 @@ class Scrums extends Component {
         if (status === 200) {
           const project = {
             id: data.id,
-            projectName: data['name']
+            projectName: data.name
           };
           this.setState({ project });
         }
