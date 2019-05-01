@@ -4,8 +4,8 @@ const app = require('../../../server/app');
 const selectId = require('../../../server/database/queries/selectId');
 
 test("testing 'api/v1/:userId' update route", (t) => {
-  const newUserInfo = { user_name: 'Israa', full_name: 'Sulaiman', role: 'developer' };
-  const columns = ['user_name', 'full_name', 'role'];
+  const newUserInfo = { user_name: 'Israaa', full_name: 'Sulaiman', role: 'developer' };
+  const columns = ['id', 'user_name', 'full_name', 'role'];
   selectId()
     .then(response => response.rows[0].id)
     .then((id) => {
