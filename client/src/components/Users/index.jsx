@@ -14,8 +14,9 @@ import {
 import 'react-notifications/lib/notifications.css';
 import Search from '../commonComponents/search/index';
 import searchLogic from '../commonComponents/search/logic';
+import axios from 'axios';
 
-const users = require('../../utils/users.json');
+// const users = require('../../utils/users.json');
 
 class Users extends Component {
 
@@ -38,16 +39,16 @@ class Users extends Component {
     searchResults: [],
   };
 
+  //should be edited //
   hideFocus = (event) => {
     event.target.className = 'users__cell'
   }
 
   componentDidMount() {
     //Fetch to get users from database//
-    //Store them in the state
-    this.setState({
-      users,
-    });
+    axios.get('/api/v1/users')
+      .then(results => this.setState({ users: results.data.data }))
+      .catch(() => this.setState({ error: 'Error' }));
   }
 
   handleSearch = e => {
@@ -90,10 +91,10 @@ class Users extends Component {
   };
 
   updateUserInfo = (user, users) => {
-    //Fetch to update userInfo//
-    //Then update users in the state//
+    axios.put(`/api/v1/users/${user.id}`, user)
+      .then(result => this.setState({ users }))
+      .catch(err => this.setState({ error: 'Error' }))
     //change message//
-    this.setState({ users });
   };
 
   addRow = () => {
