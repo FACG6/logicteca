@@ -1,6 +1,7 @@
 const joi = require('joi');
 
 const { insertProject, insertProjectUsers } = require('./../../database/queries/insertProject');
+const refactorData = require('./helper');
 
 exports.post = (request, response, next) => {
   const schema = joi.object().keys({
@@ -17,7 +18,7 @@ exports.post = (request, response, next) => {
         return insertProjectUsers(newProjectID, row);
       })
       .then((res) => {
-        response.send({ error: null, data: res.rows[0] });
+        response.send({ error: null, data: refactorData(res.rows) });
       })
       .catch(error => next(error));
   } else {

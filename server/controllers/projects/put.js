@@ -2,6 +2,7 @@ const joi = require('@hapi/joi');
 
 const { updateProject, deleteProjectUsers } = require('./../../database/queries/updateProject');
 const { insertProjectUsers } = require('./../../database/queries/insertProject');
+const refactorData = require('./helper');
 
 exports.put = (request, response, next) => {
   const schema = joi.object().keys({
@@ -20,7 +21,7 @@ exports.put = (request, response, next) => {
       })
       .then(newProjectID => insertProjectUsers(newProjectID, row))
       .then((res) => {
-        response.send({ error: null, data: res.rows[0] });
+        response.send({ error: null, data: refactorData(res.rows) });
       })
       .catch(error => next(error));
   } else {
