@@ -5,8 +5,6 @@ import Scrum from './Scrums/index';
 import './style.css';
 import axios from 'axios';
 
-const scrums = require('./Scrums/utilis/scrums.json');
-
 class Scrums extends Component {
   state = {
     project: {
