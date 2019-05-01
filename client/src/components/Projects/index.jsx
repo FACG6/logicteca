@@ -100,7 +100,8 @@ class Projects extends Component {
     },
     {
       title: "Description",
-      dataIndex: "description"
+      dataIndex: "description", 
+      className: 'projects__cell',
     },
     {
       title: "Created At",
@@ -139,6 +140,7 @@ class Projects extends Component {
       </Menu>
     );
     this.columns[4] = {
+      title: 'Action',
       render: props => {
         return (
           <Dropdown key={props.id} trigger={["click"]} overlay={menu}>
@@ -156,7 +158,7 @@ class Projects extends Component {
       <section className="projects__main">
         <div className="projects__button-and-search-container">
           <Link to="/project/new">
-            <Button type="primary" icon="plus" className="button">
+            <Button type="primary" icon="plus" className="projects__new-button">
               Projects
             </Button>
           </Link>

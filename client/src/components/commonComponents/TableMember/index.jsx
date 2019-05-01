@@ -44,6 +44,7 @@ export default class TableMember extends Component {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      className: 'project__cell',
       width: 150,
       filters: [],
       onFilter: (value, record) => record.role.indexOf(value) === 0

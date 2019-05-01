@@ -13,7 +13,7 @@
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 2rem;
 }
 
 .projects__page--container {
@@ -26,8 +26,11 @@
   margin: 0 auto;
 }
 
+.projects__table td, .projects__table td span{
+  font-size: .9rem;
+}
+
 .projects__table--edit {
-  visibility: hidden;
   margin-left: 20px;
 }
 
@@ -36,7 +39,6 @@
 }
 
 .projects__row:hover .projects__table--edit {
-  visibility: visible;
   cursor: pointer;
 }
 
@@ -63,8 +65,21 @@
 
 .projects__table--row-link:hover {
   color: #3f7baa;
+  text-decoration: underline;
 }
 
 .projects__table .ant-table-column-sorter-inner {
   color: white !important;
+}
+
+.projects__new-button {
+  padding: .3rem .5rem;
+}
+
+.projects__new-button:hover {
+  background: #4b83af;
+}
+
+.projects__cell span {
+  font-size: .9rem;
 }

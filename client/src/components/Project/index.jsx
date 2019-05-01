@@ -83,12 +83,12 @@ class Scrums extends Component {
     (
       <React.Fragment>
         <section className='project__page--container'>
-          <div className='Project__header'>
-            <h2 className='Project__name'> {project.projectName} </h2>
+          <div className='project__header'>
+            <h2 className='project__name'> {project.projectName} </h2>
           </div>
           <div className='project__tab-container'>
-            <div className='Project__tab'>
-              {scrums.length !== 0 ? scrums.map(index => <button key={index.id} className='Project__button'><NavLink to={`/project/${projectId}/${index.id}`} className='Project__scrum--link'> {index.scrumName}</NavLink><Icon onClick={() => this.handleDeleteScrum(index.id)} type="close" className='scrums__close-icon' /></button>) : <button></button>}
+            <div className='project__tab'>
+              {scrums.length !== 0 ? scrums.map(index => <button key={index.id} className='project__button'><NavLink to={`/project/${projectId}/${index.id}`} className='project__scrum--link'> {index.scrumName}</NavLink><Icon onClick={() => this.handleDeleteScrum(index.id)} type="close" className='scrums__close-icon' /></button>) : <button></button>}
               <Icon className='scrums__add-icon' type="plus-circle" onClick={this.handleAddScrum} />
             </div>
           </div>

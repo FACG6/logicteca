@@ -91,7 +91,7 @@ export default class index extends Component {
           <form onSubmit={this.handleSubmit} className="main--form">
             <label className="main-label" htmlFor="name">
               <h3 className="main-h3">
-                Project Name <span className="main-required">*</span>:
+                Project Name <span className="main-required">*</span>
               </h3>
               {this.state.project.name && (
                 <input
@@ -105,7 +105,7 @@ export default class index extends Component {
               )}
             </label>
             <label className="main-label" htmlFor="name">
-              <h3 className="main-h3">Description :</h3>
+              <h3 className="main-h3">Description</h3>
               {this.state.project.description && (
                 <textarea
                   name="description"
@@ -115,7 +115,7 @@ export default class index extends Component {
                 />
               )}
             </label>
-            <h3 className="main-h3">Assign Team <span className="main-required">*</span>:</h3>
+            <h3 className="main-h3">Assign Team <span className="main-required">*</span></h3>
             <div className="main-member">
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>
