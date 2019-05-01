@@ -1,7 +1,7 @@
 .projects__main {
   width: 80%;
   margin: 0 auto;
-  padding-top: 25vh;
+  padding-top: 22vh;
 }
 
 .ant-btn-primary {
@@ -24,6 +24,7 @@
 .projects__table {
   width: 100%;
   margin: 0 auto;
+  padding-bottom: 4rem;
 }
 
 .projects__table td, .projects__table td span {

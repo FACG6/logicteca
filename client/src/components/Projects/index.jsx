@@ -1,32 +1,39 @@
-import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Table, Dropdown, Icon, Menu, Button } from "antd";
-import Swal from "sweetalert2";
-import "antd/dist/antd.css";
-import "./style.css";
-import Search from "../commonComponents/search";
-import searchLogic from "../commonComponents/search/logic";
-const data = require("../utils/projects");
+import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { Table, Dropdown, Icon, Menu, Button } from 'antd';
+import Swal from 'sweetalert2';
+import 'antd/dist/antd.css';
+import './style.css';
+import Search from '../commonComponents/search';
+import searchLogic from '../commonComponents/search/logic';
 
 class Projects extends Component {
   state = {
+    projects: [],
     data: [],
     rowSelected: null,
-    redirect: false
+    redirect: false,
+    error: false
   };
   componentDidMount() {
-    //Todo: Fetch to get projects data from database//
-    // fetch('/api/v1/projects')
-    //   .then(response=>response.json())
-    //   .then(results=>results.data)
-    //   .then(**...........**)
-
-    this.setState({ data });
+    axios
+      .get('/api/v1/projects')
+      .then(result => {
+        const {
+          data: { data },
+          status
+        } = result;
+        if (status === 200) {
+          this.setState({ projects: data, data });
+        }
+      })
+      .catch(e => this.setState({ error: true }));
   }
 
   handleSearch = e => {
     const { value } = e.target;
-    const newData = searchLogic(value, data);
+    const newData = searchLogic(value, this.state.projects);
     this.setState({ data: newData });
   };
   handleRow = id => {
@@ -38,35 +45,43 @@ class Projects extends Component {
     }
     const name = this.state.data.find(
       project => project.id === this.state.rowSelected
-    )["name"];
+    )['name'];
     Swal.fire({
-      title: "Are you sure?",
+      title: 'Are you sure?',
       text: "You won't be able to revert this!",
-      type: "warning",
+      type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: `Yes, ! delete "${name}"`
     }).then(result => {
       if (result.value) {
         // fetch database
-        let data = this.state.data.filter(
-          ele => ele.id !== this.state.rowSelected
-        );
-        this.setState({ data });
-        Swal.fire(
-          "Deleted!",
-          `Your Project >> ${name} << has been deleted.`,
-          "success"
-        );
+        const projectId = this.state.rowSelected;
+        axios
+          .delete(`/api/v1/projects/${projectId}`)
+          .then(res => {
+            if (res.status === 200 && res.data.data === true) {
+              let data = this.state.data.filter(
+                ele => ele.id !== this.state.rowSelected
+              );
+              this.setState({ data, projects: data });
+              Swal.fire(
+                'Deleted!',
+                `Your Project >> ${name} << has been deleted.`,
+                'success'
+              );
+            }
+          })
+          .catch(e => this.setState({ error: true }));
       }
     });
   };
   columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      defaultSort: "descend",
+      title: 'ID',
+      dataIndex: 'id',
+      defaultSort: 'descend',
       sorter: (a, b) => {
         if (a.id > b.id) {
           return -1;
@@ -78,14 +93,14 @@ class Projects extends Component {
       }
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      defaultSort: "descend",
+      title: 'Name',
+      dataIndex: 'name',
+      defaultSort: 'descend',
       sorter: (a, b) => {
-        if (a["name"] > b["name"]) {
+        if (a['name'] > b['name']) {
           return -1;
         }
-        if (a["name"] < b["name"]) {
+        if (a['name'] < b['name']) {
           return 1;
         }
         return 0;
@@ -104,18 +119,19 @@ class Projects extends Component {
       className: 'projects__cell',
     },
     {
-      title: "Created At",
-      dataIndex: "created_at",
-      defaultSort: "descend",
+      title: 'Created At',
+      dataIndex: 'created_at',
+      defaultSort: 'descend',
       sorter: (a, b) => {
-        if (a["created_at"] > b["created_at"]) {
+        if (a['created_at'] > b['created_at']) {
           return -1;
         }
-        if (a["created_at"] < b["created_at"]) {
+        if (a['created_at'] < b['created_at']) {
           return 1;
         }
         return 0;
-      }
+      },
+      render: record => record.split('T')[0]
     }
   ];
   render() {
@@ -143,7 +159,7 @@ class Projects extends Component {
       title: 'Action',
       render: props => {
         return (
-          <Dropdown key={props.id} trigger={["click"]} overlay={menu}>
+          <Dropdown key={props.id} trigger={['click']} overlay={menu}>
             <Icon
               onMouseOver={() => this.handleRow(props.id)}
               title="click"
@@ -165,6 +181,7 @@ class Projects extends Component {
           <Search onChange={e => this.handleSearch(e)} />
         </div>
         <div className="projects__table">
+          {this.state.error ? <span>Internal Server Error</span> : null}
           <Table
             dataSource={data}
             columns={this.columns}

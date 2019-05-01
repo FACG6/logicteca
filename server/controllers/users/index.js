@@ -13,7 +13,7 @@ router.route('/new').post(validateUser, post);
 
 router
   .route('/:userId')
-  .put(validateUser, put)
+  .put(put)
   .delete(deleteUser);
 
 router.put('/:userId/new-password', postPassword);
