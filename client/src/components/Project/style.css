@@ -10,7 +10,6 @@
 }
 
 .scrum__name {
-  /* margin-top: 1rem; */
   font-weight: 500;
   display: block;
   width: 9rem;
@@ -157,7 +156,6 @@
 .scrum__addTask__btn {
   background: #3f7baa;
   color: #fff;
-  /* margin-bottom: 2rem; */
   box-shadow: none;
   border: 1px solid #eee;
   transition: all ease .5s;
