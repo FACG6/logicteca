@@ -18,12 +18,6 @@ export default class Login extends Component {
   };
   login = event => {
     event.preventDefault();
-    let pathname = '';
-    console.log(this.props.location, 5555);
-
-    this.props.location.state.from
-      ? ({ pathname } = this.props.location.state.from)
-      : (pathname = '/');
     const { password, user_name } = this.state;
     const { setUserInfo } = this.props;
     if (!password || !user_name) {
@@ -36,16 +30,20 @@ export default class Login extends Component {
           password: password
         })
         .then(result => {
-          if (result.data) {
-            setUserInfo(result.data);
-            this.setState({ redirect: pathname });
+          if (result.status === 200) {
+            this.props.location.state.from
+              ? this.setState({
+                  redirect: this.props.location.state.from.pathname
+                })
+              : this.setState({ redirect: '/' });
+            setUserInfo(result.data.data);
           }
         })
-        .catch(e =>
-          e.error.code === 401
-            ? this.setState({ loginError: e.error.msg })
-            : this.setState({ loginError: ' ERROR' })
-        );
+        .catch(e => {
+          e.status === 401
+            ? this.setState({ loginError: e.message })
+            : this.setState({ loginError: ' ERROR' });
+        });
     }
   };
 

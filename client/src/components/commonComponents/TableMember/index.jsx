@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Table } from "antd";
-import "./style.css";
-import { filterIdMember, filterData } from "./logic";
+import React, { Component } from 'react';
+import { Table } from 'antd';
+import './style.css';
+import { filterData } from './logic';
 
 export default class TableMember extends Component {
   state = {
@@ -13,7 +13,7 @@ export default class TableMember extends Component {
 
   componentDidMount() {
     if (this.props.teamMember) {
-      const selectedRowKeys = filterIdMember(this.props.teamMember);
+      const selectedRowKeys = this.props.teamMember;
       this.setState({ selectedRowKeys: selectedRowKeys });
       this.props.handleCheck({
         row: selectedRowKeys
@@ -23,9 +23,9 @@ export default class TableMember extends Component {
 
   columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: 'Name',
+      dataIndex: 'full_name',
+      key: 'name',
       width: 150,
       filters: [],
       onFilter: (value, record) => record.name.indexOf(value) === 0,
@@ -40,16 +40,15 @@ export default class TableMember extends Component {
       }
     },
     {
-      title: "role",
-      dataIndex: "role",
-      key: "role",
+      title: 'role',
+      dataIndex: 'role',
+      key: 'role',
       width: 150,
       filters: [],
       onFilter: (value, record) => record.role.indexOf(value) === 0
     }
   ];
   render() {
-    // console.log(this.state.selectedRowKeys)
     const {
       pagination,
       selectedRowKeys,

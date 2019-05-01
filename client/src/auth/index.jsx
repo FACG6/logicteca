@@ -7,16 +7,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       component={props => {
-        return isAuth() ? (
-          <Component {...props} />
+        return isAuth ? (
+          <>
+            <Component {...props} />
+          </>
         ) : (
-            <>
-              {rest.clearUserInfo()}
-              <Redirect 
-                to={{ pathname: '/login', state: { from: props.location } }}
-              />
-            </>
-          );
+          <>
+            {rest.clearUserInfo()}
+            <Redirect
+              to={{ pathname: '/login', state: { from: props.location } }}
+            />
+          </>
+        );
       }}
     />
   );

@@ -1,33 +1,73 @@
-import React, { Component } from "react";
-import "./style.css";
-import TableMember from "./../../commonComponents/TableMember";
+import React, { Component } from 'react';
+import './style.css';
+import TableMember from './../../commonComponents/TableMember';
+import axios from 'axios';
 
 export default class index extends Component {
   state = {
+    users: null,
     project: [],
     selection: {
       row: []
     },
     newProject: {
-      name: "",
-      dsescription: ""
+      name: '',
+      dsescription: ''
     },
     error: {
       errorStatus: false,
-      errorMsg: ""
+      errorMsg: ''
     }
   };
 
   componentDidMount() {
-    // fetch project information by take project id from this.props.match.projectId
-    const projectInf = require("./../../commonComponents/TableMember/projects.json")[0];
-    this.setState({
-      project: projectInf,
-      newProject: {
-        name: projectInf.name,
-        dsescription: projectInf.dsescription
-      }
-    });
+    // fetch project information
+    const { projectId } = this.props.match.params;
+    axios
+      .get(`/api/v1/projects/${projectId}`)
+      .then(result => {
+        const {
+          data: { data },
+          status
+        } = result;
+        if (status === 200) {
+          this.setState({
+            project: data,
+            newProject: {
+              name: data.name,
+              dsescription: data.dsescription
+            }
+          });
+        }
+      })
+      .catch(e =>
+        this.setState({
+          error: {
+            errorStatus: true,
+            errorMsg: 'Error loading project details!!'
+          }
+        })
+      );
+    //fetch all users
+    axios
+      .get('/api/v1/users')
+      .then(result => {
+        const {
+          data: { data },
+          status
+        } = result;
+        if (status === 200) {
+          this.setState({ users: data });
+        }
+      })
+      .catch(e =>
+        this.setState({
+          error: {
+            errorStatus: true,
+            errorMsg: 'Error loading users!!'
+          }
+        })
+      );
   }
   handleOnChange = e => {
     const targetValue = e.target.value;
@@ -47,14 +87,14 @@ export default class index extends Component {
     e.preventDefault();
     const {
       selection: { row },
-      newProject: { name }
+      newProject: { name, dsescription }
     } = this.state;
     if (name.trim().length === 0) {
       //show error here for project name
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: "Please enter the project name"
+          errorMsg: 'Please enter the project name'
         }
       });
     } else if (!Array.isArray(row) || row.length === 0) {
@@ -62,21 +102,38 @@ export default class index extends Component {
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: "Please select at least one team member"
+          errorMsg: 'Please select at least one team member'
         }
       });
     } else {
       //fetch to edit project and redirect to projects page (/projects)
-      this.setState({
-        error: {
-          errorStatus: false
-        }
-      });
+      const { projectId } = this.props.match.params;
+      axios
+        .put(`/api/v1/projects/${projectId}`, {
+          name,
+          dsescription,
+          row
+        })
+        .then(result => {
+          const { status } = result;
+          if (status === 200) {
+            this.props.history.push('/projects');
+          }
+        })
+        .catch(e =>
+          this.setState({
+            error: {
+              errorStatus: true,
+              errorMsg: 'Error updating project!!'
+            }
+          })
+        );
     }
   };
 
   render() {
     const projectId = this.props.match.params.projectId;
+
     return (
       <section className="main">
         <div className="main--div">
@@ -98,13 +155,13 @@ export default class index extends Component {
               )}
             </label>
             <label className="main-label" htmlFor="name">
-              <h3 className="main-h3">Description :</h3>
-              {this.state.project.description && (
+              <h3 className="main-h3">dsescription :</h3>
+              {this.state.project.dsescription && (
                 <textarea
-                  name="description"
+                  name="dsescription"
                   onChange={this.handleOnChange}
                   className="main-input main-textArea"
-                  defaultValue={this.state.project.description}
+                  defaultValue={this.state.project.dsescription}
                 />
               )}
             </label>
@@ -114,14 +171,16 @@ export default class index extends Component {
                 <h3 className="main--h3">Memebrs</h3>
               </div>
               <div className="main-memberSelect">
-                {this.state.project.teamMember && (
-                  <TableMember
-                    projectId={projectId}
-                    handleCheck={this.handleCheck}
-                    teamMember={this.state.project.teamMember}
-                    member={require("./../../commonComponents/TableMember/member.json")}
-                  />
-                )}
+                {this.state.project &&
+                  this.state.project.user_id &&
+                  this.state.users && (
+                    <TableMember
+                      projectId={projectId}
+                      handleCheck={this.handleCheck}
+                      teamMember={this.state.project.user_id}
+                      member={this.state.users}
+                    />
+                  )}
               </div>
             </div>
             <div className="main-submit">
