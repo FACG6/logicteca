@@ -48,7 +48,6 @@ class Scrum extends Component {
       .then(res => {
         console.log(9999999, res.data)
         this.setState({ projectTeam: res.data.user_id})
-        // console.log(11111111111, this.state.projectTeam);
       })
       .catch(err => {throw err});
     
