@@ -11,12 +11,12 @@ test('test getUsers database Query', (t) => {
     .then((user) => {
       t.equal(
         Object.keys(user.rows[0]).length,
-        5,
+        4,
         'number of keys is 5',
       );
       t.deepEqual(
         Object.keys(user.rows[0]),
-        ['id', 'user_name', 'full_name', 'password', 'role'],
+        ['id', 'user_name', 'full_name', 'role'],
         'keys should be: id, user_name, full_name, role, password',
       );
       t.end();

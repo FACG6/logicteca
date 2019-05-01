@@ -5,8 +5,8 @@ import './style.css'
 export default function Select ({ defaultValue, onChange }) {
   return (
     <select className="users__select" defaultValue={defaultValue} onChange={onChange}>
-      <option id="1" value="developer">Developer</option>
-      <option id="2" value="scrum master">
+      <option id="1" value="Developer">Developer</option>
+      <option id="2" value="Scrum Master">
         Scrum Master
       </option>
     </select>

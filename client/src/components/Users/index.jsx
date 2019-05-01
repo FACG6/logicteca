@@ -7,18 +7,14 @@ import Select from './select';
 import UserMenu from './menu/menu';
 import Form from './form/index';
 import Error from './error/Error';
-import createNotification from './notification/index'
-import {
-  NotificationContainer,
-} from 'react-notifications';
+import createNotification from './notification/index';
+import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import Search from '../commonComponents/search/index';
 import searchLogic from '../commonComponents/search/logic';
-
-const users = require('../../utils/users.json');
+import axios from 'axios';
 
 class Users extends Component {
-
   state = {
     users: [],
     nameOptions: [],
@@ -35,19 +31,20 @@ class Users extends Component {
     passwordAdded: false,
     error: '',
     search: false,
-    searchResults: [],
+    searchResults: [], 
+    type: '',
   };
 
-  hideFocus = (event) => {
-    event.target.className = 'users__cell'
-  }
+  hideFocus = event => {
+    event.target.className = 'users__cell';
+  };
 
   componentDidMount() {
     //Fetch to get users from database//
-    //Store them in the state
-    this.setState({
-      users,
-    });
+    axios
+      .get('/api/v1/users')
+      .then(result => this.setState({ users: result.data.data }))
+      .catch(error => this.setState({ error: 'Error' }));
   }
 
   handleSearch = e => {
@@ -72,17 +69,20 @@ class Users extends Component {
 
     //Update
     this.updateUserInfo(updatedUser, clonedUsers);
-
   };
 
   validateUserInfo = user => {
     this.setState({ error: '' });
     if (user['user_name'].length < 3) {
-      this.setState({ error: 'Username should consist of at least 3 characters' });
+      this.setState({
+        error: 'Username should consist of at least 3 characters'
+      });
       return false;
     }
     if (user['full_name'].length < 6) {
-      this.setState({ error: 'Full Name should consist of at least 6 characters' });
+      this.setState({
+        error: 'Full Name should consist of at least 6 characters'
+      });
       return false;
     }
     this.setState({ error: '' });
@@ -90,23 +90,30 @@ class Users extends Component {
   };
 
   updateUserInfo = (user, users) => {
-    //Fetch to update userInfo//
-    //Then update users in the state//
+    axios
+      .put(`/api/v1/users/${user.id}`, user)
+      .then(result => this.setState({ users }))
+      .catch(error => this.setState({ error: 'Error' }));
     //change message//
-    this.setState({ users });
-  };
+  }
 
   addRow = () => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       if (this.state.rowAdded) {
         createNotification('row exist');
         return;
       }
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
-      const newUsers = clonedUsers.concat({ id: clonedUsers[clonedUsers.length - 1].id + 1, user_name: '', full_name: '', role: 'developer' })
-      return { users: newUsers, rowAdded: true }
-    })
-  }
+      //bug in id//
+      const newUsers = clonedUsers.concat({
+        id: clonedUsers[clonedUsers.length - 1].id + 1,
+        user_name: '',
+        full_name: '',
+        role: 'developer'
+      });
+      return { users: newUsers, rowAdded: true };
+    });
+  };
 
   handleAddUser = (event, columnName) => {
     const newValue = event.target.value;
@@ -114,39 +121,59 @@ class Users extends Component {
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
       clonedUsers[clonedUsers.length - 1][columnName] = newValue;
       //Not sure if I should update the state now or after inserting the user in database!
-      return { saving: true, users: clonedUsers, newRow: clonedUsers[clonedUsers.length - 1] };
+      return {
+        saving: true,
+        users: clonedUsers,
+        newRow: clonedUsers[clonedUsers.length - 1]
+      };
     });
   };
 
-  handleForm = () => {
-    this.setState({ show: true });
+  handleForm = (type) => {
+    this.setState({ show: true, type });
   };
 
-  handlePassword = (password) => {
-    this.setState({ passwordAdded: true, saving: true, passwordError: false, password, show: false })
+  handlePassword = password => {
+    this.setState({
+      passwordAdded: true,
+      saving: true,
+      passwordError: false,
+      password,
+      show: false, 
+    });
     createNotification('password');
-  }
+  };
 
   cancel = () => {
-    this.setState({ show: false })
-  }
+    this.setState({ show: false });
+  };
 
   saveNewUser = () => {
     const { newRow, password, users } = this.state;
     if (this.validateUserInfo(newRow)) {
       if (password) {
-
-        //fetch...this is the row
-        const addedRow = { user_name: newRow.user_name, full_name: newRow.full_name, password }
-        //Add new row to the table
-        this.setState({ rowAdded: false, passwordAdded: false, passwordError: false, saving: false });
-        createNotification('success')
-
+        const addedRow = {
+          user_name: newRow.user_name,
+          full_name: newRow.full_name,
+          password,
+          role: newRow.role,
+        };
+        axios.post('/api/v1/users/new', addedRow)
+          .then(result => {
+            this.setState({
+              rowAdded: false,
+              passwordAdded: false,
+              passwordError: false,
+              saving: false
+            });
+            createNotification('success');
+          })
+          .catch(error => this.setState({ error: 'Error' }));
       } else {
         this.setState({ passwordError: true });
       }
     }
-  }
+  };
 
   handleDeleteUser = event => {
     const { users, rowSelected } = this.state;
@@ -162,11 +189,13 @@ class Users extends Component {
   };
 
   confirmDelete = deleteMember => {
-    //Fetch deleteMember to delete from datatabase
     const { users } = this.state;
-    const filterRows = users.filter((user) => user.id !== deleteMember);
-    this.setState({ users: filterRows });
-    //Update state//
+    axios.delete(`/api/v1/users/${deleteMember}`)
+      .then(result => {
+        const filterRows = users.filter(user => user.id !== deleteMember);
+        this.setState({ users: filterRows });
+      })
+      .catch(() => this.setState({ error: 'Error' }));
   };
 
   handleRow = id => {
@@ -184,14 +213,20 @@ class Users extends Component {
             onBlur={this.hideFocus}
             innerRef={this.textInput}
             html={value}
-            onChange={event => this.handleEditUserInfo(event, record, 'user_name')}
+            onChange={event =>
+              this.handleEditUserInfo(event, record, 'user_name')
+            }
             tagName="span"
-            className={this.state.rowAdded && record.id === this.state.users.length ? `users__cell focus--input` : 'users__cell '}
+            className={
+              this.state.rowAdded && record.id === this.state.users.length
+                ? `users__cell focus--input`
+                : 'users__cell '
+            }
           />
         );
       },
       onFilter: (value, record) => record['user_name'] === value,
-      sorter: (a, b) => sort(a, b, 'user_name'),
+      sorter: (a, b) => sort(a, b, 'user_name')
     },
     {
       title: 'Full Name',
@@ -201,14 +236,15 @@ class Users extends Component {
         return (
           <Editable
             html={value}
-            onChange={event => this.handleEditUserInfo(event, record, 'full_name')}
+            onChange={event =>
+              this.handleEditUserInfo(event, record, 'full_name')
+            }
             tagName="span"
             className="users__cell"
-
           />
         );
       },
-      sorter: (a, b) => sort(a, b, 'full_name'),
+      sorter: (a, b) => sort(a, b, 'full_name')
     },
     {
       title: 'Role',
@@ -216,10 +252,13 @@ class Users extends Component {
       dataIndex: 'role',
       render: (value, record) => {
         return (
-          <Select onChange={event => this.handleEditUserInfo(event, record, 'role')} defaultValue={record.role} />
+          <Select
+            onChange={event => this.handleEditUserInfo(event, record, 'role')}
+            defaultValue={record.role}
+          />
         );
       },
-      onFilter: (value, record) => record['role'] === value,
+      onFilter: (value, record) => record['role'] === value
     },
     {
       title: 'Action',
@@ -228,13 +267,33 @@ class Users extends Component {
         if (this.state.rowAdded) {
           if (record.id === this.state.users[this.state.users.length - 1].id) {
             return (
-              <div className='users__last-cell'>
-                {!this.state.passwordAdded ? <button onClick={this.handleForm} className='users__btn users__btn--password'>Password</button> :
-                  <button className='users__btn users__btn--change-pass'>Change Pass</button>}
-                {this.state.saving ? <button onClick={this.saveNewUser} className='users__btn users__btn--save'>Save</button>
-                  : <button className='users__btn users__btn--save hidden'>Save</button>}
+              <div className="users__last-cell">
+                {!this.state.passwordAdded ? (
+                  <button
+                    onClick={() => this.handleForm('Add')}
+                    className="users__btn users__btn--password"
+                  >
+                    Password
+                  </button>
+                ) : (
+                    <button className="users__btn users__btn--change-pass">
+                      Change Pass
+                  </button>
+                  )}
+                {this.state.saving ? (
+                  <button
+                    onClick={this.saveNewUser}
+                    className="users__btn users__btn--save"
+                  >
+                    Save
+                  </button>
+                ) : (
+                    <button className="users__btn users__btn--save hidden">
+                      Save
+                  </button>
+                  )}
               </div>
-            )
+            );
           }
         }
         return (
@@ -247,14 +306,20 @@ class Users extends Component {
                 rowId={record.id}
                 users={this.state.users}
                 handleDeleteUser={this.handleDeleteUser}
+                changePassword = {() => this.handleChangePassword('Change')}
               />
             }
           >
-            <Icon onClick={() => this.handleRow(record.id)} title="click" className="user__ellipsis" type="ellipsis" />
+            <Icon
+              onClick={() => this.handleRow(record.id)}
+              title="click"
+              className="user__ellipsis"
+              type="ellipsis"
+            />
           </Dropdown>
         );
-      },
-    },
+      }
+    }
   ];
 
   render() {
@@ -263,26 +328,40 @@ class Users extends Component {
     columns[2].filters = filter(this.state.users).roleOptions;
 
     return (
-      <main className='users__main'>
-        <div className='users__header'>
-          <Button onClick={this.addRow} type="primary" icon="plus" className="users__add-button">Add</Button>
+      <main className="users__main">
+        <div className="users__header">
+          <Button
+            onClick={this.addRow}
+            type="primary"
+            icon="plus"
+            className="users__add-button"
+          >
+            Add
+          </Button>
           <Search onChange={e => this.handleSearch(e)} />
         </div>
         <NotificationContainer />
         {this.state.error ? (
-          <Error errorClass='users__error--wd-70' errorMsg={this.state.error} />
+          <Error errorClass="users__error--wd-70" errorMsg={this.state.error} />
         ) : this.state.passwordError ? (
-          <Error errorClass='users__error--wd-70' errorMsg='Please add Password' />
+          <Error
+            errorClass="users__error--wd-70"
+            errorMsg="Please add Password"
+          />
         ) : null}
         <Table
           rowKey={record => record.id}
-          dataSource={this.state.search ? this.state.searchResults : this.state.users}
+          dataSource={
+            this.state.search ? this.state.searchResults : this.state.users
+          }
           columns={columns}
           pagination={false}
           rowClassName="users__row"
           className="users__table"
         />
-        {this.state.show ? <Form submitPassword={this.handlePassword} cancel={this.cancel} /> : null}
+        {this.state.show ? (
+          <Form row={this.state.rowSelected} type={this.state.type} submitPassword={this.handlePassword} cancel={this.cancel} />
+        ) : null}
       </main>
     );
   }

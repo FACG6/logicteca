@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Error from '../error/Error'
+import axios from 'axios';
 import './style.css';
 
 export default class Password extends Component {
@@ -11,9 +12,19 @@ export default class Password extends Component {
     passwordError: false,
   };
 
-  handlePassword = ({target:{name, value}}) => {
-    this.setState({ passwordError: false, empty: false, [name]: value  });
+  handlePassword = ({ target: { name, value } }) => {
+    this.setState({ passwordError: false, empty: false, [name]: value });
   };
+
+  updatePassword = () => {
+    const id = this.props.row;
+    axios.put(`/api/v1/users/${id}/new-password`, { password: this.state.password })
+      .then(result => {
+        //a message//
+        result.data.data === 'success' ? this.props.cancel() : this.setState({ passwordError: 'Error' })
+      })
+      .catch(error => this.setState({ passwordError: 'Error' }));
+  }
 
   validation = event => {
     event.preventDefault();
@@ -26,7 +37,11 @@ export default class Password extends Component {
       this.setState({ passwordError: true });
       return false;
     }
-    this.props.submitPassword(password);
+    if (this.props.type === 'Add') {
+      this.props.submitPassword(password);
+    } else {
+      this.updatePassword();
+    }
   };
 
   cancel = (event) => {
@@ -39,7 +54,7 @@ export default class Password extends Component {
     return (
       <div className="users__password-wrapper">
         <form className="users__password-form">
-          <h3 className='users__heading'>Add Password</h3>
+          <h3 className='users__heading'>{this.props.type} Password</h3>
           <label className="users__label" htmlFor="password">
             Password
           </label>
@@ -84,5 +99,5 @@ export default class Password extends Component {
 
 Password.propTypes = {
   submitPassword: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired,  
+  cancel: PropTypes.func.isRequired,
 }

@@ -7,14 +7,14 @@ const schema = Joi.object().keys({
     .required(),
   full_name: Joi.string().min(6),
   role: Joi.string(),
-  password: Joi.string().min(6),
+  password: Joi.string().min(6).required(),
 });
 
 module.exports = (req, res, next) => {
   const user = req.body;
   Joi.validate(user, schema)
     .then(() => {
-      next();      
+      next();
     })
     .catch(() => {
       next({ code: 422 });
