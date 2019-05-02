@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const build = require('./../server/database/config/dbBuild');
 const fakeData = require('./../server/database/config/insertFakeData');
 
@@ -23,6 +24,7 @@ build()
   .then(() => require('./server/routes/projectNewRoute.test'))
   .then(() => require('./server/routes/putScrumRoute.test'))
   .then(() => require('./server/deleteUser'))
+  .then(() => require('./server/routes/deleteTaskRoute'))
   .then(() => require('./server/routes/deleteUser.route'))
   .then(() => require('./server/insertUser'))
   .then(() => require('./server/insertScrumQuery'))
