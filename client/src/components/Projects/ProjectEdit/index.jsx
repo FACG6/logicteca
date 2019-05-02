@@ -12,7 +12,7 @@ export default class index extends Component {
     },
     newProject: {
       name: "",
-      description: ""
+      description: undefined
     },
     error: {
       errorStatus: false,
@@ -31,6 +31,9 @@ export default class index extends Component {
           status
         } = result;
         if (status === 200) {
+          if (!data.description) {
+            data.description = " ";
+          }
           this.setState({
             project: data,
             newProject: {

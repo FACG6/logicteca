@@ -12,10 +12,7 @@ import calculate from './utilis/calculate';
 import axios from 'axios';
 
 class Scrum extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
+    state = {
       tasks: [],
       html: '',
       newRow: {},
@@ -25,7 +22,6 @@ class Scrum extends Component {
       scrumName: '',
       error: '',
     }
-  }
 
   componentDidMount() {
     const { scrumId } = this.props;
@@ -35,18 +31,7 @@ class Scrum extends Component {
       })
       .catch(error => this.setState({ error: 'Error' }));
   }
-
-  // componentDidUpdate(prevProp, prevState) {
-  //   if (prevProp.scrumId !== this.props.scrumId) {
-  //     const { scrumId } = this.props;
-  //     const scrums = require('./utilis/scrums.json');
-  //     const scrumObject = scrums.find(scrum => scrum.id == scrumId);
-  //     const scrumName = scrumObject.scrumName;
-  //     //Fetch to get the scrum name and its task //
-  //     this.setState({ scrumName, tasks: require('./utilis/tasks') })
-  //   }
-  // }
-
+  
   handleAddNewTask = () => {
     if (this.state.newTask) {
       createNotification('task exist');
