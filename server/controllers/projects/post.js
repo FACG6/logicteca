@@ -6,10 +6,9 @@ const refactorData = require('./helper');
 exports.post = (request, response, next) => {
   const schema = joi.object().keys({
     name: joi.string(),
-    dsescription: joi.string(),
   });
   const { name, dsescription, row } = request.body;
-  const result = joi.validate({ name, dsescription }, schema);
+  const result = joi.validate({ name }, schema);
 
   if (result.error === null) {
     insertProject(name, dsescription)
@@ -22,6 +21,7 @@ exports.post = (request, response, next) => {
       })
       .catch(error => next(error));
   } else {
-    next({ code: 422 });
+    console.log(result.error)
+    // next({ code: 422 });
   }
 };
