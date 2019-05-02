@@ -125,17 +125,36 @@ class Scrum extends Component {
     } = this.state.newRow;
 
     if (this.validateTask(newRow)) {
+      // console.log(this.props.scrumId, 55555);
+
       const addedTask = {
-        task_description,
         action_type,
         status,
+        task_description,
         priority,
         assigned_to: assignee,
         estimate_time: est_time,
         spent_time,
-        ticket
+        ticket,
+        scrum_id: this.props.scrumId
       };
       //Fetch
+      axios
+        .post('/api/v1/tasks/new', {
+          addedTask
+        })
+        .then(result => {
+          const {
+            data: { data },
+            status
+          } = result;
+          if (status === 200) {
+            const newData = [...this.state.tasks];
+            newData.push(data);
+            this.setState({ tasks: newData });
+          }
+        })
+        .catch(e => this.setState({ error: 'Task is not Added!!' }));
       this.setState({ newTask: false, error: false, saving: false });
       createNotification('success');
     }
