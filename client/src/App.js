@@ -86,12 +86,6 @@ class App extends Component {
                 path="/project/:projectId/edit"
                 component={props => <ProjectEdit {...props} />}
               />
-              {/* <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
-                exact
-                path="/project/:projectId"
-                component={props => <Project {...props} />}
-              /> */}
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact

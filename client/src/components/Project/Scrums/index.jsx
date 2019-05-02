@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { Table, Button, Icon } from 'antd';
 import Swal from 'sweetalert2';
-import {
-  NotificationContainer,
-} from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import createNotification from '../../Users/notification/index';
 import Editable from 'react-contenteditable';
 import { ProjectTeam, StatusSelect, ActionTypeSelect } from './select/index';
 import { Sort } from './utilis/sort';
-import { Filter } from './utilis/filter.js'
+import { Filter } from './utilis/filter.js';
 import calculate from './utilis/calculate';
 import axios from 'axios';
 
@@ -30,10 +28,10 @@ class Scrum extends Component {
   }
 
   componentDidMount() {
-    const { scrumId, projectTeam } = this.props;
+    const { scrumId } = this.props;
     axios.get(`/api/v1/scrums/${scrumId}`)
       .then(result => {
-        this.setState({ projectTeam, scrumName: result.data.data[0].name, tasks: result.data.data, error: '' })
+        this.setState({ tasks: result.data.data, error: '' })
       })
       .catch(error => this.setState({ error: 'Error' }));
   }
@@ -56,8 +54,31 @@ class Scrum extends Component {
     }
     if (this.state.tasks.length) {
       this.setState(prevState => {
-        const newTask = [...prevState.tasks, {
-          id: '1',
+        const newTask = [
+          ...prevState.tasks,
+          {
+            id: '1',
+            task_name: '',
+            task_description: '',
+            action_type: 'testing',
+            priority: '',
+            est_time: '',
+            remaining_time: '',
+            status: 'in progress',
+            assignee: '',
+            ticket: '',
+            scrumName: ''
+          }
+        ];
+        return { tasks: newTask, newTask: true };
+      });
+      return;
+    }
+    this.setState(prevState => {
+      const newTask = [
+        ...prevState.tasks,
+        {
+          id: this.state.tasks.length + 1,
           task_name: '',
           task_description: '',
           action_type: 'testing',
@@ -67,27 +88,10 @@ class Scrum extends Component {
           status: 'in progress',
           assignee: '',
           ticket: '',
-          scrumName: '',
-        }];
-        return { tasks: newTask, newTask: true }
-      });
-      return;
-    }
-    this.setState(prevState => {
-      const newTask = [...prevState.tasks, {
-        id: this.state.tasks.length + 1,
-        task_name: '',
-        task_description: '',
-        action_type: 'testing',
-        priority: '',
-        est_time: '',
-        remaining_time: '',
-        status: 'in progress',
-        assignee: '',
-        ticket: '',
-        scrumName: '',
-      }];
-      return { tasks: newTask, newTask: true }
+          scrumName: ''
+        }
+      ];
+      return { tasks: newTask, newTask: true };
     });
   };
 
@@ -96,11 +100,15 @@ class Scrum extends Component {
     this.setState(prevState => {
       const clonedTasks = [...prevState.tasks];
       clonedTasks[clonedTasks.length - 1][column] = newTask;
-      return { saving: true, tasks: clonedTasks, newRow: clonedTasks[clonedTasks.length - 1] };
+      return {
+        saving: true,
+        tasks: clonedTasks,
+        newRow: clonedTasks[clonedTasks.length - 1]
+      };
     });
   };
 
-  handleSaveNewTask = (event) => {
+  handleSaveNewTask = event => {
     const { newRow } = this.state;
     const { scrumId } = this.props;
     const {
@@ -111,7 +119,7 @@ class Scrum extends Component {
       status,
       spent_time,
       priority,
-      estimated_time: est_time,
+      est_time
     } = this.state.newRow;
 
     if (this.validateTask(newRow)) {
@@ -123,14 +131,14 @@ class Scrum extends Component {
         assigned_to: assignee,
         estimate_time: est_time,
         spent_time,
-        ticket,
-      }
+        ticket
+      };
       //Fetch
       axios.post(`/api/v1/tasks/`)
       this.setState({ newTask: false, error: false, saving: false });
-      createNotification('success')
+      createNotification('success');
     }
-  }
+  };
 
   handleEditTask = (event, record, column) => {
     const { tasks } = this.state;
@@ -162,28 +170,29 @@ class Scrum extends Component {
       return false;
     }
     if (task.priority && !/\d/.test(task.priority)) {
-      this.setState({ error: "Priority should be a number" });
+      this.setState({ error: 'Priority should be a number' });
       return false;
     }
     if (task.est_time && !/\d/.test(task.est_time)) {
-      this.setState({ error: "Estimate time should be numbers" });
+      this.setState({ error: 'Estimate time should be numbers' });
       return false;
     }
     if (task.spent_time && !/\d/.test(task.spent_time)) {
-      this.setState({ error: "Spent time should be numbers" });
+      this.setState({ error: 'Spent time should be numbers' });
       return false;
     }
     return true;
-  }
+  };
 
-  handleDeleteTask = (id) => {
+  handleDeleteTask = id => {
     const { tasks } = this.state;
     const { scrumId, projectId } = this.props.params;
     const deletedTask = tasks.find(task => task.id === id);
     const taskId = deletedTask.id;
     this.deleteSwal().then(response => {
-      if (response.value) this.confirmDelete(taskId, Number(scrumId), Number(projectId));
-    })
+      if (response.value)
+        this.confirmDelete(taskId, Number(scrumId), Number(projectId));
+    });
   };
 
   deleteSwal = () => {
@@ -193,22 +202,30 @@ class Scrum extends Component {
       showConfirmButton: true,
       showCancelButton: true,
       className: 'deletTaskSwal'
-    })
+    });
   };
 
   confirmDelete = (taskId, scrumId, projectId) => {
     const { tasks } = this.state;
     const taskIndex = tasks.findIndex(task => task.id === Number(taskId));
     tasks.splice(taskIndex, 1);
-    this.setState({ tasks })
+    this.setState({ tasks });
     //Fetch to delete task
-  }
+    axios
+      .delete(`/api/v1/tasks/${taskId}`)
+      .then(res => {
+        if (res.status === 200) {
+          Swal.fire('Deleted!', `Your task has been deleted.`, 'success');
+        }
+      })
+      .catch(e => this.setState({ error: 'Task is not Deleted!!' }));
+  };
 
-  handleChangeScrum = (event) => {
+  handleChangeScrum = event => {
     const scrumNewName = event.target.value;
     this.setState({ scrumName: scrumNewName });
     this.props.scrumName(scrumNewName);
-  }
+  };
 
   columns = [
     {
@@ -217,20 +234,27 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
-            onChange={event => this.handleEditTask(event, record, 'task_description')}
+            html={value}
+            onChange={event =>
+              this.handleEditTask(event, record, 'task_description')
+            }
             tagName="span"
             className="tasks__cell description"
           />
         );
-      },
+      }
     },
     {
       title: 'Action Type',
       dataIndex: 'action_type',
       render: (value, record) => {
         return (
-          <ActionTypeSelect onChange={event => this.handleEditTask(event, record, 'action_type')} defaultValue={record.action_type} />
+          <ActionTypeSelect
+            onChange={event =>
+              this.handleEditTask(event, record, 'action_type')
+            }
+            defaultValue={record.action_type}
+          />
         );
       },
       onFilter: (value, record) => record['action_type'] === value
@@ -263,7 +287,7 @@ class Scrum extends Component {
             className="tasks__cell estimate_time"
           />
         );
-      },
+      }
     },
     {
       title: 'Spent Time (hr)',
@@ -277,7 +301,7 @@ class Scrum extends Component {
             className="tasks__cell spent_time"
           />
         );
-      },
+      }
     },
     {
       title: 'Remaining Time (hr)',
@@ -285,30 +309,44 @@ class Scrum extends Component {
       render: (value, record) => {
         const remaining = calculate(record['est_time'], record['spent_time']);
         return (
-          <span className="tasks__cell remaining_time" onChange={event => this.handleEditTask(event, record, 'remaining_time')}>{remaining !== 'notvalid' ? remaining : 0}</span>
+          <span
+            className="tasks__cell remaining_time"
+            onChange={event =>
+              this.handleEditTask(event, record, 'remaining_time')
+            }
+          >
+            {remaining !== 'notvalid' ? remaining : 0}
+          </span>
         );
-      },
+      }
     },
     {
       title: 'Status',
       dataIndex: 'status',
       render: (value, record) => {
         return (
-          <StatusSelect onChange={event => this.handleEditTask(event, record, 'status')} defaultValue={record.status} />
+          <StatusSelect
+            onChange={event => this.handleEditTask(event, record, 'status')}
+            defaultValue={record.status}
+          />
         );
       },
       onFilter: (value, record) => record['status'] === value
     },
     {
-      title: 'Assignee',
+      title: 'Assigned_to',
       dataIndex: 'assigned_to',
       render: (value, record) => {
         return (
-          <ProjectTeam defaultValue={value} team={this.props.projectTeam} onChange={event => this.handleEditTask(event, record, 'assignee')} />
+          <ProjectTeam
+            team={this.props.projectTeam}
+            defaultValue={value}
+            onChange={event => this.handleEditTask(event, record, 'assigned_to')}
+          />
         );
       },
-      onFilter: (value, record) => record['assignee'] === value,
-      sorter: (a, b) => Sort(a, b, 'assignee'),
+      onFilter: (value, record) => record['assigned_to'] === value,
+      sorter: (a, b) => Sort(a, b, 'assigned_to')
     },
     {
       title: 'Ticket',
@@ -322,19 +360,33 @@ class Scrum extends Component {
             className="tasks__cell"
           />
         );
-      },
+      }
     },
     {
       render: record => {
         return (
-          <span className='tasks__delete-span'>
-            <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
-            <button onClick={this.handleSaveNewTask} className={
-              this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving ? 'tasks__save-btn' : 'tasks__save-btn hidden'
-            }>Save</button>
+          <span className="tasks__delete-span">
+            <Icon
+              className="tasks__delete-icon"
+              type="delete"
+              onClick={() => this.handleDeleteTask(record.id)}
+            />
+            <button
+              onClick={this.handleSaveNewTask}
+              className={
+                this.state.newTask &&
+                  record.id ===
+                  this.state.tasks[this.state.tasks.length - 1].id &&
+                  this.state.saving
+                  ? 'tasks__save-btn'
+                  : 'tasks__save-btn hidden'
+              }
+            >
+              Save
+            </button>
           </span>
         );
-      },
+      }
     }
   ];
 
@@ -348,18 +400,30 @@ class Scrum extends Component {
     return (
       <React.Fragment>
         <NotificationContainer />
-        <div className='scrum__header'>
+        <div className="scrum__header">
           <Editable
             html={this.state.scrumName}
-            tagName='span'
+            tagName="span"
             onChange={this.handleChangeScrum}
-            className='scrum__name'
+            className="scrum__name"
           />
-          <Button icon="plus" className="scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
+          <Button
+            icon="plus"
+            className="scrum__addTask__btn"
+            onClick={this.handleAddNewTask}
+          >
+            {' '}
+            Task{' '}
+          </Button>
         </div>
-        <section className='scrum__page--container'>
-          {this.state.error ? <span className='tasks__error'>{this.state.error}</span> : <span></span>}
-          <Table columns={columns}
+        <section className="scrum__page--container">
+          {this.state.error ? (
+            <span className="tasks__error">{this.state.error}</span>
+          ) : (
+              <span />
+            )}
+          <Table
+            columns={columns}
             rowKey={record => record.id}
             dataSource={this.state.tasks}
             pagination={false}
@@ -369,7 +433,7 @@ class Scrum extends Component {
           />
         </section>
       </React.Fragment>
-    )
+    );
   }
 }
 

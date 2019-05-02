@@ -38,7 +38,6 @@ class Scrums extends Component {
             const {
               data: { data },
             } = result;
-
             this.setState({ scrums: data });
             if (!this.props.match.params.scrumId) {
               const scrumId = data[0].id;

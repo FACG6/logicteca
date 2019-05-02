@@ -19,7 +19,7 @@ CREATE TABLE projects(
 
 CREATE TABLE users_projects(
     id SERIAL PRIMARY KEY,
-    project_id INTEGER REFERENCES projects(id),
+    project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
     user_id INTEGER
 );
 
