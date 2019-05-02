@@ -21,7 +21,6 @@ exports.post = (request, response, next) => {
       })
       .catch(error => next(error));
   } else {
-    console.log(result.error)
-    // next({ code: 422 });
+    next({ code: 422 });
   }
 };

@@ -27,6 +27,7 @@ export default class index extends Component {
           status
         } = result;
         if (status === 200) {
+          console.log(data)
           this.setState({ users: data });
         }
       })
