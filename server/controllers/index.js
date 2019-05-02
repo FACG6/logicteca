@@ -13,7 +13,7 @@ const { auth } = require('./middleware/authentication');
 const error = require('./middleware/error');
 
 router.get('/logout', logout);
-router.use(auth);
+// router.use(auth);
 router.get('/isAuthenticated', isAuthenticated);
 router.use('/projects', projects);
 router.use('/users', users);

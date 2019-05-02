@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Icon } from 'antd';
-import Scrum from './Scrums/index';
-import './style.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
+import { Icon } from "antd";
+import Scrum from "./Scrums/index";
+import "./style.css";
+import axios from "axios";
 
 class Scrums extends Component {
   state = {
     project: {
-      id: '',
-      projectName: ''
+      id: "",
+      projectName: ""
     },
     scrums: [],
-    scrumName: '',
+    scrumName: "",
     error: {
       status: false,
-      msg: ''
+      msg: ""
     }
   };
 
@@ -41,7 +41,7 @@ class Scrums extends Component {
         this.setState({
           error: {
             status: true,
-            msg: 'Error loading scrums !!!'
+            msg: "Error loading scrums !!!"
           }
         });
       });
@@ -54,6 +54,7 @@ class Scrums extends Component {
           data: { data },
           status
         } = result;
+        console.log(data)
         if (status === 200) {
           this.setState({ scrums: data });
         }
@@ -62,32 +63,36 @@ class Scrums extends Component {
         this.setState({
           error: {
             status: true,
-            msg: 'Error loading scrums !!!'
+            msg: "Error loading scrums !!!"
           }
         });
       });
   }
 
   handleAddScrum = () => {
-    this.setState(prevState => {
-      const previousScrums = prevState.scrums;
-      if (!previousScrums.length) {
-        return {
-          scrums: previousScrums.concat({
-            id: 1,
-            scrumName: `scrum 1`
-          })
-        };
-      } else {
-        const lastScrumId = previousScrums[previousScrums.length - 1].id;
-        return {
-          scrums: previousScrums.concat({
-            id: lastScrumId + 1,
-            scrumName: `scrum ${lastScrumId + 1}`
-          })
-        };
-      }
-    });
+    const previousScrums = this.state.scrums;
+    const lastScrumId = previousScrums.length;
+
+    axios
+      .post("/api/v1/scrums/new", {
+        projectId: this.state.project.id,
+        scrumName: `scrum ${lastScrumId + 1}`
+      })
+      .then(res => {
+        const {
+          data: { data }
+        } = res;
+        const { id, name } = data;
+        console.log(name);
+        this.setState(prevState => {
+          return {
+            scrums: prevState.scrums.concat({
+              id,
+              scrumName: name
+            })
+          };
+        });
+      });
   };
 
   handleDeleteScrum = scrumId => {
@@ -105,7 +110,7 @@ class Scrums extends Component {
       const scrumIndex = updatedScrums.findIndex(
         scrum => scrum.id === Number(scrumId)
       );
-      updatedScrums[scrumIndex]['scrumName'] = scrumValue;
+      updatedScrums[scrumIndex]["scrumName"] = scrumValue;
       return { scrums: updatedScrums };
       //Fetch//
     });
@@ -114,6 +119,7 @@ class Scrums extends Component {
   render() {
     const { projectId, scrumId } = this.props.match.params;
     const { project, scrums } = this.state;
+    console.log(scrums);
     return (
       <React.Fragment>
         <section className="project__page--container">
@@ -124,12 +130,12 @@ class Scrums extends Component {
             <div className="Project__tab">
               {scrums.length !== 0 ? (
                 scrums.map(index => (
-                  <button key={index.id} className="Project__button">
+                  <button key={index.id} id={index.id} className="Project__button">
                     <NavLink
                       to={`/project/${projectId}/${index.id}`}
                       className="Project__scrum--link"
                     >
-                      {' '}
+                      {" "}
                       {index.scrumName}
                     </NavLink>
                     <Icon
@@ -143,6 +149,7 @@ class Scrums extends Component {
                 <button />
               )}
               <Icon
+                id={this.state.project.id}
                 className="scrums__add-icon"
                 type="plus-circle"
                 onClick={this.handleAddScrum}

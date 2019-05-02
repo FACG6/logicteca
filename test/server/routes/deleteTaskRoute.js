@@ -25,7 +25,6 @@ test('delete in /api/v1/tasks/:taskId (with valid data)', (t) => {
           .expect(200)
           .expect('Content-Type', /json/)
           .end((err, res) => {
-            console.log(res.body);
             if (err) {
               t.error(err);
             } else if (res.body.error) {
