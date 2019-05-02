@@ -21,7 +21,7 @@ exports.post = (request, response, next) => {
         next({ code: 401 });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
-        response.cookie('jwt', token, { maxAge: 60 * 60 * 24 }, { httpOnly: true });
+        response.cookie('jwt', token, { maxAge: 1000 * 60 * 60 * 24 * 7 }, { httpOnly: true });
         response.status(200).send({
           error: null,
           data: payload,
