@@ -2,23 +2,25 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Dropdown } from 'antd';
 import { NavLink } from 'react-router-dom';
-import {
-  NotificationContainer,
-} from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 import './style.css';
 import axios from 'axios';
 import createNotification from '../../Users/notification';
 
 export default function Header(props) {
-  const { userInfo: { user_name, role }, clearUserInfo } = props;
+  const {
+    userInfo: { user_name, role },
+    clearUserInfo
+  } = props;
   function handleClick() {
-    axios.get('/api/v1/logout')
+    axios
+      .get('/api/v1/logout')
       .then(response => {
         if (response.status === 200) {
           clearUserInfo();
         }
       })
-      .catch(error => createNotification('server error'))
+      .catch(error => createNotification('server error'));
   }
   const menu = (
     <Menu>
@@ -40,11 +42,9 @@ export default function Header(props) {
             <NavLink to="/projects">
               <li> Projects </li>
             </NavLink>
-            {role === 'admin' ? (
-              <NavLink to="/users">
-                <li> Users </li>
-              </NavLink>
-            ) : null}
+            <NavLink to="/users">
+              <li> Users </li>
+            </NavLink>
           </ul>
           <div className="header__username">
             <Dropdown trigger={['click']} overlay={menu} placement="bottomLeft">
