@@ -20,34 +20,17 @@ class Scrum extends Component {
     taskDescriptionErr: '',
     newTask: false,
     scrumName: '',
-    projectTeam: [],
     error: ''
   };
 
   componentDidMount() {
     const { scrumId } = this.props;
-    const scrums = require('./utilis/scrums.json');
-    const projectTeam = [
-      { id: 1, name: 'Ahmed' },
-      { id: 2, name: 'Ameen' },
-      { id: 3, name: 'Angham' },
-      { id: 4, name: 'Ayman' }
-    ];
-    const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-    const scrumName = scrumObject.scrumName;
-    //Fetch to get the scrum name and its task //
-    this.setState({ projectTeam, scrumName, tasks: require('./utilis/tasks') });
-  }
-
-  componentDidUpdate(prevProp, prevState) {
-    if (prevProp.scrumId !== this.props.scrumId) {
-      const { scrumId } = this.props;
-      const scrums = require('./utilis/scrums.json');
-      const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-      const scrumName = scrumObject.scrumName;
-      //Fetch to get the scrum name and its task //
-      this.setState({ scrumName, tasks: require('./utilis/tasks') });
-    }
+    axios
+      .get(`/api/v1/scrums/${scrumId}`)
+      .then(result => {
+        this.setState({ tasks: result.data.data, error: '' });
+      })
+      .catch(error => this.setState({ error: 'Error' }));
   }
 
   handleAddNewTask = () => {
@@ -113,10 +96,11 @@ class Scrum extends Component {
 
   handleSaveNewTask = event => {
     const { newRow } = this.state;
+    const { scrumId } = this.props;
     const {
-      task_description,
+      description: task_description,
       action_type,
-      assignee,
+      assigned_to: assignee,
       ticket,
       status,
       spent_time,
@@ -250,7 +234,7 @@ class Scrum extends Component {
   columns = [
     {
       title: 'Task',
-      dataIndex: 'task_description',
+      dataIndex: 'description',
       render: (value, record) => {
         return (
           <Editable
@@ -285,7 +269,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
@@ -301,7 +285,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'est_time')}
             tagName="span"
             className="tasks__cell estimate_time"
@@ -354,19 +338,21 @@ class Scrum extends Component {
       onFilter: (value, record) => record['status'] === value
     },
     {
-      title: 'Assignee',
-      dataIndex: 'assignee',
+      title: 'Assigned_to',
+      dataIndex: 'assigned_to',
       render: (value, record) => {
         return (
           <ProjectTeam
-            team={this.state.projectTeam}
-            defaultValue={this.state.projectTeam[0].name}
-            onChange={event => this.handleEditTask(event, record, 'assignee')}
+            team={this.props.projectTeam}
+            defaultValue={value}
+            onChange={event =>
+              this.handleEditTask(event, record, 'assigned_to')
+            }
           />
         );
       },
-      onFilter: (value, record) => record['assignee'] === value,
-      sorter: (a, b) => Sort(a, b, 'assignee')
+      onFilter: (value, record) => record['assigned_to'] === value,
+      sorter: (a, b) => Sort(a, b, 'assigned_to')
     },
     {
       title: 'Ticket',
@@ -374,7 +360,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
@@ -409,6 +395,7 @@ class Scrum extends Component {
       }
     }
   ];
+
   render() {
     const columns = this.columns;
     const { tasks } = this.state;

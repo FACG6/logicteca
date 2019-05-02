@@ -29,7 +29,7 @@ export default class TableMember extends Component {
       width: 150,
       className: 'project__cell',
       filters: [],
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      onFilter: (value, record) => record.full_name.indexOf(value) === 0,
       sorter: (a, b) => {
         if (a.id > b.id) {
           return -1;

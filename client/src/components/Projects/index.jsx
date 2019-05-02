@@ -107,7 +107,7 @@ class Projects extends Component {
       },
       render: (text, record) => {
         return (
-          <Link to={`/project/${record.id}/1`}>
+          <Link to={`/project/${record.id}`}>
             <span className="projects__table--row-link">{text}</span>
           </Link>
         );

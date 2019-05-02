@@ -37,7 +37,7 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: false,
+    isLogin: true,
   };
   componentDidMount() {
     isAuth
@@ -72,7 +72,7 @@ class App extends Component {
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/projects"
-                component={props => <Projects {...props} />}
+                component={Projects}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
@@ -85,12 +85,6 @@ class App extends Component {
                 exact
                 path="/project/:projectId/edit"
                 component={props => <ProjectEdit {...props} />}
-              />
-              <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
-                exact
-                path="/project/:projectId"
-                component={props => <Project {...props} />}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
