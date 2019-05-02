@@ -29,11 +29,11 @@ CREATE TABLE scrums(
     project_id INTEGER REFERENCES projects(id) on delete CASCADE
 );
 
-CREATE TYPE act_type AS ENUM ('DEVELOPPER', 'SCRUM MASTER', 'CLIENT');
+CREATE TYPE act_type AS ENUM ('DEVELOPER', 'SCRUM MASTER', 'CLIENT');
 
 CREATE TABLE tasks(
     id SERIAL  PRIMARY KEY,
-    action_type act_type,
+    action_type VARCHAR,
     status VARCHAR,
     modules VARCHAR,
     description TEXT,
