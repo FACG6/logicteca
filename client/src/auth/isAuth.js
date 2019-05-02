@@ -5,5 +5,5 @@ export default function isAuth() {
   //   .get('/api/v1/isAuthenticated')
   //   .then(result => (result.data ? true : false))
   //   .catch(e => false);
-  return false;
+  return true;
 }

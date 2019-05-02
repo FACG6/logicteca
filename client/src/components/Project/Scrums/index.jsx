@@ -14,25 +14,26 @@ import calculate from './utilis/calculate';
 import axios from 'axios';
 
 class Scrum extends Component {
-  state = {
-    tasks: [],
-    html: '',
-    newRow: {},
-    saving: false,
-    taskDescriptionErr: '',
-    newTask: false,
-    scrumName: '',
-    projectTeam: [],
-    error: '',
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      tasks: [],
+      html: '',
+      newRow: {},
+      saving: false,
+      taskDescriptionErr: '',
+      newTask: false,
+      scrumName: '',
+      error: '',
+    }
   }
 
   componentDidMount() {
     const { scrumId, projectTeam } = this.props;
     axios.get(`/api/v1/scrums/${scrumId}`)
       .then(result => {
-        console.log(projectTeam, 'projectTeam');
-        console.log(result);
-        this.setState({ projectTeam, scrumName: result.data.data[0].name, tasks: result.data.data })
+        this.setState({ projectTeam, scrumName: result.data.data[0].name, tasks: result.data.data, error: '' })
       })
       .catch(error => this.setState({ error: 'Error' }));
   }
@@ -212,11 +213,11 @@ class Scrum extends Component {
   columns = [
     {
       title: 'Task',
-      dataIndex: 'task_description',
+      dataIndex: 'description',
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'task_description')}
             tagName="span"
             className="tasks__cell description"
@@ -240,7 +241,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
@@ -256,7 +257,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'est_time')}
             tagName="span"
             className="tasks__cell estimate_time"
@@ -300,10 +301,10 @@ class Scrum extends Component {
     },
     {
       title: 'Assignee',
-      dataIndex: 'assignee',
+      dataIndex: 'assigned_to',
       render: (value, record) => {
         return (
-          <ProjectTeam team={this.props.projectTeam} onChange={event => this.handleEditTask(event, record, 'assignee')} />
+          <ProjectTeam defaultValue={value} team={this.props.projectTeam} onChange={event => this.handleEditTask(event, record, 'assignee')} />
         );
       },
       onFilter: (value, record) => record['assignee'] === value,
@@ -315,7 +316,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
@@ -336,6 +337,7 @@ class Scrum extends Component {
       },
     }
   ];
+
   render() {
     const columns = this.columns;
     const { tasks } = this.state;
@@ -346,16 +348,16 @@ class Scrum extends Component {
     return (
       <React.Fragment>
         <NotificationContainer />
-        <Editable
-          html={this.state.scrumName}
-          tagName='span'
-          onChange={this.handleChangeScrum}
-          className='scrum__name'
-        />
-        <section className='Scrum__page--container'>
-          <div className='Scrum__header'>
-            <Button icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
-          </div>
+        <div className='scrum__header'>
+          <Editable
+            html={this.state.scrumName}
+            tagName='span'
+            onChange={this.handleChangeScrum}
+            className='scrum__name'
+          />
+          <Button icon="plus" className="scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
+        </div>
+        <section className='scrum__page--container'>
           {this.state.error ? <span className='tasks__error'>{this.state.error}</span> : <span></span>}
           <Table columns={columns}
             rowKey={record => record.id}

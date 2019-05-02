@@ -54,3 +54,4 @@ module.exports = () => new Promise((resolve) => {
     .then(() => resolve())
     .catch(error => console.log(error));
 });
+

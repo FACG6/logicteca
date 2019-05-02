@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import './style.css';
-import TableMember from './../../commonComponents/TableMember';
-import axios from 'axios';
+import React, { Component } from "react";
+import TableMember from "./../../commonComponents/TableMember";
+import axios from "axios";
+import "../ProjectNew/style.css";
 
 export default class index extends Component {
   state = {
@@ -11,12 +11,12 @@ export default class index extends Component {
       row: []
     },
     newProject: {
-      name: '',
-      dsescription: ''
+      name: "",
+      description: ""
     },
     error: {
       errorStatus: false,
-      errorMsg: ''
+      errorMsg: ""
     }
   };
 
@@ -35,7 +35,7 @@ export default class index extends Component {
             project: data,
             newProject: {
               name: data.name,
-              dsescription: data.dsescription
+              description: data.description
             }
           });
         }
@@ -44,13 +44,13 @@ export default class index extends Component {
         this.setState({
           error: {
             errorStatus: true,
-            errorMsg: 'Error loading project details!!'
+            errorMsg: "Error loading project details!!"
           }
         })
       );
     //fetch all users
     axios
-      .get('/api/v1/users')
+      .get("/api/v1/users")
       .then(result => {
         const {
           data: { data },
@@ -64,7 +64,7 @@ export default class index extends Component {
         this.setState({
           error: {
             errorStatus: true,
-            errorMsg: 'Error loading users!!'
+            errorMsg: "Error loading users!!"
           }
         })
       );
@@ -94,7 +94,7 @@ export default class index extends Component {
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: 'Please enter the project name'
+          errorMsg: "Please enter the project name"
         }
       });
     } else if (!Array.isArray(row) || row.length === 0) {
@@ -102,7 +102,7 @@ export default class index extends Component {
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: 'Please select at least one team member'
+          errorMsg: "Please select at least one team member"
         }
       });
     } else {
@@ -117,14 +117,14 @@ export default class index extends Component {
         .then(result => {
           const { status } = result;
           if (status === 200) {
-            this.props.history.push('/projects');
+            this.props.history.push("/projects");
           }
         })
         .catch(e =>
           this.setState({
             error: {
               errorStatus: true,
-              errorMsg: 'Error updating project!!'
+              errorMsg: "Error updating project!!"
             }
           })
         );
@@ -133,15 +133,14 @@ export default class index extends Component {
 
   render() {
     const projectId = this.props.match.params.projectId;
-
     return (
       <section className="main">
         <div className="main--div">
-          <h1 className="main--h1">Edit Project: </h1>
+          <h1 className="main--h1">Edit Project</h1>
           <form onSubmit={this.handleSubmit} className="main--form">
             <label className="main-label" htmlFor="name">
               <h3 className="main-h3">
-                Project Name <span className="main-required">*</span>:
+                Project Name <span className="main-required">*</span>
               </h3>
               {this.state.project.name && (
                 <input
@@ -155,17 +154,19 @@ export default class index extends Component {
               )}
             </label>
             <label className="main-label" htmlFor="name">
-              <h3 className="main-h3">dsescription :</h3>
-              {this.state.project.dsescription && (
+              <h3 className="main-h3">Description</h3>
+              {this.state.project.description && (
                 <textarea
                   name="dsescription"
                   onChange={this.handleOnChange}
                   className="main-input main-textArea"
-                  defaultValue={this.state.project.dsescription}
+                  defaultValue={this.state.project.description}
                 />
               )}
             </label>
-            <h3 className="main-h3">Assign Team :</h3>
+            <h3 className="main-h3">
+              Assign Team <span className="main-required">*</span>
+            </h3>
             <div className="main-member">
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>

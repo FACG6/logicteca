@@ -25,13 +25,35 @@ class Scrums extends Component {
     axios
       .get(`/api/v1/projects/${projectId}`)
       .then(result => {
-        console.log(result, 'result');
         const project = {
           id: result.data.data.id,
           projectName: result.data.data.name,
           projectTeam: result.data.data.userNames
         };
         this.setState({ project });
+        //fetch scrums
+        axios
+          .get(`/api/v1/projects/${projectId}/scrums`)
+          .then(result => {
+            const {
+              data: { data },
+            } = result;
+
+            this.setState({ scrums: data });
+            if (!this.props.match.params.scrumId) {
+              const scrumId = data[0].id;
+              this.props.history.push(`/project/${projectId}/${scrumId}`);
+            }
+          }
+          )
+          .catch(e => {
+            this.setState({
+              error: {
+                status: true,
+                msg: "Error loading scrums !!!"
+              }
+            });
+          });
       })
       .catch(e => {
         this.setState({
@@ -42,28 +64,8 @@ class Scrums extends Component {
         });
       });
 
-    //fetch scrums
-    axios
-      .get(`/api/v1/projects/${projectId}/scrums`)
-      .then(result => {
-        const {
-          data: { data },
-          status
-        } = result;
-        if (status === 200) {
-          this.setState({ scrums: data });
-        }
-      })
-      .catch(e => {
-        this.setState({
-          error: {
-            status: true,
-            msg: "Error loading scrums !!!"
-          }
-        });
-      });
+    
   }
-
   handleAddScrum = () => {
     const previousScrums = this.state.scrums;
     const lastScrumId = previousScrums.length;
@@ -116,17 +118,21 @@ class Scrums extends Component {
     return (
       <React.Fragment>
         <section className="project__page--container">
-          <div className="Project__header">
-            <h2 className="Project__name"> {project.projectName} </h2>
+          <div className="project__header">
+            <h2 className="project__name"> {project.projectName} </h2>
           </div>
           <div className="project__tab-container">
-            <div className="Project__tab">
+            <div className="project__tab">
               {scrums.length !== 0 ? (
                 scrums.map(index => (
-                  <button key={index.id} id={index.id} className="Project__button">
+                  <button
+                    key={index.id}
+                    id={index.id}
+                    className="project__button"
+                  >
                     <NavLink
                       to={`/project/${projectId}/${index.id}`}
-                      className="Project__scrum--link"
+                      className="project__scrum--link"
                     >
                       {" "}
                       {index.scrumName}
@@ -149,12 +155,14 @@ class Scrums extends Component {
               />
             </div>
           </div>
-          <Scrum
-            projectTeam={project.projectTeam}
-            scrumName={this.handleScrumName}
-            params={this.props.match.params}
-            scrumId={scrumId}
-          />
+          {this.props.match.params.scrumId ?
+            <Scrum
+              projectTeam={this.state.project.projectTeam}
+              scrumName={this.handleScrumName}
+              params={this.props.match.params}
+              scrumId={scrumId}
+            /> : null}
+
         </section>
       </React.Fragment>
     );

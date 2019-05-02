@@ -27,6 +27,7 @@ export default class TableMember extends Component {
       dataIndex: 'full_name',
       key: 'name',
       width: 150,
+      className: 'project__cell',
       filters: [],
       onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => {
@@ -40,9 +41,10 @@ export default class TableMember extends Component {
       }
     },
     {
-      title: 'role',
-      dataIndex: 'role',
-      key: 'role',
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      className: 'project__cell',
       width: 150,
       filters: [],
       onFilter: (value, record) => record.role.indexOf(value) === 0
