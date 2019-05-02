@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import 'antd/dist/antd.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import isAuth from './auth/isAuth';
+
 import {
   faTrash,
   faFilter,
@@ -35,8 +37,13 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: true,
+    isLogin: false
   };
+  componentDidMount() {
+    isAuth
+      ? this.setState({ isLogin: true })
+      : this.setState({ isLogin: false });
+  }
   setUserInfo = user => {
     this.setState({ userInfo: user, isLogin: true });
   };
