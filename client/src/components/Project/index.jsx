@@ -7,6 +7,7 @@ import axios from 'axios';
 
 class Scrums extends Component {
   state = {
+    loading: true,
     project: {
       id: '',
       projectName: ''
@@ -114,39 +115,18 @@ class Scrums extends Component {
   render() {
     const { projectId, scrumId } = this.props.match.params;
     const { project, scrums } = this.state;
-    return (
+
+    return this.state.loading? <h1>Loading...</h1>:
+    (
       <React.Fragment>
-        <section className="project__page--container">
-          <div className="Project__header">
-            <h2 className="Project__name"> {project.projectName} </h2>
+        <section className='project__page--container'>
+          <div className='project__header'>
+            <h2 className='project__name'> {project.projectName} </h2>
           </div>
-          <div className="project__tab-container">
-            <div className="Project__tab">
-              {scrums.length !== 0 ? (
-                scrums.map(index => (
-                  <button key={index.id} className="Project__button">
-                    <NavLink
-                      to={`/project/${projectId}/${index.id}`}
-                      className="Project__scrum--link"
-                    >
-                      {' '}
-                      {index.scrumName}
-                    </NavLink>
-                    <Icon
-                      onClick={() => this.handleDeleteScrum(index.id)}
-                      type="close"
-                      className="scrums__close-icon"
-                    />
-                  </button>
-                ))
-              ) : (
-                <button />
-              )}
-              <Icon
-                className="scrums__add-icon"
-                type="plus-circle"
-                onClick={this.handleAddScrum}
-              />
+          <div className='project__tab-container'>
+            <div className='project__tab'>
+              {scrums.length !== 0 ? scrums.map(index => <button key={index.id} className='project__button'><NavLink to={`/project/${projectId}/${index.id}`} className='project__scrum--link'> {index.scrumName}</NavLink><Icon onClick={() => this.handleDeleteScrum(index.id)} type="close" className='scrums__close-icon' /></button>) : <button></button>}
+              <Icon className='scrums__add-icon' type="plus-circle" onClick={this.handleAddScrum} />
             </div>
           </div>
           <Scrum

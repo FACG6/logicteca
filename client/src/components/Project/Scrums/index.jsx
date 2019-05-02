@@ -38,7 +38,7 @@ class Scrum extends Component {
     if (prevProp.scrumId !== this.props.scrumId) {
       const { scrumId } = this.props;
       const scrums = require('./utilis/scrums.json');
-      const scrumObject = scrums.find(scrum => scrum.id == scrumId);
+      const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
       const scrumName = scrumObject.scrumName;
       //Fetch to get the scrum name and its task //
       this.setState({ scrumName, tasks: require('./utilis/tasks') })
@@ -46,11 +46,11 @@ class Scrum extends Component {
   }
 
   handleAddNewTask = () => {
-    if(this.state.newTask){
+    if (this.state.newTask) {
       createNotification('task exist');
       return;
     }
-    if(this.state.tasks.length){
+    if (this.state.tasks.length) {
       this.setState(prevState => {
         const newTask = [...prevState.tasks, {
           id: '1',
@@ -98,7 +98,7 @@ class Scrum extends Component {
 
   handleSaveNewTask = (event) => {
     const { newRow } = this.state;
-    const { 
+    const {
       task_description,
       action_type,
       assignee,
@@ -107,10 +107,10 @@ class Scrum extends Component {
       spent_time,
       priority,
       est_time,
-     } = this.state.newRow;
+    } = this.state.newRow;
 
     if (this.validateTask(newRow)) {
-      const addedTask = { 
+      const addedTask = {
         task_description,
         action_type,
         status,
@@ -123,7 +123,7 @@ class Scrum extends Component {
       //Fetch
       this.setState({ newTask: false, error: false, saving: false });
       createNotification('success')
-    } 
+    }
   }
 
   handleEditTask = (event, record, column) => {
@@ -155,11 +155,11 @@ class Scrum extends Component {
       this.setState({ error: "Task description can't be blank" });
       return false;
     }
-    if(task.priority && !/\d/.test(task.priority)){
+    if (task.priority && !/\d/.test(task.priority)) {
       this.setState({ error: "Priority should be a number" });
       return false;
     }
-    if (task.est_time && !/\d/.test(task.est_time)){
+    if (task.est_time && !/\d/.test(task.est_time)) {
       this.setState({ error: "Estimate time should be numbers" });
       return false;
     }
@@ -320,14 +320,14 @@ class Scrum extends Component {
     },
     {
       render: record => {
-          return (
-            <span className='tasks__delete-span'>
-             <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
-             <button onClick={this.handleSaveNewTask} className={
-              this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving? 'tasks__save-btn': 'tasks__save-btn hidden'
-             }>Save</button>
-            </span>
-          );
+        return (
+          <span className='tasks__delete-span'>
+            <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
+            <button onClick={this.handleSaveNewTask} className={
+              this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving ? 'tasks__save-btn' : 'tasks__save-btn hidden'
+            }>Save</button>
+          </span>
+        );
       },
     }
   ];
@@ -341,24 +341,24 @@ class Scrum extends Component {
     return (
       <React.Fragment>
         <NotificationContainer />
-        <Editable
-          html={this.state.scrumName}
-          tagName='span'
-          onChange={this.handleChangeScrum}
-          className='scrum__name'
-        />
-        <section className='Scrum__page--container'>
-          <div className='Scrum__header'>
-            <Button icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
-          </div>
-          {this.state.error?<span className='tasks__error'>{this.state.error}</span>:<span></span>}
+        <div className='scrum__header'>
+          <Editable
+            html={this.state.scrumName}
+            tagName='span'
+            onChange={this.handleChangeScrum}
+            className='scrum__name'
+          />
+          <Button icon="plus" className="scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
+        </div>
+        <section className='scrum__page--container'>
+          {this.state.error ? <span className='tasks__error'>{this.state.error}</span> : <span></span>}
           <Table columns={columns}
             rowKey={record => record.id}
             dataSource={this.state.tasks}
             pagination={false}
             rowClassName="tasks__row"
             className="tasks__table"
-            scroll={{x: true}}
+            scroll={{ x: true }}
           />
         </section>
       </React.Fragment>

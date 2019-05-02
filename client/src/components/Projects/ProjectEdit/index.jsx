@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './style.css';
 import TableMember from './../../commonComponents/TableMember';
 import axios from 'axios';
+import '../ProjectNew/style.css';
 
 export default class index extends Component {
   state = {
@@ -137,11 +137,11 @@ export default class index extends Component {
     return (
       <section className="main">
         <div className="main--div">
-          <h1 className="main--h1">Edit Project: </h1>
+          <h1 className="main--h1">Edit Project</h1>
           <form onSubmit={this.handleSubmit} className="main--form">
             <label className="main-label" htmlFor="name">
               <h3 className="main-h3">
-                Project Name <span className="main-required">*</span>:
+                Project Name <span className="main-required">*</span>
               </h3>
               {this.state.project.name && (
                 <input
@@ -155,8 +155,8 @@ export default class index extends Component {
               )}
             </label>
             <label className="main-label" htmlFor="name">
-              <h3 className="main-h3">dsescription :</h3>
-              {this.state.project.dsescription && (
+              <h3 className="main-h3">Description</h3>
+              {this.state.project.description && (
                 <textarea
                   name="dsescription"
                   onChange={this.handleOnChange}
@@ -165,7 +165,7 @@ export default class index extends Component {
                 />
               )}
             </label>
-            <h3 className="main-h3">Assign Team :</h3>
+            <h3 className="main-h3">Assign Team <span className="main-required">*</span></h3>
             <div className="main-member">
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>

@@ -2,17 +2,17 @@
   {
     "id": "1",
     "name": "UN project",
-    "description": "project",
+    "description": "A project aims to improve education",
     "teamMember": [
       {
         "id": "1",
-        "name": "amin",
-        "role": "developer"
+        "name": "Amin",
+        "role": "Developer"
       },
       {
         "id": "2",
-        "name": "mohammed",
-        "role": "sucrm"
+        "name": "Mohammed",
+        "role": "Sucrm Master"
       }
     ]
   }

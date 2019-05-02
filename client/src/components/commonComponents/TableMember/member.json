@@ -1,32 +1,32 @@
 [
   {
     "id": "1",
-    "name": "amin",
-    "role": "developer"
+    "name": "Amin",
+    "role": "Developer"
   },
   {
     "id": "2",
-    "name": "mohammed",
+    "name": "Mohammed",
     "role": "sucrm"
   },
   {
     "id": "3",
-    "name": "amin",
-    "role": "developer"
+    "name": "Amin",
+    "role": "Developer"
   },
   {
     "id": "4",
-    "name": "ahmed",
-    "role": "developer"
+    "name": "Ahmed",
+    "role": "Developer"
   },
   {
     "id": "5",
-    "name": "israa",
-    "role": "developer"
+    "name": "Israa",
+    "role": "Developer"
   },
   {
     "id": "6",
-    "name": "amin",
-    "role": "developer"
+    "name": "Amin",
+    "role": "Developer"
   }
 ]

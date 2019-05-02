@@ -306,7 +306,7 @@ class Users extends Component {
                 rowId={record.id}
                 users={this.state.users}
                 handleDeleteUser={this.handleDeleteUser}
-                changePassword = {() => this.handleChangePassword('Change')}
+                changePassword = {() => this.handleForm('Change')}
               />
             }
           >
