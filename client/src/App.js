@@ -37,7 +37,7 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: false
+    isLogin: false,
   };
   componentDidMount() {
     isAuth

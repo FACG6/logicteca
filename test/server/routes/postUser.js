@@ -5,7 +5,7 @@ const app = require('../../../server/app');
 
 test('testing /api/v1/users/new; case1: success', (t) => {
   const user = {
-    user_name: 'Ayman',
+    user_name: 'Angham1166',
     full_name: 'Ayman al...',
     role: 'developer',
     password: '123556',
@@ -33,10 +33,10 @@ test('testing /api/v1/users/new; case1: success', (t) => {
 
 test('testing /api/v1/users/new, case2: username is already taken', (t) => {
   const user = {
-    user_name: 'amin',
+    user_name: 'Angham1166',
     full_name: 'israa sulaiman',
     role: 'developer',
-    password: '123556',
+    password: 'Angh12345678',
   };
   const error = 'UserName is already taken';
   supertest(app)
