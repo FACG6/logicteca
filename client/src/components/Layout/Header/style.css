@@ -5,6 +5,7 @@
   position: fixed;
   background-color: white;
   z-index: 3;
+  box-shadow: 3px 2px 5px #aba8a8a1;
 }
 
 .header__container {
@@ -40,8 +41,7 @@
   font-weight: bold;
 }
 
-.header__username:hover,
-.header__navbar li:hover {
+.header__username:hover, .header__navbar li:hover {
   text-decoration: underline;
   transition: all ease-in-out 1000;
 }

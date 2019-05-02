@@ -7,6 +7,7 @@ import axios from "axios";
 
 class Scrums extends Component {
   state = {
+    loading: true,
     project: {
       id: "",
       projectName: ""
@@ -54,7 +55,7 @@ class Scrums extends Component {
           data: { data },
           status
         } = result;
-        console.log(data)
+        console.log(data);
         if (status === 200) {
           this.setState({ scrums: data });
         }
@@ -119,21 +120,25 @@ class Scrums extends Component {
   render() {
     const { projectId, scrumId } = this.props.match.params;
     const { project, scrums } = this.state;
-    console.log(scrums);
+
     return (
       <React.Fragment>
         <section className="project__page--container">
-          <div className="Project__header">
-            <h2 className="Project__name"> {project.projectName} </h2>
+          <div className="project__header">
+            <h2 className="project__name"> {project.projectName} </h2>
           </div>
           <div className="project__tab-container">
-            <div className="Project__tab">
+            <div className="project__tab">
               {scrums.length !== 0 ? (
                 scrums.map(index => (
-                  <button key={index.id} id={index.id} className="Project__button">
+                  <button
+                    key={index.id}
+                    id={index.id}
+                    className="project__button"
+                  >
                     <NavLink
                       to={`/project/${projectId}/${index.id}`}
-                      className="Project__scrum--link"
+                      className="project__scrum--link"
                     >
                       {" "}
                       {index.scrumName}
