@@ -11,6 +11,7 @@ import { ProjectTeam, StatusSelect, ActionTypeSelect } from './select/index';
 import { Sort } from './utilis/sort';
 import { Filter } from './utilis/filter.js'
 import calculate from './utilis/calculate';
+import axios from 'axios';
 
 class Scrum extends Component {
   state = {
@@ -22,35 +23,37 @@ class Scrum extends Component {
     newTask: false,
     scrumName: '',
     projectTeam: [],
+    error: '',
   }
 
   componentDidMount() {
-    const { scrumId } = this.props;
-    const scrums = require('./utilis/scrums.json');
-    const projectTeam = [{ id: 1, name: 'Ahmed' }, { id: 2, name: 'Ameen' }, { id: 3, name: 'Angham' }, { id: 4, name: 'Ayman' }];
-    const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-    const scrumName = scrumObject.scrumName;
-    //Fetch to get the scrum name and its task //
-    this.setState({ projectTeam, scrumName, tasks: require('./utilis/tasks') })
+    const { scrumId, projectTeam } = this.props;
+    axios.get(`/api/v1/scrums/${scrumId}`)
+      .then(result => {
+        console.log(projectTeam, 'projectTeam');
+        console.log(result);
+        this.setState({ projectTeam, scrumName: result.data.data[0].name, tasks: result.data.data })
+      })
+      .catch(error => this.setState({ error: 'Error' }));
   }
 
-  componentDidUpdate(prevProp, prevState) {
-    if (prevProp.scrumId !== this.props.scrumId) {
-      const { scrumId } = this.props;
-      const scrums = require('./utilis/scrums.json');
-      const scrumObject = scrums.find(scrum => scrum.id == scrumId);
-      const scrumName = scrumObject.scrumName;
-      //Fetch to get the scrum name and its task //
-      this.setState({ scrumName, tasks: require('./utilis/tasks') })
-    }
-  }
+  // componentDidUpdate(prevProp, prevState) {
+  //   if (prevProp.scrumId !== this.props.scrumId) {
+  //     const { scrumId } = this.props;
+  //     const scrums = require('./utilis/scrums.json');
+  //     const scrumObject = scrums.find(scrum => scrum.id == scrumId);
+  //     const scrumName = scrumObject.scrumName;
+  //     //Fetch to get the scrum name and its task //
+  //     this.setState({ scrumName, tasks: require('./utilis/tasks') })
+  //   }
+  // }
 
   handleAddNewTask = () => {
-    if(this.state.newTask){
+    if (this.state.newTask) {
       createNotification('task exist');
       return;
     }
-    if(this.state.tasks.length){
+    if (this.state.tasks.length) {
       this.setState(prevState => {
         const newTask = [...prevState.tasks, {
           id: '1',
@@ -98,19 +101,20 @@ class Scrum extends Component {
 
   handleSaveNewTask = (event) => {
     const { newRow } = this.state;
-    const { 
-      task_description,
+    const { scrumId } = this.props;
+    const {
+      description: task_description,
       action_type,
-      assignee,
+      assigned_to: assignee,
       ticket,
       status,
       spent_time,
       priority,
-      est_time,
-     } = this.state.newRow;
+      estimated_time: est_time,
+    } = this.state.newRow;
 
     if (this.validateTask(newRow)) {
-      const addedTask = { 
+      const addedTask = {
         task_description,
         action_type,
         status,
@@ -121,9 +125,10 @@ class Scrum extends Component {
         ticket,
       }
       //Fetch
+      axios.post(`/api/v1/tasks/`)
       this.setState({ newTask: false, error: false, saving: false });
       createNotification('success')
-    } 
+    }
   }
 
   handleEditTask = (event, record, column) => {
@@ -155,11 +160,11 @@ class Scrum extends Component {
       this.setState({ error: "Task description can't be blank" });
       return false;
     }
-    if(task.priority && !/\d/.test(task.priority)){
+    if (task.priority && !/\d/.test(task.priority)) {
       this.setState({ error: "Priority should be a number" });
       return false;
     }
-    if (task.est_time && !/\d/.test(task.est_time)){
+    if (task.est_time && !/\d/.test(task.est_time)) {
       this.setState({ error: "Estimate time should be numbers" });
       return false;
     }
@@ -298,7 +303,7 @@ class Scrum extends Component {
       dataIndex: 'assignee',
       render: (value, record) => {
         return (
-          <ProjectTeam team={this.state.projectTeam} defaultValue={this.state.projectTeam[0].name} onChange={event => this.handleEditTask(event, record, 'assignee')} />
+          <ProjectTeam team={this.props.projectTeam} onChange={event => this.handleEditTask(event, record, 'assignee')} />
         );
       },
       onFilter: (value, record) => record['assignee'] === value,
@@ -320,14 +325,14 @@ class Scrum extends Component {
     },
     {
       render: record => {
-          return (
-            <span className='tasks__delete-span'>
-             <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
-             <button onClick={this.handleSaveNewTask} className={
-              this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving? 'tasks__save-btn': 'tasks__save-btn hidden'
-             }>Save</button>
-            </span>
-          );
+        return (
+          <span className='tasks__delete-span'>
+            <Icon className='tasks__delete-icon' type="delete" onClick={() => this.handleDeleteTask(record.id)} />
+            <button onClick={this.handleSaveNewTask} className={
+              this.state.newTask && record.id === this.state.tasks[this.state.tasks.length - 1].id && this.state.saving ? 'tasks__save-btn' : 'tasks__save-btn hidden'
+            }>Save</button>
+          </span>
+        );
       },
     }
   ];
@@ -351,14 +356,14 @@ class Scrum extends Component {
           <div className='Scrum__header'>
             <Button icon="plus" className="Scrum__addTask__btn" onClick={this.handleAddNewTask}> Task </Button>
           </div>
-          {this.state.error?<span className='tasks__error'>{this.state.error}</span>:<span></span>}
+          {this.state.error ? <span className='tasks__error'>{this.state.error}</span> : <span></span>}
           <Table columns={columns}
             rowKey={record => record.id}
             dataSource={this.state.tasks}
             pagination={false}
             rowClassName="tasks__row"
             className="tasks__table"
-            scroll={{x: true}}
+            scroll={{ x: true }}
           />
         </section>
       </React.Fragment>

@@ -35,7 +35,7 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    isLogin: false
+    isLogin: true
   };
   setUserInfo = user => {
     this.setState({ userInfo: user, isLogin: true });
@@ -65,7 +65,7 @@ class App extends Component {
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/projects"
-                component={props => <Projects {...props} />}
+                component={Projects}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}

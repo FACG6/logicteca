@@ -9,10 +9,10 @@ class Scrums extends Component {
   state = {
     project: {
       id: "",
-      projectName: ""
+      projectName: "",
+      projectTeam: [],
     },
     scrums: [],
-    scrumName: "",
     error: {
       status: false,
       msg: ""
@@ -25,17 +25,13 @@ class Scrums extends Component {
     axios
       .get(`/api/v1/projects/${projectId}`)
       .then(result => {
-        const {
-          data: { data },
-          status
-        } = result;
-        if (status === 200) {
-          const project = {
-            id: data.id,
-            projectName: data.name
-          };
-          this.setState({ project });
-        }
+        console.log(result, 'result');
+        const project = {
+          id: result.data.data.id,
+          projectName: result.data.data.name,
+          projectTeam: result.data.data.userNames
+        };
+        this.setState({ project });
       })
       .catch(e => {
         this.setState({
@@ -54,7 +50,6 @@ class Scrums extends Component {
           data: { data },
           status
         } = result;
-        console.log(data)
         if (status === 200) {
           this.setState({ scrums: data });
         }
@@ -83,7 +78,6 @@ class Scrums extends Component {
           data: { data }
         } = res;
         const { id, name } = data;
-        console.log(name);
         this.setState(prevState => {
           return {
             scrums: prevState.scrums.concat({
@@ -119,7 +113,6 @@ class Scrums extends Component {
   render() {
     const { projectId, scrumId } = this.props.match.params;
     const { project, scrums } = this.state;
-    console.log(scrums);
     return (
       <React.Fragment>
         <section className="project__page--container">
@@ -146,8 +139,8 @@ class Scrums extends Component {
                   </button>
                 ))
               ) : (
-                <button />
-              )}
+                  <button />
+                )}
               <Icon
                 id={this.state.project.id}
                 className="scrums__add-icon"
@@ -157,6 +150,7 @@ class Scrums extends Component {
             </div>
           </div>
           <Scrum
+            projectTeam={project.projectTeam}
             scrumName={this.handleScrumName}
             params={this.props.match.params}
             scrumId={scrumId}
