@@ -1,8 +1,7 @@
 const axios = require('axios');
 
-export default function isAuth() {
-  return axios
-    .get('/api/v1/isAuthenticated')
-    .then(result => (result.data ? true : false))
-    .catch(e => false);
+export default function isAuth(cb) {
+  axios .get('/api/v1/isAuthenticated')
+    .then(result => (result.data ? cb(true) : cb(false)))
+    .catch(e => cb(false));
 }
