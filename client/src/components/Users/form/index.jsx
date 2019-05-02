@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Error from '../error/Error'
+import Error from '../error/Error';
 import axios from 'axios';
 import './style.css';
 
@@ -8,8 +8,8 @@ export default class Password extends Component {
   state = {
     password: '',
     confirmPassword: '',
-    empty: false,
-    passwordError: false,
+    // empty: false,
+    passwordError: ''
   };
 
   handlePassword = ({ target: { name, value } }) => {
@@ -18,23 +18,34 @@ export default class Password extends Component {
 
   updatePassword = () => {
     const id = this.props.row;
-    axios.put(`/api/v1/users/${id}/new-password`, { password: this.state.password })
+    axios
+      .put(`/api/v1/users/${id}/new-password`, {
+        password: this.state.password
+      })
       .then(result => {
         //a message//
-        result.data.data === 'success' ? this.props.cancel() : this.setState({ passwordError: 'Error' })
+        result.data.data === 'success'
+          ? this.props.cancel()
+          : this.setState({ passwordError: 'Error' });
       })
       .catch(error => this.setState({ passwordError: 'Error' }));
-  }
+  };
 
   validation = event => {
     event.preventDefault();
     const { password, confirmPassword } = this.state;
     if (!password || !confirmPassword) {
-      this.setState({ empty: true });
+      this.setState({ passwordError: 'Empty' });
+      return false;
+    }
+    if (password.length() < 6) {
+      this.setState({
+        passwordError: 'password length should be greater than 6'
+      });
       return false;
     }
     if (password !== confirmPassword) {
-      this.setState({ passwordError: true });
+      this.setState({ passwordError: "passwords don't match" });
       return false;
     }
     if (this.props.type === 'Add') {
@@ -44,17 +55,17 @@ export default class Password extends Component {
     }
   };
 
-  cancel = (event) => {
+  cancel = event => {
     event.preventDefault();
     this.props.cancel();
-  }
+  };
 
   render() {
     const { empty, passwordError } = this.state;
     return (
       <div className="users__password-wrapper">
         <form className="users__password-form">
-          <h3 className='users__heading'>{this.props.type} Password</h3>
+          <h3 className="users__heading">{this.props.type} Password</h3>
           <label className="users__label" htmlFor="password">
             Password
           </label>
@@ -79,12 +90,15 @@ export default class Password extends Component {
           />
           <label htmlFor="confirm" />
           {empty ? (
-            <Error errorMsg={'Can\' be blank'} />
+            <Error errorMsg={"Can' be blank"} />
           ) : passwordError ? (
-            <Error errorMsg={'Passwords don\'t match'} />
+            <Error errorMsg={"Passwords don't match"} />
           ) : null}
-          <div className='users_btns'>
-            <button className="users__password-submit" onClick={this.validation}>
+          <div className="users_btns">
+            <button
+              className="users__password-submit"
+              onClick={this.validation}
+            >
               Confirm
             </button>
             <button className="users__password-cancel" onClick={this.cancel}>
@@ -99,5 +113,5 @@ export default class Password extends Component {
 
 Password.propTypes = {
   submitPassword: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired,
-}
+  cancel: PropTypes.func.isRequired
+};
