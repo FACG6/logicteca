@@ -3,6 +3,8 @@ import { Route, withRouter } from "react-router-dom";
 import axios from 'axios';
 
 class PrivateRoute extends Component {
+  initialMount = false;
+
   // axios configuration
   axiosSource = axios.CancelToken.source();
   axiosInstance = axios.create({
@@ -22,6 +24,7 @@ class PrivateRoute extends Component {
     this.axiosInstance
     .get('/isAuthenticated')
       .then(() => {
+        this.initialMount = true;
         this.setState({ isAuth: true });
       })
       .catch(() => {
@@ -29,9 +32,9 @@ class PrivateRoute extends Component {
       });
   }
 
-  componentDidUpdate(prevProps) {
-    // this will stop when componentDidMount works
-    if (this.props.location.key !== prevProps.location.key) {
+  componentDidUpdate() {
+    // this will stop when updating after the initial mount
+    if (!this.initialMount) {
       this.axiosInstance
       .get('/isAuthenticated')
         .then(() => {
@@ -42,11 +45,13 @@ class PrivateRoute extends Component {
         .catch(() => {
           this.isUnAuthorized();
         });
+    } else {
+      this.initialMount = false;
     }
   }
   
   isUnAuthorized = () => {
-    this.props.history.push('/login');
+    this.props.history.push('/login', { from: this.props.location.pathname});
   }
 
   render() {
@@ -57,7 +62,7 @@ class PrivateRoute extends Component {
       isAuth &&
       <Route
         {...rest}
-        render={props => <Component {...props} />}
+        render={Component}
         />
     );
   }

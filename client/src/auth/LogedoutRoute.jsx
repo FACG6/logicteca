@@ -3,6 +3,8 @@ import { Route, withRouter } from "react-router-dom";
 import axios from 'axios';
 
 class LogedoutRoute extends Component {
+  initialMount = false;
+
   // axios configuration
   axiosSource = axios.CancelToken.source();
   axiosInstance = axios.create({
@@ -25,13 +27,14 @@ class LogedoutRoute extends Component {
         this.isAuthorized();
       })
       .catch(() => {
+        this.initialMount = true;
         this.setState({ isAuth: false });
       });
   }
 
   componentDidUpdate(prevProps) {
-    // this will stop when componentDidMount works
-    if (this.props.location.key !== prevProps.location.key) {
+    // this will stop when updating after the initial mount
+    if (!this.initialMount) {
       this.axiosInstance
       .get('/isAuthenticated')
         .then(() => {
@@ -42,11 +45,18 @@ class LogedoutRoute extends Component {
             this.setState({ isAuth: false });
           }
         });
+    } else {
+      this.initialMount = false;
     }
   }
 
   isAuthorized = () => {
-    this.props.history.goBack();
+    const { state } = this.props.location;
+    if (state) {
+      this.props.history.push(state.from.pathname);
+    } else {
+      this.props.history.push('/');
+    }
   }
 
   render() {
@@ -56,7 +66,7 @@ class LogedoutRoute extends Component {
       !isAuth &&
       <Route
         {...rest}
-        render={props => <Component {...props} />}
+        render={Component}
         />
     );
   }
