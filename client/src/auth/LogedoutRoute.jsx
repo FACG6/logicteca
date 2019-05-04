@@ -53,7 +53,7 @@ class LogedoutRoute extends Component {
   isAuthorized = () => {
     const { state } = this.props.location;
     if (state) {
-      this.props.history.push(state.from.pathname);
+      this.props.history.push(state.from);
     } else {
       this.props.history.push('/');
     }
