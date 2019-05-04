@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import axios from 'axios';
 import {
   faTrash,
   faFilter,
@@ -36,6 +37,13 @@ library.add(
 );
 
 class App extends Component {
+  // axios configuration
+  axiosSource = axios.CancelToken.source();
+  axiosInstance = axios.create({
+    baseURL: '/api/v1/',
+    cancelToken: this.axiosSource.token
+  });
+
   state = {
     userInfo: {},
   };
@@ -47,6 +55,16 @@ class App extends Component {
   clearUserInfo = () => {
     this.setState({ userInfo: '' });
   };
+
+  componentWillUnmount() {
+    this.axiosSource.cancel('cancel getUserInfo request');
+  }
+
+  componentDidMount() {
+    this.axiosInstance
+    .get('/isAuthenticated')
+      .then(({ data: userInfo }) => this.setState({ userInfo }))
+  }
 
   render() {
     return (
