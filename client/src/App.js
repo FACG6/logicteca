@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -13,6 +12,8 @@ import {
   faEdit
 } from '@fortawesome/free-solid-svg-icons';
 
+import './App.css';
+
 import Login from './components/Login';
 import Header from './components/Layout/Header';
 import Projects from './components/Projects';
@@ -21,7 +22,7 @@ import ProjectEdit from './components/Projects/ProjectEdit';
 import Users from './components/Users';
 import Project from './components/Project/index';
 import PageNotFound from './components/PageNotFound';
-import PrivateRoute from './auth/index';
+import PrivateRoute from './auth/PrivateRoute';
 import LogedoutRoute from './auth/LogedoutRoute';
 
 library.add(
@@ -37,23 +38,17 @@ library.add(
 class App extends Component {
   state = {
     userInfo: {},
-    // isLogin: false,
   };
-  // componentDidMount() {
-  //   isAuth
-  //     ? this.setState({ isLogin: true })
-  //     : this.setState({ isLogin: false });
-  // }
-  setUserInfo = user => {
-    this.setState({ userInfo: user, isLogin: true });
+
+  setUserInfo = userInfo => {
+    this.setState({ userInfo });
   };
 
   clearUserInfo = () => {
-    this.setState({ userInfo: '', isLogin: false });
+    this.setState({ userInfo: '' });
   };
 
   render() {
-    // const { isLogin } = this.state;
     return (
       <BrowserRouter>
           <>
@@ -61,7 +56,6 @@ class App extends Component {
               clearUserInfo={this.clearUserInfo}
               userInfo={this.state.userInfo}
             />
-            <Link style={{paddingTop: '100px', display: 'block'}} to="/login">Login</Link>
             <Switch>
               <Route
                 exact
@@ -104,7 +98,6 @@ class App extends Component {
                 path="/users"
                 component={props => <Users {...props} />}
               />
-              {/* <Route exact path="/login" render={() => <Redirect to="/" />} /> */}
               <LogedoutRoute
                 exact
                 path="/login"
@@ -115,21 +108,6 @@ class App extends Component {
               <Route component={PageNotFound} />
             </Switch>
           </>
-          {/* <Switch> */}
-            {/* <Route
-              render={props => {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: '/login',
-                      state: { from: props.location }
-                    }}
-                  />
-                );
-              }}
-            />
-          </Switch> */}
-        {/* )} */}
       </BrowserRouter>
     );
   }
