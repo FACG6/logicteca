@@ -1,3 +1,4 @@
 exports.isAuthenticated = (req, res) => {
-  res.status(200).send(true);
+  const { user_name, role } = req.token;
+  res.status(200).send({ user_name, role });
 };
