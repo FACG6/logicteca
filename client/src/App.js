@@ -39,11 +39,11 @@ class App extends Component {
     userInfo: {},
     isLogin: true,
   };
-  componentDidMount() {
-    isAuth
-      ? this.setState({ isLogin: true })
-      : this.setState({ isLogin: false });
-  }
+  // componentDidMount() {
+  //   isAuth
+  //     ? this.setState({ isLogin: true })
+  //     : this.setState({ isLogin: false });
+  // }
   setUserInfo = user => {
     this.setState({ userInfo: user, isLogin: true });
   };
@@ -85,6 +85,12 @@ class App extends Component {
                 exact
                 path="/project/:projectId/edit"
                 component={props => <ProjectEdit {...props} />}
+              />
+              <PrivateRoute
+                clearUserInfo={this.clearUserInfo}
+                exact
+                path="/project/:projectId"
+                component={props => <Project {...props} />}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}

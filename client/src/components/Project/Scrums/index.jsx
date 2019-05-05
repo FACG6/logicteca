@@ -146,12 +146,10 @@ class Scrum extends Component {
 
   handleEditTask = (event, record, column) => {
     const { tasks } = this.state;
-
     //Add a new task
     if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
       return this.handleAddTask(event, column);
     }
-
     //Edit Task
     const newTask = event.target.value;
     const taskId = record.id;
@@ -164,6 +162,7 @@ class Scrum extends Component {
   };
 
   updateTasks = tasks => {
+    
     this.setState({ tasks });
   };
 
