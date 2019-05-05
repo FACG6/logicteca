@@ -84,44 +84,43 @@ class App extends Component {
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/projects"
-                component={props => <Projects {...props} />}
+                component={Projects}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/new"
-                component={props => <ProjectNew {...props} />}
+                component={ProjectNew}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/edit"
-                component={props => <ProjectEdit {...props} />}
+                component={ProjectEdit}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId"
-                component={props => <Project {...props} />}
+                component={Project}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/:scrumId"
-                component={props => <Project {...props} />}
+                component={Project}
               />
               <PrivateRoute
                 clearUserInfo={this.clearUserInfo}
                 exact
                 path="/users"
-                component={props => <Users {...props} />}
+                component={Users}
               />
               <LogedoutRoute
                 exact
                 path="/login"
-                component={props => (
-                  <Login {...props} setUserInfo={this.setUserInfo} />
-                )}
+                setUserInfo={this.setUserInfo}
+                component={Login}
               />
               <Route component={PageNotFound} />
             </Switch>

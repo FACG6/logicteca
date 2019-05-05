@@ -66,7 +66,7 @@ class LogedoutRoute extends Component {
       !isAuth &&
       <Route
         {...rest}
-        render={Component}
+        render={props => <Component setUserInfo={rest.setUserInfo} {...props}/>}
         />
     );
   }
