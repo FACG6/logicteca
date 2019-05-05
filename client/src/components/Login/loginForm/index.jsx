@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Icon, Spin } from 'antd';
 import axios from 'axios';
 
@@ -36,9 +35,9 @@ export default class Login extends Component {
         .then(result => {
           if (result.status === 200) {
             if (location.state) {
-              this.props.history.push(location.state.from)
+              this.props.history.push(location.state.from);
             } else {
-              this.props.history.push('/')
+              this.props.history.push('/');
             }
             setUserInfo(result.data.data);
           }
