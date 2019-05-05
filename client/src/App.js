@@ -56,10 +56,6 @@ class App extends Component {
     this.setState({ userInfo: '' });
   };
 
-  componentWillUnmount() {
-    this.axiosSource.cancel('cancel getUserInfo request');
-  }
-
   componentDidMount() {
     this.axiosInstance
     .get('/isAuthenticated')
@@ -81,37 +77,31 @@ class App extends Component {
                 component={() => <Redirect to="/projects" />}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/projects"
                 component={Projects}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/new"
                 component={ProjectNew}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/edit"
                 component={ProjectEdit}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId"
                 component={Project}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/:scrumId"
                 component={Project}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/users"
                 component={Users}
