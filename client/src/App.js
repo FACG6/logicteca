@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import './App.css';
 import 'antd/dist/antd.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import isAuth from './auth/isAuth';
-
+import axios from 'axios';
 import {
   faTrash,
   faFilter,
@@ -14,6 +12,9 @@ import {
   faSearch,
   faEdit
 } from '@fortawesome/free-solid-svg-icons';
+
+import './App.css';
+
 import Login from './components/Login';
 import Header from './components/Layout/Header';
 import Projects from './components/Projects';
@@ -22,7 +23,8 @@ import ProjectEdit from './components/Projects/ProjectEdit';
 import Users from './components/Users';
 import Project from './components/Project/index';
 import PageNotFound from './components/PageNotFound';
-import PrivateRoute from './auth/index';
+import PrivateRoute from './auth/PrivateRoute';
+import LogedoutRoute from './auth/LogedoutRoute';
 
 library.add(
   faTrash,
@@ -35,28 +37,34 @@ library.add(
 );
 
 class App extends Component {
+  // axios configuration
+  axiosSource = axios.CancelToken.source();
+  axiosInstance = axios.create({
+    baseURL: '/api/v1/',
+    cancelToken: this.axiosSource.token
+  });
+
   state = {
     userInfo: {},
-    isLogin: true,
   };
-  // componentDidMount() {
-  //   isAuth
-  //     ? this.setState({ isLogin: true })
-  //     : this.setState({ isLogin: false });
-  // }
-  setUserInfo = user => {
-    this.setState({ userInfo: user, isLogin: true });
+
+  setUserInfo = userInfo => {
+    this.setState({ userInfo });
   };
 
   clearUserInfo = () => {
-    this.setState({ userInfo: '', isLogin: false });
+    this.setState({ userInfo: '' });
   };
 
+  componentDidMount() {
+    this.axiosInstance
+    .get('/isAuthenticated')
+      .then(({ data: userInfo }) => this.setState({ userInfo }))
+  }
+
   render() {
-    const { isLogin } = this.state;
     return (
       <BrowserRouter>
-        {isLogin ? (
           <>
             <Header
               clearUserInfo={this.clearUserInfo}
@@ -69,68 +77,44 @@ class App extends Component {
                 component={() => <Redirect to="/projects" />}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/projects"
                 component={Projects}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/new"
-                component={props => <ProjectNew {...props} />}
+                component={ProjectNew}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/edit"
-                component={props => <ProjectEdit {...props} />}
+                component={ProjectEdit}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId"
-                component={props => <Project {...props} />}
+                component={Project}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/project/:projectId/:scrumId"
-                component={props => <Project {...props} />}
+                component={Project}
               />
               <PrivateRoute
-                clearUserInfo={this.clearUserInfo}
                 exact
                 path="/users"
-                component={props => <Users {...props} />}
+                component={Users}
               />
-              <Route exact path="/login" render={() => <Redirect to="/" />} />
+              <LogedoutRoute
+                exact
+                path="/login"
+                setUserInfo={this.setUserInfo}
+                component={Login}
+              />
               <Route component={PageNotFound} />
             </Switch>
           </>
-        ) : (
-          <Switch>
-            <Route
-              exact
-              path="/login"
-              component={props => (
-                <Login {...props} setUserInfo={this.setUserInfo} />
-              )}
-            />
-            <Route
-              render={props => {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: '/login',
-                      state: { from: props.location }
-                    }}
-                  />
-                );
-              }}
-            />
-          </Switch>
-        )}
       </BrowserRouter>
     );
   }

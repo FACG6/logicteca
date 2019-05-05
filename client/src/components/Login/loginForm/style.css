@@ -22,6 +22,11 @@
   padding: 1rem;
 }
 
+.login__spinner {
+  position: relative;
+  height: 7rem;
+}
+
 .login__input-container {
   position: relative;
   margin-bottom: 2rem;

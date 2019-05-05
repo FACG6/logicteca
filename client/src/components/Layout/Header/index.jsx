@@ -1,13 +1,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Dropdown } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
 import './style.css';
 import axios from 'axios';
 import createNotification from '../../Users/notification';
 
-export default function Header(props) {
+export default withRouter(function Header(props) {
+  const { pathname } = props.location;
   const {
     userInfo: { user_name, role },
     clearUserInfo
@@ -29,7 +30,8 @@ export default function Header(props) {
       </Menu.Item>
     </Menu>
   );
-  return (
+  return pathname !== '/login' ?
+  (
     <header className="header">
       <div className="header__container">
         <img
@@ -61,5 +63,5 @@ export default function Header(props) {
         </div>
       </div>
     </header>
-  );
-}
+  ):'';
+});
