@@ -20,34 +20,17 @@ class Scrum extends Component {
     taskDescriptionErr: '',
     newTask: false,
     scrumName: '',
-    projectTeam: [],
     error: ''
   };
 
   componentDidMount() {
     const { scrumId } = this.props;
-    const scrums = require('./utilis/scrums.json');
-    const projectTeam = [
-      { id: 1, name: 'Ahmed' },
-      { id: 2, name: 'Ameen' },
-      { id: 3, name: 'Angham' },
-      { id: 4, name: 'Ayman' }
-    ];
-    const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-    const scrumName = scrumObject.scrumName;
-    //Fetch to get the scrum name and its task //
-    this.setState({ projectTeam, scrumName, tasks: require('./utilis/tasks') });
-  }
-
-  componentDidUpdate(prevProp, prevState) {
-    if (prevProp.scrumId !== this.props.scrumId) {
-      const { scrumId } = this.props;
-      const scrums = require('./utilis/scrums.json');
-      const scrumObject = scrums.find(scrum => scrum.id === Number(scrumId));
-      const scrumName = scrumObject.scrumName;
-      //Fetch to get the scrum name and its task //
-      this.setState({ scrumName, tasks: require('./utilis/tasks') });
-    }
+    axios
+      .get(`/api/v1/scrums/${scrumId}`)
+      .then(result => {
+        this.setState({ tasks: result.data.data, error: '' });
+      })
+      .catch(error => this.setState({ error: 'Error' }));
   }
 
   handleAddNewTask = () => {
@@ -113,10 +96,11 @@ class Scrum extends Component {
 
   handleSaveNewTask = event => {
     const { newRow } = this.state;
+    const { scrumId } = this.props;
     const {
-      task_description,
+      description: task_description,
       action_type,
-      assignee,
+      assigned_to: assignee,
       ticket,
       status,
       spent_time,
@@ -125,17 +109,36 @@ class Scrum extends Component {
     } = this.state.newRow;
 
     if (this.validateTask(newRow)) {
+      // console.log(this.props.scrumId, 55555);
+
       const addedTask = {
-        task_description,
         action_type,
         status,
+        task_description,
         priority,
         assigned_to: assignee,
         estimate_time: est_time,
         spent_time,
-        ticket
+        ticket,
+        scrum_id: this.props.scrumId
       };
       //Fetch
+      axios
+        .post('/api/v1/tasks/new', {
+          addedTask
+        })
+        .then(result => {
+          const {
+            data: { data },
+            status
+          } = result;
+          if (status === 200) {
+            const newData = [...this.state.tasks];
+            newData.push(data);
+            this.setState({ tasks: newData });
+          }
+        })
+        .catch(e => this.setState({ error: 'Task is not Added!!' }));
       this.setState({ newTask: false, error: false, saving: false });
       createNotification('success');
     }
@@ -143,12 +146,10 @@ class Scrum extends Component {
 
   handleEditTask = (event, record, column) => {
     const { tasks } = this.state;
-
     //Add a new task
     if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
       return this.handleAddTask(event, column);
     }
-
     //Edit Task
     const newTask = event.target.value;
     const taskId = record.id;
@@ -161,6 +162,7 @@ class Scrum extends Component {
   };
 
   updateTasks = tasks => {
+    
     this.setState({ tasks });
   };
 
@@ -231,7 +233,7 @@ class Scrum extends Component {
   columns = [
     {
       title: 'Task',
-      dataIndex: 'task_description',
+      dataIndex: 'description',
       render: (value, record) => {
         return (
           <Editable
@@ -266,7 +268,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
@@ -282,7 +284,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'est_time')}
             tagName="span"
             className="tasks__cell estimate_time"
@@ -335,19 +337,21 @@ class Scrum extends Component {
       onFilter: (value, record) => record['status'] === value
     },
     {
-      title: 'Assignee',
-      dataIndex: 'assignee',
+      title: 'Assigned_to',
+      dataIndex: 'assigned_to',
       render: (value, record) => {
         return (
           <ProjectTeam
-            team={this.state.projectTeam}
-            defaultValue={this.state.projectTeam[0].name}
-            onChange={event => this.handleEditTask(event, record, 'assignee')}
+            team={this.props.projectTeam}
+            defaultValue={value}
+            onChange={event =>
+              this.handleEditTask(event, record, 'assigned_to')
+            }
           />
         );
       },
-      onFilter: (value, record) => record['assignee'] === value,
-      sorter: (a, b) => Sort(a, b, 'assignee')
+      onFilter: (value, record) => record['assigned_to'] === value,
+      sorter: (a, b) => Sort(a, b, 'assigned_to')
     },
     {
       title: 'Ticket',
@@ -355,7 +359,7 @@ class Scrum extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? '' : value}
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
@@ -390,6 +394,7 @@ class Scrum extends Component {
       }
     }
   ];
+
   render() {
     const columns = this.columns;
     const { tasks } = this.state;

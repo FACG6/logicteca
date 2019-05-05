@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import TableMember from "./../../commonComponents/TableMember";
-import axios from "axios";
-import "../ProjectNew/style.css";
+import React, { Component } from 'react';
+import TableMember from './../../commonComponents/TableMember';
+import axios from 'axios';
+import '../ProjectNew/style.css';
 
 export default class index extends Component {
   state = {
@@ -11,12 +11,12 @@ export default class index extends Component {
       row: []
     },
     newProject: {
-      name: "",
-      description: undefined
+      name: '',
+      description: null
     },
     error: {
       errorStatus: false,
-      errorMsg: ""
+      errorMsg: ''
     }
   };
 
@@ -32,7 +32,7 @@ export default class index extends Component {
         } = result;
         if (status === 200) {
           if (!data.description) {
-            data.description = " ";
+            data.description = ' ';
           }
           this.setState({
             project: data,
@@ -47,13 +47,13 @@ export default class index extends Component {
         this.setState({
           error: {
             errorStatus: true,
-            errorMsg: "Error loading project details!!"
+            errorMsg: 'Error loading project details!!'
           }
         })
       );
     //fetch all users
     axios
-      .get("/api/v1/users")
+      .get('/api/v1/users')
       .then(result => {
         const {
           data: { data },
@@ -67,7 +67,7 @@ export default class index extends Component {
         this.setState({
           error: {
             errorStatus: true,
-            errorMsg: "Error loading users!!"
+            errorMsg: 'Error loading users!!'
           }
         })
       );
@@ -97,7 +97,7 @@ export default class index extends Component {
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: "Please enter the project name"
+          errorMsg: 'Please enter the project name'
         }
       });
     } else if (!Array.isArray(row) || row.length === 0) {
@@ -105,7 +105,7 @@ export default class index extends Component {
       this.setState({
         error: {
           errorStatus: true,
-          errorMsg: "Please select at least one team member"
+          errorMsg: 'Please select at least one team member'
         }
       });
     } else {
@@ -120,14 +120,14 @@ export default class index extends Component {
         .then(result => {
           const { status } = result;
           if (status === 200) {
-            this.props.history.push("/projects");
+            this.props.history.push('/projects');
           }
         })
         .catch(e =>
           this.setState({
             error: {
               errorStatus: true,
-              errorMsg: "Error updating project!!"
+              errorMsg: 'Error updating project!!'
             }
           })
         );
