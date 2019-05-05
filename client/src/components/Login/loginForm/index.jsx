@@ -11,7 +11,6 @@ export default class Login extends Component {
     user_name: '',
     password: '',
     loginError: '',
-    redirect: '',
     loading: false
   };
 
@@ -36,11 +35,10 @@ export default class Login extends Component {
       })
         .then(result => {
           if (result.status === 200) {
-            // I am not sure about redirecting here, because line 45 changes the App.js state which cause redirect
             if (location.state) {
-              this.setState({redirect: location.state.from.pathname})
+              this.props.history.push(location.state.from)
             } else {
-              this.setState({ redirect: '/', loading: false });
+              this.props.history.push('/')
             }
             setUserInfo(result.data.data);
           }
@@ -56,8 +54,6 @@ export default class Login extends Component {
   render() {
     return (
       <>
-        {/* I don't think Redirect here will work because of line 45 */}
-        {this.state.redirect ? <Redirect to={this.state.redirect} /> : null}
         <section className="login__form-container">
           <img className="login__image" src={image} alt="user" />
           <form onSubmit={this.login} className="login__form">
