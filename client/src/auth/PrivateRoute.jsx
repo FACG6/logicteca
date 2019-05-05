@@ -59,10 +59,9 @@ class PrivateRoute extends Component {
     const { isAuth } = this.state;
 
     return (
-      isAuth &&
       <Route
         {...rest}
-        render={props => <Component {...props}/>}
+        render={props => isAuth && <Component {...props}/>}
         />
     );
   }

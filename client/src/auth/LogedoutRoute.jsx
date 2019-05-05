@@ -22,7 +22,7 @@ class LogedoutRoute extends Component {
 
   componentDidMount() {
     this.axiosInstance
-    .get('/isAuthenticated')
+      .get('/isAuthenticated')
       .then(() => {
         this.isAuthorized();
       })
@@ -30,24 +30,6 @@ class LogedoutRoute extends Component {
         this.initialMount = true;
         this.setState({ isAuth: false });
       });
-  }
-
-  componentDidUpdate(prevProps) {
-    // this will stop when updating after the initial mount
-    if (!this.initialMount) {
-      this.axiosInstance
-      .get('/isAuthenticated')
-        .then(() => {
-          this.isAuthorized();
-        })
-        .catch(() => {
-          if (this.state.isAuth) {
-            this.setState({ isAuth: false });
-          }
-        });
-    } else {
-      this.initialMount = false;
-    }
   }
 
   isAuthorized = () => {
@@ -63,11 +45,10 @@ class LogedoutRoute extends Component {
     const { component: Component, ...rest } = this.props;
     const { isAuth } = this.state;
     return (
-      !isAuth &&
       <Route
         {...rest}
-        render={props => <Component setUserInfo={rest.setUserInfo} {...props}/>}
-        />
+        render={props => !isAuth && <Component setUserInfo={rest.setUserInfo} {...props} />}
+      />
     );
   }
 };
