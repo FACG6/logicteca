@@ -144,15 +144,15 @@ class Scrum extends Component {
   };
 
   validateTask = task => {
-    if (task.priority && isNaN(task.priority)) {
+    if (task.priority || isNaN(task.priority)) {
       this.setState({ error: 'Priority should be a number' });
       return false;
     }
-    if (task.est_time && isNaN(task.est_time)) {
+    if (task.est_time || isNaN(task.est_time)) {
       this.setState({ error: 'Estimate time should be numbers' });
       return false;
     }
-    if (task.spent_time && isNaN(task.spent_time)) {
+    if (task.spent_time || isNaN(task.spent_time)) {
       this.setState({ error: 'Spent time should be numbers' });
       return false;
     }
