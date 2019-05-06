@@ -36,7 +36,7 @@ test('post in /api/v1/projects/new (with valid data)', (t) => {
           } else {
             t.deepEqual(
               Object.keys(res.body.data),
-              ['id', 'project_id', 'user_id'],
+              ['project_id', 'userNames'],
               'add project and it users sucssfully',
             );
             t.end();

@@ -26,7 +26,7 @@ connection
             );
             t.deepEqual(
               Object.keys(res.body.data),
-              ['id', 'name', 'description', 'created_at', 'user_id'],
+              ['id', 'name', 'description', 'userNames'],
               'should return all data keys',
             );
             t.equal(res.body.error, null, 'should return null in error key');

@@ -4,7 +4,7 @@ const route = require('../../../server/app');
 const connect = require('../../../server/database/config/connection');
 
 const selectUserScrumProj = () => {
-  const getUser = 'SELECT projects.*, scrums.project_id as scrum_id, users_projects.user_id as user_id FROM users_projects join projects ON projects.id = users_projects.project_id inner join scrums on scrums.project_id = users_projects.project_id';
+  const getUser = 'select scrums.project_id, scrums.id as scrum_id, users.full_name, users.id as user_id from scrums inner join users_projects on scrums.project_id = users_projects.project_id inner join users on users.id = users_projects.user_id limit 1';
   return connect.query(getUser);
 };
 
@@ -46,7 +46,7 @@ test('Testing for api/v1/tasks/new route', (t) => {
   selectUserScrumProj()
     .then((result) => {
       newTask.scrum_id = result.rows[0].scrum_id;
-      newTask.assigned_to = result.rows[0].user_id;
+      newTask.assigned_to = result.rows[0].full_name;
     })
     .then(() => {
       supertest(route)

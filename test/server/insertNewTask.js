@@ -9,9 +9,26 @@ const selectScrum = () => {
   return connect.query(getScrums);
 };
 
-test('Testing insertTask query function', (t) => { 
-  const columns = ['id', 'action_type', 'status', 'modules', 'description', 'estimated_time', 'spent_time', 'priority', 'initial_test_status', 'ticket', 'notes', 'total_efforts', 'date_to_commit', 'review_and_test_note', 'scrum_id', 'assigned_to'];
-  let newTask = {
+test('Testing insertTask query function', (t) => {
+  const columns = [
+    'id',
+    'action_type',
+    'status',
+    'modules',
+    'description',
+    'estimated_time',
+    'spent_time',
+    'priority',
+    'initial_test_status',
+    'ticket',
+    'notes',
+    'total_efforts',
+    'date_to_commit',
+    'review_and_test_note',
+    'scrum_id',
+    'assigned_to',
+  ];
+  const newTask = {
     action_type: null,
     status: null,
     modules: null,
@@ -25,10 +42,12 @@ test('Testing insertTask query function', (t) => {
     total_efforts: 20,
     date_to_commit: null,
     review_and_test_note: 'no notes',
-    assigned_to: 1,
+    assigned_to: 'israa',
   };
   selectScrum()
-    .then(res => newTask.scrum_id = res.rows[0].id)
+    .then((res) => {
+      newTask.scrum_id = res.rows[0].id;
+    })
     .then(() => {
       insertTasks(newTask)
         .then((result) => {
