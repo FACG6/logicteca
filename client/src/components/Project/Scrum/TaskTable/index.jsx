@@ -162,7 +162,7 @@ class TaskTable extends Component {
   };
 
   updateTasks = tasks => {
-    
+
     this.setState({ tasks });
   };
 
@@ -237,9 +237,9 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? ' ' : value}
             onChange={event =>
-              this.handleEditTask(event, record, 'task_description')
+              this.handleEditTask(event, record, 'description')
             }
             tagName="span"
             className="tasks__cell description"
@@ -260,7 +260,7 @@ class TaskTable extends Component {
           />
         );
       },
-      onFilter: (value, record) => record['action_type'] === value
+      onFilter: (value, record) => record.action_type === value
     },
     {
       title: 'Priority',
@@ -268,24 +268,24 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
           />
         );
       },
-      onFilter: (value, record) => record['priority'] === value,
+      onFilter: (value, record) => record.priority === value,
       sorter: (a, b) => b.priority - a.priority
     },
     {
       title: 'Estimate Time (hr)',
-      dataIndex: 'est_time',
+      dataIndex: 'estimated_time',
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
-            onChange={event => this.handleEditTask(event, record, 'est_time')}
+            html={!value ? ' ' : value.toString()}
+            onChange={event => this.handleEditTask(event, record, 'estimated_time')}
             tagName="span"
             className="tasks__cell estimate_time"
           />
@@ -298,7 +298,7 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value ? value : ''}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'spent_time')}
             tagName="span"
             className="tasks__cell spent_time"
@@ -310,13 +310,10 @@ class TaskTable extends Component {
       title: 'Remaining Time (hr)',
       dataIndex: 'remaining_time',
       render: (value, record) => {
-        const remaining = calculate(record['est_time'], record['spent_time']);
+        const remaining = calculate(record.estimated_time, record.spent_time);
         return (
           <span
             className="tasks__cell remaining_time"
-            onChange={event =>
-              this.handleEditTask(event, record, 'remaining_time')
-            }
           >
             {remaining !== 'notvalid' ? remaining : 0}
           </span>
@@ -334,7 +331,7 @@ class TaskTable extends Component {
           />
         );
       },
-      onFilter: (value, record) => record['status'] === value
+      onFilter: (value, record) => record.status === value
     },
     {
       title: 'Assigned_to',
@@ -343,15 +340,13 @@ class TaskTable extends Component {
         return (
           <ProjectTeam
             team={this.props.projectTeam}
-            defaultValue={value}
-            onChange={event =>
-              this.handleEditTask(event, record, 'assigned_to')
-            }
+            defaultValue={record.assigned_to}
+            onChange={event => this.handleEditTask(event, record, 'assigned_to')}
           />
         );
       },
       onFilter: (value, record) => record['assigned_to'] === value,
-      sorter: (a, b) => Sort(a, b, 'assigned_to')
+      sorter: (a, b) => sort(a, b, 'assigned_to')
     },
     {
       title: 'Ticket',
@@ -359,7 +354,7 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
@@ -370,26 +365,11 @@ class TaskTable extends Component {
     {
       render: record => {
         return (
-          <span className="tasks__delete-span">
-            <Icon
-              className="tasks__delete-icon"
-              type="delete"
-              onClick={() => this.handleDeleteTask(record.id)}
-            />
-            <button
-              onClick={this.handleSaveNewTask}
-              className={
-                this.state.newTask &&
-                record.id ===
-                  this.state.tasks[this.state.tasks.length - 1].id &&
-                this.state.saving
-                  ? 'tasks__save-btn'
-                  : 'tasks__save-btn hidden'
-              }
-            >
-              Save
-            </button>
-          </span>
+          <Icon
+            className="tasks__delete-icon"
+            type="delete"
+            onClick={() => this.handleDeleteTask(record.id)}
+          />
         );
       }
     }
@@ -425,8 +405,8 @@ class TaskTable extends Component {
           {this.state.error ? (
             <span className="tasks__error">{this.state.error}</span>
           ) : (
-            <span />
-          )}
+              <span />
+            )}
           <Table
             columns={columns}
             rowKey={record => record.id}
