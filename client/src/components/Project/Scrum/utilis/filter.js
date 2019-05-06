@@ -1,60 +1,60 @@
 export function Filter(tasks) {
-  const tasks_names = [],
-    namesFilters =[],
+  const tasksDescriptions = [],
+    tasksFilters = [],
     action_types = [],
     actionsFilters = [],
     priorites = [],
-    prioritiesFilters =[],
+    prioritiesFilters = [],
     statuses = [],
-    statusFilters =[],
+    statusFilters = [],
     assignees = [],
-    assigneesFilters=[];
+    assigneesFilters = [];
 
   tasks.forEach(task => {
-    const { task_name, action_type, priority, status, assignee } = task;
+    const { description, action_type, priority, status, assigned_to } = task;
 
-    if( task_name && tasks_names.indexOf(task_name) === -1){
-      tasks_names.push(task_name);
-      namesFilters.push({
-        text: task_name,
-        value: task_name
+    if (description && tasksDescriptions.indexOf(description) === -1) {
+      tasksDescriptions.push(description);
+      tasksFilters.push({
+        text: description,
+        value: description
       });
     }
-    if( action_type && action_types.indexOf(action_type) === -1){
+    if (action_type && action_types.indexOf(action_type) === -1) {
       action_types.push(action_type);
       actionsFilters.push({
         text: action_type,
         value: action_type
       });
     }
-    if( priority && priorites.indexOf(priority) === -1){
+    if (priority && priorites.indexOf(priority) === -1) {
       priorites.push(priority);
       prioritiesFilters.push({
         text: priority,
         value: priority
       });
     }
-    if( status && statuses.indexOf(status) === -1){
+    if (status && statuses.indexOf(status) === -1) {
       statuses.push(status);
       statusFilters.push({
         text: status,
         value: status
       });
     }
-    if( assignee && assignees.indexOf(assignee) === -1){
-      assignees.push(assignee);
+    if (assigned_to && assignees.indexOf(assigned_to) === -1) {
+      assignees.push(assigned_to);
       assigneesFilters.push({
-        text: assignee,
-        value: assignee
+        text: assigned_to,
+        value: assigned_to
       });
     }
   })
 
-  return { 
-    namesFilters,
-    actionsFilters, 
-    prioritiesFilters, 
-    statusFilters, 
+  return {
+    tasksFilters,
+    actionsFilters,
+    prioritiesFilters,
+    statusFilters,
     assigneesFilters
   }
 }
