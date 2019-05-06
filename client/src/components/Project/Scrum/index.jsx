@@ -32,27 +32,25 @@ export default class Scrum extends Component {
 
   //Redirect to new scrum//
   handleAddScrum = () => {
+    const { projectId } = this.props;
     const previousScrums = this.state.scrums;
     const lastScrumId = previousScrums.length;
-
     axios
       .post("/api/v1/scrums/new", {
-        projectId: this.state.project.id,
-        scrumName: `scrum ${lastScrumId + 1}`
+        projectId: this.props.projectId,
+        scrumName: `Scrum ${lastScrumId + 1}`
       })
-      .then(res => {
-        const {
-          data: { data }
-        } = res;
+      .then(({ data: { data } }) => {
         const { id, name } = data;
         this.setState(prevState => {
           return {
             scrums: prevState.scrums.concat({
               id,
-              scrumName: name
+              name
             })
           };
         });
+        this.props.history.push(`/project/${projectId}/${id}`)
       });
   };
 
