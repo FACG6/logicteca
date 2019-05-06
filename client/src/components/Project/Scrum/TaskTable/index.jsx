@@ -4,7 +4,7 @@ import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import Editable from 'react-contenteditable';
 import { ProjectTeam, StatusSelect, ActionTypeSelect } from '../select/index';
-import { sort } from '../utilis/sort';
+import sort from '../utilis/sort';
 import { Filter } from '../utilis/filter.js';
 import calculate from '../utilis/calculate';
 import axios from 'axios';
