@@ -9,5 +9,5 @@ exports.post = (req, res, next) => {
         error: null,
       });
     })
-    .catch(e => next(e));
+    .catch(error => next(error));
 };

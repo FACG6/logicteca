@@ -19,5 +19,5 @@ exports.getProject = (req, res, next) => {
       };
       res.send(projectsData);
     })
-    .catch(e => next(e));
+    .catch(error => next(error));
 };

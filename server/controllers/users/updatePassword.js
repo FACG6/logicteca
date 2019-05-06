@@ -15,9 +15,12 @@ exports.postPassword = (req, res, next) => {
         .then(hashedPassword => updatePasswordQuery(hashedPassword, userId))
         .then((response) => {
           if (response.rowCount) res.send({ error: null, data: 'success' });
-          else next({ code: 400 });
+          else next({ code: 500, msg: 'Error in updating the password' });
         })
         .catch(error => next(error));
     })
-    .catch(() => next({ code: 422 }));
+    .catch((error) => {
+      error.code = 422;
+      next(error);
+    });
 };

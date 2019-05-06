@@ -6,7 +6,7 @@ const refactorData = require('./helper');
 
 exports.put = (request, response, next) => {
   const schema = joi.object().keys({
-    name: joi.string(),
+    name: joi.string().required(),
     dsescription: joi.string(),
   });
   const { projectId } = request.params;
@@ -25,6 +25,6 @@ exports.put = (request, response, next) => {
       })
       .catch(error => next(error));
   } else {
-    next({ code: 400 });
+    next({ code: 422, msg: result.error.details[0].message });
   }
 };

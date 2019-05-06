@@ -6,7 +6,7 @@ exports.server = (error, req, res, next) => {
       res.status(401).send(createError(401, 'Unauthorized'));
       break;
     case 403:
-      res.status(403).send(createError(403, 'forbidden'));
+      res.status(403).send(createError(403, 'Forbidden'));
       break;
     case 422:
       res.status(422).send(createError(422, 'Validation Error'));

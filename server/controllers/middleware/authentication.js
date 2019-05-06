@@ -2,7 +2,6 @@ const { verifykCookie } = require('./helpers');
 
 exports.auth = (request, response, next) => {
   const { jwt } = request.cookies;
-
   if (jwt) {
     verifykCookie(request.cookies.jwt, process.env.SECRET)
       .then((decoded) => {
@@ -11,11 +10,12 @@ exports.auth = (request, response, next) => {
           next();
         }
       })
-      .catch(() => {
+      .catch((error) => {
         response.clearCookie('jwt');
-        next({ code: 401 });
+        error.code = 401;
+        next(error);
       });
   } else {
-    next({ code: 401 });
+    next({ code: 401, msg: 'No jwt' });
   }
 };

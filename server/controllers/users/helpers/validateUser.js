@@ -16,7 +16,8 @@ module.exports = (req, res, next) => {
     .then(() => {
       next();
     })
-    .catch(() => {
-      next({ code: 422 });
+    .catch((error) => {
+      error.code = 422;
+      next(error);
     });
 };

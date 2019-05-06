@@ -15,20 +15,19 @@ exports.post = (request, response, next) => {
         };
         return compare(password, res.rows[0].password);
       }
+      return next({ code: 401, msg: 'Username does not exist' });
     })
     .then((isHashed) => {
       if (!isHashed) {
-        next({ code: 401 });
+        next({ code: 401, msg: 'Password is invalid' });
       } else {
         const token = jwt.sign(payload, process.env.SECRET);
         response.cookie('jwt', token, { maxAge: 1000 * 60 * 60 * 24 * 7 }, { httpOnly: true });
-        response.status(200).send({
+        response.send({
           error: null,
           data: payload,
         });
       }
     })
-    .catch(() => {
-      next({ code: 401 });
-    });
+    .catch(error => next(error));
 };

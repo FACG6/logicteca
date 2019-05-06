@@ -8,5 +8,8 @@ module.exports = (req, res, next) => {
   const { scrumName } = req.body;
   Joi.validate({ name: scrumName }, schema)
     .then(() => next())
-    .catch(() => next({ code: 422 }));
+    .catch((error) => {
+      error.code = 422;
+      next(error);
+    });
 };
