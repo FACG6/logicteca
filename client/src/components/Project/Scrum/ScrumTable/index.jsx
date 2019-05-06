@@ -3,15 +3,15 @@ import { Table, Button, Icon } from 'antd';
 import Swal from 'sweetalert2';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import createNotification from '../../Users/notification/index';
+import createNotification from '../../../Users/notification/index';
 import Editable from 'react-contenteditable';
-import { ProjectTeam, StatusSelect, ActionTypeSelect } from './select/index';
-import { Sort } from './utilis/sort';
-import { Filter } from './utilis/filter.js';
-import calculate from './utilis/calculate';
+import { ProjectTeam, StatusSelect, ActionTypeSelect } from '../select/index';
+import { Sort } from '../utilis/sort';
+import { Filter } from '../utilis/filter.js';
+import calculate from '../utilis/calculate';
 import axios from 'axios';
 
-class Scrum extends Component {
+class ScrumTable extends Component {
   state = {
     tasks: [],
     html: '',
@@ -442,4 +442,4 @@ class Scrum extends Component {
   }
 }
 
-export default Scrum;
+export default ScrumTable;
