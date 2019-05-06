@@ -11,43 +11,28 @@ class Scrums extends Component {
   };
 
   componentDidMount() {
-    // fetch project data
-    const { projectId } = this.props.match.params;
+    const { projectId, scrumId } = this.props.match.params;
+
+    // fetch project projectName and scrums//
     axios
-      .get(`/api/v1/projects/${projectId}`)
-      .then(result => {
-        const project = {
-          id: result.data.data.id,
-          projectName: result.data.data.name,
-          projectTeam: result.data.data.userNames
-        };
-        this.setState({ project });
-        //fetch scrums
-        axios
-          .get(`/api/v1/projects/${projectId}/scrums`)
-          .then(result => {
-            const {
-              data: { data },
-            } = result;
-            this.setState({ scrums: data });
-          })
-          .catch(e => {
-            this.setState({
-              error: {
-                status: true,
-                msg: "Error loading scrums !!!"
-              }
-            });
-          });
+      .get(`/api/v1/projects/${projectId}/scrums`)
+      .then(({ data: { data: { project, scrums } } }) => {
+        if (!scrums.length) {
+          this.setState({ fetchScrums: true, project });
+        }
+        else if (!scrumId) {
+          const scrumId = scrums[0].id;
+          this.props.history.push(`/project/${projectId}/${scrumId}`)
+        } else {
+          const selectedScrum = scrums.find(scrum => scrum.id === Number(scrumId));
+          if (!selectedScrum) {
+            const firstScrumId = scrums[0].id;
+            this.props.history.push(`/project/${projectId}/${firstScrumId}`)
+            this.setState({ project, scrums, fetchScrums: true });
+          } else this.setState({ project, scrums, fetchScrums: true });
+        }
       })
-      .catch(e => {
-        this.setState({
-          error: {
-            status: true,
-            msg: "Error loading scrums !!!"
-          }
-        });
-      });
+      .catch(err => this.setState({ error: 'Error' }));
   }
 
   render() {
