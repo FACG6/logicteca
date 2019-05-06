@@ -8,7 +8,7 @@ const selectAllUser = () => connect.query('select * from users');
 const selectAllProject = () => connect.query('select * from projects');
 const selectAllScrum = () => connect.query('select * from scrums');
 
-const a = () => new Promise((resolve) => {
+module.exports = () => new Promise((resolve) => {
   const queries = [];
   connect
     .query(fakeSql)
@@ -54,5 +54,3 @@ const a = () => new Promise((resolve) => {
     .then(() => resolve())
     .catch(error => console.log(error));
 });
-
-a();
