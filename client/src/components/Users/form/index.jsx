@@ -38,7 +38,7 @@ export default class Password extends Component {
       this.setState({ passwordError: 'Empty' });
       return false;
     }
-    if (password.length < 6 || confirmPassword < 6) {
+    if (password.length < 6) {
       this.setState({
         passwordError: 'password length should be greater than 6'
       });
