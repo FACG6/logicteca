@@ -8,6 +8,7 @@ class Scrums extends Component {
     project: {},
     error: '',
     scrums: [],
+    fetchScrums: false,
   };
 
   componentDidMount() {
@@ -17,19 +18,21 @@ class Scrums extends Component {
     axios
       .get(`/api/v1/projects/${projectId}/scrums`)
       .then(({ data: { data: { project, scrums } } }) => {
-        if (!scrums.length) {
-          this.setState({ fetchScrums: true, project });
-        }
-        else if (!scrumId) {
-          const scrumId = scrums[0].id;
-          this.props.history.push(`/project/${projectId}/${scrumId}`)
-        } else {
-          const selectedScrum = scrums.find(scrum => scrum.id === Number(scrumId));
-          if (!selectedScrum) {
-            const firstScrumId = scrums[0].id;
-            this.props.history.push(`/project/${projectId}/${firstScrumId}`)
+        if (scrums.length) {
+          if (!scrumId) {
+            const scrumId = scrums[0].id;
+            this.props.history.push(`/project/${projectId}/${scrumId}`);
             this.setState({ project, scrums, fetchScrums: true });
-          } else this.setState({ project, scrums, fetchScrums: true });
+          } else {
+            const selectedScrum = scrums.find(scrum => scrum.id === Number(scrumId));
+            if (!selectedScrum) {
+              const firstScrumId = scrums[0].id;
+              this.props.history.push(`/project/${projectId}/${firstScrumId}`)
+              this.setState({ project, scrums, fetchScrums: true });
+            } else {
+              this.setState({ project, scrums, fetchScrums: true });
+            }
+          }
         }
       })
       .catch(err => this.setState({ error: 'Error' }));
@@ -37,14 +40,18 @@ class Scrums extends Component {
 
   render() {
     const { projectId, scrumId } = this.props.match.params;
-    const { project: { name, usernames }, scrums } = this.state;
+    const { project: { name, userNames }, scrums, fetchScrums } = this.state;
     return (
       <section className="project__page--container">
         <div className="project__header">
           <h2 className="project__name"> {name} </h2>
         </div>
-        <Scrum {...this.props} projectTeam={usernames}
-          scrumId={scrumId} projectId={projectId} scrums={scrums} />
+        {fetchScrums && name ?
+          (<>
+            <Scrum {...this.props} projectTeam={userNames}
+              scrumId={scrumId} projectId={projectId} scrums={scrums} />
+          </>)
+          : null}
       </section>
     );
   }

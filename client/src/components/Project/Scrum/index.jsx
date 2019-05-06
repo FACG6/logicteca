@@ -9,6 +9,26 @@ export default class Scrum extends Component {
   state = {
     scrums: [],
     error: '',
+    scrumName: '',
+  }
+
+  componentDidMount() {
+    const { scrumId, scrums } = this.props;
+    if (!scrums.length) {
+      return;
+    }
+    const activeScrum = scrums.find(scrum => scrum.id === Number(scrumId));
+    this.setState({ scrums, scrumName: activeScrum.name });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.scrumId !== this.props.scrumId) {
+      const { scrumId } = this.props;
+      const { scrums } = this.state;
+      const activeScrum = scrums.find(scrum => scrum.id === Number(scrumId));
+      console.log(activeScrum)
+      this.setState({ scrumName: activeScrum.name })
+    }
   }
 
   //Redirect to new scrum//
