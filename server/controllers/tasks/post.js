@@ -1,8 +1,8 @@
 const insertTask = require('../../database/queries/insertTask');
 
 exports.post = (req, res, next) => {
-  const { addedTask } = req.body;
-  insertTask(addedTask)
+  const task = req.body;
+  insertTask(task)
     .then((result) => {
       res.send({
         data: result.rows,

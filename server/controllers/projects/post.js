@@ -17,7 +17,8 @@ exports.post = (request, response, next) => {
         return insertProjectUsers(newProjectID, row);
       })
       .then((res) => {
-        response.send({ error: null, data: refactorData(res.rows) });
+        const { project_id, userNames } = refactorData(res.rows);
+        response.send({ error: null, data: { project_id, userNames } });
       })
       .catch(error => next(error));
   } else {
