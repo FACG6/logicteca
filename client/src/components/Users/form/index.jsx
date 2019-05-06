@@ -38,7 +38,8 @@ export default class Password extends Component {
       this.setState({ passwordError: 'Empty' });
       return false;
     }
-    if (password.length < 6) {
+    if (password.length < 6 || confirmPassword < 6) {
+      console.log(4444);
       this.setState({
         passwordError: 'password length should be greater than 6'
       });
@@ -92,7 +93,7 @@ export default class Password extends Component {
           {empty ? (
             <Error errorMsg={"Can' be blank"} />
           ) : passwordError ? (
-            <Error errorMsg={"Passwords don't match"} />
+            <Error errorMsg={this.state.passwordError} />
           ) : null}
           <div className="users_btns">
             <button
