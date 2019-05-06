@@ -13,7 +13,7 @@ export default class TableMember extends Component {
 
   componentDidMount() {
     if (this.props.teamMember) {
-      const selectedRowKeys = this.props.teamMember;
+      const selectedRowKeys = this.props.teamMember.map(user => user.userId);
       this.setState({ selectedRowKeys: selectedRowKeys });
       this.props.handleCheck({
         row: selectedRowKeys
@@ -41,9 +41,9 @@ export default class TableMember extends Component {
       }
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
       className: 'project__cell',
       width: 150,
       filters: [],
