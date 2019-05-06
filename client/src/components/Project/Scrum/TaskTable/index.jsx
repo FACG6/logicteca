@@ -33,6 +33,17 @@ class TaskTable extends Component {
       .catch(error => this.setState({ error: 'Error' }));
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.scrumId !== this.props.scrumId) {
+      const { scrumId } = this.props;
+      axios.get(`/api/v1/scrums/${scrumId}`)
+        .then(result => {
+          this.setState({ tasks: result.data.data, error: '' })
+        })
+        .catch(error => this.setState({ error: 'Error' }));
+    }
+  }
+
   handleAddNewTask = () => {
     if (this.state.newTask) {
       createNotification('task exist');
