@@ -3,7 +3,7 @@ const build = require('./../server/database/config/dbBuild');
 const fakeData = require('./../server/database/config/insertFakeData');
 
 build()
-  .then(() => fakeData())
+  .then(fakeData)
   .then(() => require('./server/routes/loginPostRoute'))
   .then(() => require('./server/routes/insertTaskRoute'))
   .then(() => require('./server/insertNewTask'))

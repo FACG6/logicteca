@@ -6,7 +6,7 @@ import '../ProjectNew/style.css';
 export default class index extends Component {
   state = {
     users: null,
-    project: [],
+    project: {},
     selection: {
       row: []
     },
@@ -181,7 +181,7 @@ export default class index extends Component {
                     <TableMember
                       projectId={projectId}
                       handleCheck={this.handleCheck}
-                      teamMember={this.state.project.user_id}
+                      teamMember={this.state.project.userNames}
                       member={this.state.users}
                     />
                   )}
