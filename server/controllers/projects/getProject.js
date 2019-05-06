@@ -6,10 +6,7 @@ exports.getProject = (req, res, next) => {
   selectProjectDetails(projectId)
     .then((result) => {
       const {
-        id,
-        name,
-        description,
-        userNames,
+        id, name, description, userNames,
       } = refactorData(result.rows);
       const projectsData = {
         data: {
