@@ -17,7 +17,6 @@ class Scrum extends Component {
     html: '',
     newRow: {},
     saving: false,
-    taskDescriptionErr: '',
     newTask: false,
     scrumName: '',
     error: ''
@@ -36,28 +35,6 @@ class Scrum extends Component {
   handleAddNewTask = () => {
     if (this.state.newTask) {
       createNotification('task exist');
-      return;
-    }
-    if (this.state.tasks.length) {
-      this.setState(prevState => {
-        const newTask = [
-          ...prevState.tasks,
-          {
-            id: '1',
-            task_name: '',
-            task_description: '',
-            action_type: 'testing',
-            priority: '',
-            est_time: '',
-            remaining_time: '',
-            status: 'in progress',
-            assignee: '',
-            ticket: '',
-            scrumName: ''
-          }
-        ];
-        return { tasks: newTask, newTask: true };
-      });
       return;
     }
     this.setState(prevState => {
@@ -167,20 +144,15 @@ class Scrum extends Component {
   };
 
   validateTask = task => {
-    this.setState({ taskDescriptionErr: '' });
-    if (!task['task_description']) {
-      this.setState({ error: "Task description can't be blank" });
-      return false;
-    }
-    if (task.priority && !/\d/.test(task.priority)) {
+    if (task.priority && isNaN(task.priority)) {
       this.setState({ error: 'Priority should be a number' });
       return false;
     }
-    if (task.est_time && !/\d/.test(task.est_time)) {
+    if (task.est_time && isNaN(task.est_time)) {
       this.setState({ error: 'Estimate time should be numbers' });
       return false;
     }
-    if (task.spent_time && !/\d/.test(task.spent_time)) {
+    if (task.spent_time && isNaN(task.spent_time)) {
       this.setState({ error: 'Spent time should be numbers' });
       return false;
     }
