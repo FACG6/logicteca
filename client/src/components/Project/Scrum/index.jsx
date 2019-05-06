@@ -26,7 +26,11 @@ export default class Scrum extends Component {
       const { scrumId } = this.props;
       const { scrums } = this.state;
       const activeScrum = scrums.find(scrum => scrum.id === Number(scrumId));
-      this.setState({ scrumName: activeScrum.name })
+      if (activeScrum) {
+        this.setState({ scrumName: activeScrum.name })
+      } else {
+        this.setState({ scrumName: ''});
+      }
     }
   }
 
@@ -135,12 +139,13 @@ export default class Scrum extends Component {
             />
           </div>
         </div>
+        {this.state.scrumName ?
         <Editable
-          html={this.state.scrumName || ''}
+          html={this.state.scrumName}
           tagName="span"
           onChange={this.handleScrumName}
           className="scrum__name"
-        />
+        />:null}
         {this.state.scrums.length ?
           <TaskTable
             projectTeam={this.props.projectTeam}
