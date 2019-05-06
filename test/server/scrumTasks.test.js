@@ -40,8 +40,7 @@ test('test query for scrum tasks', (t) => {
                 'review_and_test_note',
                 'scrum_id',
                 'assigned_to',
-                'user_name',
-                'role',
+                'name',
               ],
               'correct data',
             );

@@ -28,8 +28,7 @@ test('Testing for /api/v1/scrums/:scrumId route', (t) => {
     'review_and_test_note',
     'scrum_id',
     'assigned_to',
-    'user_name',
-    'role',
+    'name',
   ];
   selectScrum()
     .then((result) => {
