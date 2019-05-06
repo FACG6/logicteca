@@ -11,7 +11,7 @@ import { Filter } from '../utilis/filter.js';
 import calculate from '../utilis/calculate';
 import axios from 'axios';
 
-class ScrumTable extends Component {
+class TaskTable extends Component {
   state = {
     tasks: [],
     html: '',
@@ -442,4 +442,4 @@ class ScrumTable extends Component {
   }
 }
 
-export default ScrumTable;
+export default TaskTable;

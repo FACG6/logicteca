@@ -26,7 +26,6 @@ export default class Scrum extends Component {
       const { scrumId } = this.props;
       const { scrums } = this.state;
       const activeScrum = scrums.find(scrum => scrum.id === Number(scrumId));
-      console.log(activeScrum)
       this.setState({ scrumName: activeScrum.name })
     }
   }
