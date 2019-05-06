@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon } from 'antd';
 import { NavLink } from 'react-router-dom';
 import Editable from 'react-contenteditable';
-import ScrumTable from './ScrumTable'
+import TaskTable from './TaskTable'
 import axios from 'axios';
 
 export default class Scrum extends Component {
@@ -125,7 +125,7 @@ export default class Scrum extends Component {
           className="scrum__name"
         />
         {this.state.scrums.length ?
-          <ScrumTable
+          <TaskTable
             projectTeam={this.props.projectTeam}
             scrumName={this.handleScrumName}
             params={this.props.match.params}
