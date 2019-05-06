@@ -64,19 +64,21 @@ export default class Scrum extends Component {
     //fetch to delete the scrum from database//
   };
 
-  //Not finished yet//
-  handleScrumName = scrumNewName => {
-    const scrumValue = scrumNewName;
-    const scrumId = this.props.match.params.scrumId;
-    this.setState(prevState => {
-      const updatedScrums = [...prevState.scrums];
-      const scrumIndex = updatedScrums.findIndex(
-        scrum => scrum.id === Number(scrumId)
-      );
-      updatedScrums[scrumIndex]["scrumName"] = scrumValue;
-      return { scrums: updatedScrums };
-      //Fetch//
-    });
+  handleScrumName = event => {
+    const newValue = event.target.value;
+    const scrumId = this.props.scrumId;
+    axios.put(`/api/v1/scrums/${scrumId}`, { name: newValue })
+      .then(({ data: { data } }) => {
+        this.setState(prevState => {
+          const clonedScrums = JSON.parse(JSON.stringify(prevState.scrums));
+          const scrumIndex = clonedScrums.findIndex(
+            scrum => scrum.id === Number(scrumId)
+          );
+          clonedScrums[scrumIndex] = data;
+          return { scrums: clonedScrums, scrumName: newValue };
+        })
+      })
+      .catch(error => this.setState({ error: 'Error' }))
   };
 
   render() {
@@ -127,7 +129,6 @@ export default class Scrum extends Component {
         {this.state.scrums.length ?
           <TaskTable
             projectTeam={this.props.projectTeam}
-            scrumName={this.handleScrumName}
             params={this.props.match.params}
             scrumId={this.props.scrumId}
           /> : null}
