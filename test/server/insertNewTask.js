@@ -25,7 +25,7 @@ test('Testing insertTask query function', (t) => {
     total_efforts: 20,
     date_to_commit: null,
     review_and_test_note: 'no notes',
-    assigned_to: 1,
+    assigned_to: 'israa',
   };
   selectScrum()
     .then(res => newTask.scrum_id = res.rows[0].id)

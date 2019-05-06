@@ -23,7 +23,7 @@ test('test query for projest details', (t) => {
             const firstProject = res[0];
             t.deepEqual(
               Object.keys(firstProject),
-              ['id', 'name', 'description', 'created_at', 'user_id'],
+              ['id', 'name', 'description', 'created_at', 'user_id', 'full_name'],
               'correct data',
             );
             t.end();
