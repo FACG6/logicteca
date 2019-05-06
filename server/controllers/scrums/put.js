@@ -19,6 +19,6 @@ exports.put = (request, response, next) => {
         next(error);
       });
   } else {
-    next({ code: 422 });
+    next({ code: 422, msg: result.error.details[0].message });
   }
 };

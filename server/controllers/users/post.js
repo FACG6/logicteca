@@ -16,7 +16,7 @@ exports.post = (req, res, next) => {
         .then(insertUser)
         .then((response) => {
           if (response.rowCount) return res.send({ error: null, data: response.rows[0] });
-          return next({ code: 422 });
+          return next({ code: 500, msg: 'Error in inserting user' });
         })
         .catch(error => next(error));
     })
