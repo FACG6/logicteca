@@ -25,13 +25,12 @@ export default withRouter(function Header(props) {
   }
   const menu = (
     <Menu>
-      <Menu.Item>
-        <span onClick={handleClick}>Logout</span>
+      <Menu.Item onClick={handleClick}>
+        <span>Logout</span>
       </Menu.Item>
     </Menu>
   );
-  return pathname !== '/login' ?
-  (
+  return pathname !== '/login' ? (
     <header className="header">
       <div className="header__container">
         <img
@@ -63,5 +62,7 @@ export default withRouter(function Header(props) {
         </div>
       </div>
     </header>
-  ):'';
+  ) : (
+    ''
+  );
 });
