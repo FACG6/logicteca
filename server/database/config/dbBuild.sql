@@ -32,7 +32,7 @@ CREATE TABLE scrums(
 CREATE TYPE act_type AS ENUM ('DEVELOPER', 'SCRUM MASTER', 'CLIENT');
 
 CREATE TABLE tasks(
-    id SERIAL PRIMARY KEY,
+    id SERIAL  PRIMARY KEY,
     action_type VARCHAR,
     status VARCHAR,
     modules VARCHAR,
