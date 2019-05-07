@@ -198,3 +198,7 @@
   font-size: 1.2rem;
   color: #cc2222;
 }
+
+.ant-calendar-picker-input {
+  width: 8rem;
+}
