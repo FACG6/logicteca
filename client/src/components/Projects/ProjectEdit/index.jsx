@@ -28,29 +28,36 @@ export default class index extends Component {
       .then(result => {
         const {
           data: { data },
-          status
         } = result;
-        if (status === 200) {
-          if (!data.description) {
-            data.description = ' ';
-          }
-          this.setState({
-            project: data,
-            newProject: {
-              name: data.name,
-              description: data.description
-            }
-          });
+        if (!data.description) {
+          data.description = ' ';
         }
-      })
-      .catch(e =>
         this.setState({
-          error: {
-            errorStatus: true,
-            errorMsg: 'Error loading project details!!'
+          project: data,
+          newProject: {
+            name: data.name,
+            description: data.description
           }
-        })
-      );
+        });
+      })
+      .catch(error => {
+        if (error.response.status === 422) {
+          this.setState({
+            error: {
+              errorStatus: true,
+              errorMsg: error.response.message,
+            }
+          })
+        } else {
+          this.setState({
+            error: {
+              errorStatus: true,
+              errorMsg: 'ERROR'
+            }
+          })
+        }
+      });
+      
     //fetch all users
     axios
       .get('/api/v1/users')

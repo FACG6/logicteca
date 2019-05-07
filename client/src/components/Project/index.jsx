@@ -36,7 +36,7 @@ class Scrums extends Component {
           this.setState({ project, fetchScrums: true });
         }
       })
-      .catch(err => this.setState({ error: 'Error' }));
+      .catch(err => this.setState({ error: 'ERROR' }));
   }
 
   render() {

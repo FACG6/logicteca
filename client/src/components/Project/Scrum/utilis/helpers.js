@@ -46,7 +46,7 @@ function handleEditTask(event, record, column) {
         this.setState({ tasks: prevTasks })
       })
       .catch(error => {
-        this.setState({ error: 'Error' })
+        this.setState({ error: 'ERROR' })
       })
   }
 };
@@ -90,7 +90,7 @@ function confirmDelete(taskId) {
         this.setState({ tasks });
       }
     })
-    .catch(e => this.setState({ error: 'Error' }));
+    .catch(e => this.setState({ error: 'ERROR' }));
 };
 
 function deleteSwal() {

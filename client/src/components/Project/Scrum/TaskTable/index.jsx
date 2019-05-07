@@ -43,7 +43,7 @@ class TaskTable extends Component {
       .then(result => {
         this.setState({ tasks: result.data.data, error: '' });
       })
-      .catch(error => this.setState({ error: 'Error' }));
+      .catch(() => this.setState({ error: 'Error' }));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,7 +53,7 @@ class TaskTable extends Component {
         .then(result => {
           this.setState({ tasks: result.data.data, error: '' })
         })
-        .catch(error => this.setState({ error: 'Error' }));
+        .catch(() => this.setState({ error: 'ERROR' }));
     }
   }
 
