@@ -28,14 +28,13 @@ function handleEditTask(event, record, column) {
   const updatedTask = prevTasks.find(task => task.id === taskId);
   updatedTask[column] = newTask;
   if (this.validateTask(updatedTask)) {
-    console.log(111, updatedTask)
     axios.put(`/api/v1/tasks/${taskId}`, updatedTask)
       .then((result) => {
         this.setState({ tasks: prevTasks })
       })
       .catch(error => {
-        console.log(333, error)
-        this.setState({ error: 'Error' })})
+        this.setState({ error: 'Error' })
+      })
   }
 };
 
@@ -53,7 +52,11 @@ function validateTask(task) {
     this.setState({ error: 'Spent time should be a number' });
     return false;
   }
-  if (!task.priority || !task.estimated_time || !task.spent_time){
+  if (task.total_efforts && isNaN(task.total_efforts)) {
+    this.setState({ error: 'Total efforts should be a number' });
+    return false;
+  }
+  if (!task.priority || !task.estimated_time || !task.spent_time || !task.total_efforts) {
     return false;
   }
   return true;
@@ -104,10 +107,10 @@ function handleChangeScrum(event) {
 
 export {
   handleAddNewTask,
-    handleEditTask,
-    validateTask,
-    deleteSwal,
-    handleDeleteTask,
-    confirmDelete,
-    handleChangeScrum,
-    }
+  handleEditTask,
+  validateTask,
+  deleteSwal,
+  handleDeleteTask,
+  confirmDelete,
+  handleChangeScrum,
+};
