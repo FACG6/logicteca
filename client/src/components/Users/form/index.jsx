@@ -92,7 +92,7 @@ export default class Password extends Component {
           {empty ? (
             <Error errorMsg={"Can' be blank"} />
           ) : passwordError ? (
-            <Error errorMsg={"Passwords don't match"} />
+            <Error errorMsg={this.state.passwordError} />
           ) : null}
           <div className="users_btns">
             <button
