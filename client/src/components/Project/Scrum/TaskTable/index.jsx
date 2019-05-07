@@ -10,8 +10,6 @@ import calculate from '../utilis/calculate';
 import axios from 'axios';
 import {
   handleAddNewTask,
-  handleAddTask,
-  handleSaveNewTask,
   handleEditTask,
   validateTask,
   deleteSwal,
@@ -39,9 +37,7 @@ class TaskTable extends Component {
     this.confirmDelete = confirmDelete.bind(this);
     this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
-    this.handlehandleSaveNewTask = handleSaveNewTask.bind(this);
     this.handleChangeScrum = handleChangeScrum.bind(this);
-    this.handleAddTask = handleAddTask.bind(this);
 
   }
 
