@@ -11,8 +11,8 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  } from '../utilis/helpers';
-  import columns from './TaskColumns';
+} from '../utilis/helpers';
+import columns from './TaskColumns';
 
 class TaskTable extends Component {
   constructor(props) {
@@ -27,13 +27,14 @@ class TaskTable extends Component {
       scrumName: '',
       error: '',
     }
+    this._focused = React.createRef();
     this.validateTask = validateTask.bind(this);
     this.handleAddNewTask = handleAddNewTask.bind(this);
     this.handleEditTask = handleEditTask.bind(this);
     this.confirmDelete = confirmDelete.bind(this);
     this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
-    this.columns = columns.bind(this)
+    this.columns = columns.bind(this);
   }
 
   componentDidMount() {
