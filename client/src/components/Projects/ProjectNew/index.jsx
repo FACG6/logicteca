@@ -27,7 +27,6 @@ export default class index extends Component {
           status
         } = result;
         if (status === 200) {
-          console.log(data)
           this.setState({ users: data });
         }
       })
@@ -136,7 +135,9 @@ export default class index extends Component {
                 className="main-input main-textArea"
               />
             </label>
-            <h3 className="main-h3">Assign Team <span className="main-required">*</span></h3>
+            <h3 className="main-h3">
+              Assign Team <span className="main-required">*</span>
+            </h3>
             <div className="main-member">
               <div className="main--titelMembers">
                 <h3 className="main--h3">Memebrs</h3>
