@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Icon } from 'antd';
+import { Table, Button, Icon, DatePicker } from 'antd';
 import Swal from 'sweetalert2';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -10,6 +10,9 @@ import { Sort } from '../utilis/sort';
 import { Filter } from '../utilis/filter.js';
 import calculate from '../utilis/calculate';
 import axios from 'axios';
+import moment from 'moment'
+
+const dateFormat = 'YYYY-MM-DD';
 
 class TaskTable extends Component {
   state = {
@@ -265,6 +268,20 @@ class TaskTable extends Component {
       }
     },
     {
+      title: 'Modules',
+      dataIndex: 'modules',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={!value ? '' : value}
+            onChange={event => this.handleEditTask(event, record, 'modules')}
+            tagName="span"
+            className="tasks__cell modules"
+          />
+        );  
+      }
+    },
+    {
       title: 'Spent Time (hr)',
       dataIndex: 'spent_time',
       render: (value, record) => {
@@ -326,6 +343,43 @@ class TaskTable extends Component {
       sorter: (a, b) => Sort(a, b, 'assigned_to')
     },
     {
+      title: 'Initial test status',
+      dataIndex: 'initial_test_status',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={value ? value : ''}
+            onChange={event => this.handleEditTask(event, record, 'initial_test_status')}
+            tagName="span"
+            className="tasks__cell initial_test_status"
+          />
+        );
+      }
+    },
+    {
+      title: 'Date to commit',
+      dataIndex: 'date_to_commit',
+      render: (value, record) => {
+        return (
+          <DatePicker defaultValue={moment(Date.now().split('T')[0], dateFormat)} />
+        );
+      }
+    },
+    {
+      title: 'Review and test note',
+      dataIndex: 'review_and_test_note',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={value ? value : ''}
+            onChange={event => this.handleEditTask(event, record, 'review_and_test_note')}
+            tagName="span"
+            className="tasks__cell"
+          />
+        );
+      }
+    },
+    {
       title: 'Ticket',
       dataIndex: 'ticket',
       render: (value, record) => {
@@ -335,6 +389,34 @@ class TaskTable extends Component {
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
+          />
+        );
+      }
+    },
+    {
+      title: 'Notes',
+      dataIndex: 'notes',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={!value ? '' : value}
+            onChange={event => this.handleEditTask(event, record, 'notes')}
+            tagName="span"
+            className="tasks__cell notes"
+          />
+        );
+      }
+    },
+    {
+      title: 'Total Efforts',
+      dataIndex: 'total_efforts',
+      render: (value, record) => {
+        return (
+          <Editable
+            html={!value ? '' : value}
+            onChange={event => this.handleEditTask(event, record, 'total_efforts')}
+            tagName="span"
+            className="tasks__cell total_efforts"
           />
         );
       }
