@@ -16,10 +16,7 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  handleChangeScrum,
   } from '../utilis/helpers';
-
-const dateFormat = 'YYYY-MM-DD';
 
 class TaskTable extends Component {
   constructor(props) {
@@ -40,8 +37,6 @@ class TaskTable extends Component {
     this.confirmDelete = confirmDelete.bind(this);
     this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
-    this.handleChangeScrum = handleChangeScrum.bind(this);
-
   }
 
   componentDidMount() {
@@ -268,7 +263,7 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
+            html={!value ? '' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'total_efforts')}
             tagName="span"
             className="tasks__cell total_efforts"
