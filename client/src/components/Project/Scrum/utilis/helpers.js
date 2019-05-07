@@ -18,6 +18,12 @@ function handleAddNewTask() {
           action_type: 'testing',
           priority: '',
           est_time: '',
+          modules:'',
+          initial_test_status:'',
+          date_to_commit:Date.now().split('T')[0],
+          review_and_test_note:'',
+          notes:'',
+          total_efforts:'',
           remaining_time: '',
           status: 'in progress',
           assignee: '',
@@ -39,6 +45,12 @@ function handleAddNewTask() {
         action_type: 'testing',
         priority: '',
         est_time: '',
+        modules:'',
+        initial_test_status:'',
+        date_to_commit:Date.now().split('T')[0],
+        review_and_test_note:'',
+        notes:'',
+        total_efforts:'',
         remaining_time: '',
         status: 'in progress',
         assignee: '',
@@ -74,11 +86,16 @@ function handleSaveNewTask(event) {
     status,
     spent_time,
     priority,
-    est_time
+    est_time,
+    modules,
+    initial_test_status,
+    date_to_commit,
+    review_and_test_note,
+    notes,
+    total_efforts,
   } = this.state.newRow;
 
   if (this.validateTask(newRow)) {
-    // console.log(this.props.scrumId, 55555);
 
     const addedTask = {
       action_type,
@@ -87,6 +104,12 @@ function handleSaveNewTask(event) {
       priority,
       assigned_to: assignee,
       estimate_time: est_time,
+      modules,
+      initial_test_status,
+      date_to_commit,
+      review_and_test_note,
+      notes,
+      total_efforts,
       spent_time,
       ticket,
       scrum_id: this.props.scrumId
@@ -131,21 +154,20 @@ function handleEditTask(event, record, column) {
 };
 
 function validateTask(task) {
-  this.setState({ taskDescriptionErr: '' });
-  if (!task['task_description']) {
-    this.setState({ error: "Task description can't be blank" });
-    return false;
-  }
-  if (task.priority && !/\d/.test(task.priority)) {
+  if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
   }
-  if (task.est_time && !/\d/.test(task.est_time)) {
-    this.setState({ error: 'Estimate time should be numbers' });
+  if (task.est_time && isNaN(task.est_time)) {
+    this.setState({ error: 'Estimate time should be a number' });
     return false;
   }
-  if (task.spent_time && !/\d/.test(task.spent_time)) {
-    this.setState({ error: 'Spent time should be numbers' });
+  if (task.spent_time && isNaN(task.spent_time)) {
+    this.setState({ error: 'Spent time should be a number' });
+    return false;
+  }
+  if(task.total_efforts && isNaN(task.total_efforts)){
+    this.setState({ error: 'Total efforts should be a number' });
     return false;
   }
   return true;
@@ -196,12 +218,12 @@ function handleChangeScrum(event) {
 
 export {
   handleAddNewTask,
-    handleAddTask,
-    handleSaveNewTask,
-    handleEditTask,
-    validateTask,
-    deleteSwal,
-    handleDeleteTask,
-    confirmDelete,
-    handleChangeScrum,
-    }
+  handleAddTask,
+  handleSaveNewTask,
+  handleEditTask,
+  validateTask,
+  deleteSwal,
+  handleDeleteTask,
+  confirmDelete,
+  handleChangeScrum,
+  };
