@@ -68,8 +68,8 @@ export default class TableMember extends Component {
       }
     };
     const columns = this.columns;
-    columns[0].filters = filterArray[1];
-    columns[1].filters = filterArray[2];
+    columns[0].filters = filterArray[2];
+    columns[1].filters = filterArray[3];
 
     return (
       <Table
