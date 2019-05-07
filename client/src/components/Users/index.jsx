@@ -35,6 +35,8 @@ class Users extends Component {
     type: ''
   };
 
+  _focused = React.createRef();
+
   hideFocus = event => {
     event.target.className = 'users__cell';
   };
@@ -112,6 +114,9 @@ class Users extends Component {
         role: 'developer'
       });
       return { users: newUsers, rowAdded: true };
+    }, () => {
+      // focus the first span of the new row
+      this._focused.current.el.current.focus();
     });
   };
 
@@ -219,6 +224,7 @@ class Users extends Component {
               this.handleEditUserInfo(event, record, 'user_name')
             }
             tagName="span"
+            ref={this._focused}
             className={
               this.state.rowAdded && record.id === this.state.users.length
                 ? `users__cell focus--input`
