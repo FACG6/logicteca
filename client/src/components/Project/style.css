@@ -209,7 +209,8 @@
 .ant-calendar-picker-input {
   width: 8rem;
 }
-.ant-table-column-sorters,
-.anticon-filter {
+
+.tasks__table > .ant-table-column-sorters,
+.tasks__table .anticon-filter {
   background-color: #3f7baa !important;
 }
