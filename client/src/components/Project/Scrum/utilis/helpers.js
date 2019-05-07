@@ -62,15 +62,25 @@ function validateTask(task) {
   return true;
 };
 
-function handleDeleteTask(id) {
-  const { tasks } = this.state;
-  const { scrumId, projectId } = this.props.params;
-  const deletedTask = tasks.find(task => task.id === id);
-  const taskId = deletedTask.id;
-  this.deleteSwal().then(response => {
-    if (response.value)
-      this.confirmDelete(taskId, Number(scrumId), Number(projectId));
+function handleDeleteTask(taskId) {
+  this.deleteSwal().then(result => {
+    if (result.value) this.confirmDelete(taskId);
   });
+}
+
+function confirmDelete(taskId) {
+  const { tasks } = this.state;
+  axios
+    .delete(`/api/v1/tasks/${taskId}`)
+    .then(res => {
+      if (res.status === 200) {
+        Swal.fire('Deleted!', `Your task has been deleted.`, 'success');
+        const taskIndex = tasks.findIndex(task => task.id === Number(taskId));
+        tasks.splice(taskIndex, 1);
+        this.setState({ tasks });
+      }
+    })
+    .catch(e => this.setState({ error: 'Error' }));
 };
 
 function deleteSwal() {
@@ -83,28 +93,6 @@ function deleteSwal() {
   });
 };
 
-function confirmDelete(taskId, scrumId, projectId) {
-  const { tasks } = this.state;
-  const taskIndex = tasks.findIndex(task => task.id === Number(taskId));
-  tasks.splice(taskIndex, 1);
-  this.setState({ tasks });
-  //Fetch to delete task
-  axios
-    .delete(`/api/v1/tasks/${taskId}`)
-    .then(res => {
-      if (res.status === 200) {
-        Swal.fire('Deleted!', `Your task has been deleted.`, 'success');
-      }
-    })
-    .catch(e => this.setState({ error: 'Task is not Deleted!!' }));
-};
-
-function handleChangeScrum(event) {
-  const scrumNewName = event.target.value;
-  this.setState({ scrumName: scrumNewName });
-  this.props.scrumName(scrumNewName);
-};
-
 export {
   handleAddNewTask,
   handleEditTask,
@@ -112,5 +100,4 @@ export {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  handleChangeScrum,
 };
