@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Scrum from "./Scrum";
 import "./style.css";
 import axios from "axios";
-
 class Scrums extends Component {
   state = {
     project: {},
