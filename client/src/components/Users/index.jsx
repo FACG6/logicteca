@@ -214,7 +214,7 @@ class Users extends Component {
           <Editable
             onBlur={this.hideFocus}
             innerRef={this.textInput}
-            html={value}
+            html={value ? value : ''}
             onChange={event =>
               this.handleEditUserInfo(event, record, 'user_name')
             }
@@ -237,7 +237,7 @@ class Users extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={value ? value : ''}
             onChange={event =>
               this.handleEditUserInfo(event, record, 'full_name')
             }
