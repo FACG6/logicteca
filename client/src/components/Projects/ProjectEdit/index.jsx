@@ -176,7 +176,7 @@ export default class index extends Component {
               </div>
               <div className="main-memberSelect">
                 {this.state.project &&
-                  this.state.project.user_id &&
+                  this.state.project.userNames &&
                   this.state.users && (
                     <TableMember
                       projectId={projectId}

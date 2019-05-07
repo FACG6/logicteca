@@ -1,29 +1,52 @@
 import React, { Component } from 'react';
 import { Table, Button, Icon, DatePicker } from 'antd';
-import Swal from 'sweetalert2';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import createNotification from '../../../Users/notification/index';
 import Editable from 'react-contenteditable';
 import { ProjectTeam, StatusSelect, ActionTypeSelect } from '../select/index';
-import { Sort } from '../utilis/sort';
+import sort from '../utilis/sort';
 import { Filter } from '../utilis/filter.js';
 import calculate from '../utilis/calculate';
 import axios from 'axios';
-import moment from 'moment'
+import moment from 'moment';
+import {
+  handleAddNewTask,
+  handleAddTask,
+  handleSaveNewTask,
+  handleEditTask,
+  validateTask,
+  deleteSwal,
+  handleDeleteTask,
+  confirmDelete,
+  handleChangeScrum,
+  } from '../utilis/helpers';
 
 const dateFormat = 'YYYY-MM-DD';
 
 class TaskTable extends Component {
-  state = {
-    tasks: [],
-    html: '',
-    newRow: {},
-    saving: false,
-    newTask: false,
-    scrumName: '',
-    error: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      html: '',
+      newRow: {},
+      saving: false,
+      taskDescriptionErr: '',
+      newTask: false,
+      scrumName: '',
+      error: '',
+    }
+    this.validateTask = validateTask.bind(this);
+    this.handleAddNewTask = handleAddNewTask.bind(this);
+    this.handleEditTask = handleEditTask.bind(this);
+    this.confirmDelete = confirmDelete.bind(this);
+    this.deleteSwal = deleteSwal.bind(this);
+    this.handleDeleteTask = handleDeleteTask.bind(this);
+    this.handlehandleSaveNewTask = handleSaveNewTask.bind(this);
+    this.handleChangeScrum = handleChangeScrum.bind(this);
+    this.handleAddTask = handleAddTask.bind(this);
+
+  }
 
   componentDidMount() {
     const { scrumId } = this.props;
@@ -35,175 +58,16 @@ class TaskTable extends Component {
       .catch(error => this.setState({ error: 'Error' }));
   }
 
-  handleAddNewTask = () => {
-    if (this.state.newTask) {
-      createNotification('task exist');
-      return;
-    }
-    this.setState(prevState => {
-      const newTask = [
-        ...prevState.tasks,
-        {
-          id: this.state.tasks.length + 1,
-          task_name: '',
-          task_description: '',
-          action_type: 'testing',
-          priority: '',
-          est_time: '',
-          remaining_time: '',
-          status: 'in progress',
-          assignee: '',
-          ticket: '',
-          scrumName: ''
-        }
-      ];
-      return { tasks: newTask, newTask: true };
-    });
-  };
-
-  handleAddTask = (event, column) => {
-    const newTask = event.target.value;
-    this.setState(prevState => {
-      const clonedTasks = [...prevState.tasks];
-      clonedTasks[clonedTasks.length - 1][column] = newTask;
-      return {
-        saving: true,
-        tasks: clonedTasks,
-        newRow: clonedTasks[clonedTasks.length - 1]
-      };
-    });
-  };
-
-  handleSaveNewTask = event => {
-    const { newRow } = this.state;
-    const { scrumId } = this.props;
-    const {
-      description: task_description,
-      action_type,
-      assigned_to: assignee,
-      ticket,
-      status,
-      spent_time,
-      priority,
-      est_time
-    } = this.state.newRow;
-
-    if (this.validateTask(newRow)) {
-      // console.log(this.props.scrumId, 55555);
-
-      const addedTask = {
-        action_type,
-        status,
-        task_description,
-        priority,
-        assigned_to: assignee,
-        estimate_time: est_time,
-        spent_time,
-        ticket,
-        scrum_id: this.props.scrumId
-      };
-      //Fetch
-      axios
-        .post('/api/v1/tasks/new', {
-          addedTask
-        })
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.scrumId !== this.props.scrumId) {
+      const { scrumId } = this.props;
+      axios.get(`/api/v1/scrums/${scrumId}`)
         .then(result => {
-          const {
-            data: { data },
-            status
-          } = result;
-          if (status === 200) {
-            const newData = [...this.state.tasks];
-            newData.push(data);
-            this.setState({ tasks: newData });
-          }
+          this.setState({ tasks: result.data.data, error: '' })
         })
-        .catch(e => this.setState({ error: 'Task is not Added!!' }));
-      this.setState({ newTask: false, error: false, saving: false });
-      createNotification('success');
+        .catch(error => this.setState({ error: 'Error' }));
     }
-  };
-
-  handleEditTask = (event, record, column) => {
-    const { tasks } = this.state;
-    //Add a new task
-    if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
-      return this.handleAddTask(event, column);
-    }
-    //Edit Task
-    const newTask = event.target.value;
-    const taskId = record.id;
-    const clonedTasks = [...tasks];
-    const updateTask = clonedTasks.find(task => task.id === taskId);
-    updateTask[column] = newTask;
-
-    //No Validate this momemnt, will be edited later.
-    this.updateTasks(clonedTasks);
-  };
-
-  updateTasks = tasks => {
-    
-    this.setState({ tasks });
-  };
-
-  validateTask = task => {
-    if (task.priority && isNaN(task.priority)) {
-      this.setState({ error: 'Priority should be a number' });
-      return false;
-    }
-    if (task.est_time && isNaN(task.est_time)) {
-      this.setState({ error: 'Estimate time should be numbers' });
-      return false;
-    }
-    if (task.spent_time && isNaN(task.spent_time)) {
-      this.setState({ error: 'Spent time should be numbers' });
-      return false;
-    }
-    return true;
-  };
-
-  handleDeleteTask = id => {
-    const { tasks } = this.state;
-    const { scrumId, projectId } = this.props.params;
-    const deletedTask = tasks.find(task => task.id === id);
-    const taskId = deletedTask.id;
-    this.deleteSwal().then(response => {
-      if (response.value)
-        this.confirmDelete(taskId, Number(scrumId), Number(projectId));
-    });
-  };
-
-  deleteSwal = () => {
-    return Swal.fire({
-      type: 'warning',
-      text: 'Are you sure to delete this task?',
-      showConfirmButton: true,
-      showCancelButton: true,
-      className: 'deletTaskSwal'
-    });
-  };
-
-  confirmDelete = (taskId, scrumId, projectId) => {
-    const { tasks } = this.state;
-    const taskIndex = tasks.findIndex(task => task.id === Number(taskId));
-    tasks.splice(taskIndex, 1);
-    this.setState({ tasks });
-    //Fetch to delete task
-    axios
-      .delete(`/api/v1/tasks/${taskId}`)
-      .then(res => {
-        if (res.status === 200) {
-          Swal.fire('Deleted!', `Your task has been deleted.`, 'success');
-        }
-      })
-      .catch(e => this.setState({ error: 'Task is not Deleted!!' }));
-  };
-
-  handleChangeScrum = event => {
-    const scrumNewName = event.target.value;
-    this.setState({ scrumName: scrumNewName });
-    this.props.scrumName(scrumNewName);
-  };
+  }
 
   columns = [
     {
@@ -212,9 +76,9 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value}
+            html={!value ? ' ' : value}
             onChange={event =>
-              this.handleEditTask(event, record, 'task_description')
+              this.handleEditTask(event, record, 'description')
             }
             tagName="span"
             className="tasks__cell description"
@@ -235,7 +99,7 @@ class TaskTable extends Component {
           />
         );
       },
-      onFilter: (value, record) => record['action_type'] === value
+      onFilter: (value, record) => record.action_type === value
     },
     {
       title: 'Priority',
@@ -243,24 +107,24 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
           />
         );
       },
-      onFilter: (value, record) => record['priority'] === value,
+      onFilter: (value, record) => record.priority === value,
       sorter: (a, b) => b.priority - a.priority
     },
     {
       title: 'Estimate Time (hr)',
-      dataIndex: 'est_time',
+      dataIndex: 'estimated_time',
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
-            onChange={event => this.handleEditTask(event, record, 'est_time')}
+            html={!value ? ' ' : value.toString()}
+            onChange={event => this.handleEditTask(event, record, 'estimated_time')}
             tagName="span"
             className="tasks__cell estimate_time"
           />
@@ -287,7 +151,7 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={value ? value : ''}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'spent_time')}
             tagName="span"
             className="tasks__cell spent_time"
@@ -299,13 +163,10 @@ class TaskTable extends Component {
       title: 'Remaining Time (hr)',
       dataIndex: 'remaining_time',
       render: (value, record) => {
-        const remaining = calculate(record['est_time'], record['spent_time']);
+        const remaining = calculate(record.estimated_time, record.spent_time);
         return (
           <span
             className="tasks__cell remaining_time"
-            onChange={event =>
-              this.handleEditTask(event, record, 'remaining_time')
-            }
           >
             {remaining !== 'notvalid' ? remaining : 0}
           </span>
@@ -323,7 +184,7 @@ class TaskTable extends Component {
           />
         );
       },
-      onFilter: (value, record) => record['status'] === value
+      onFilter: (value, record) => record.status === value
     },
     {
       title: 'Assigned_to',
@@ -332,15 +193,13 @@ class TaskTable extends Component {
         return (
           <ProjectTeam
             team={this.props.projectTeam}
-            defaultValue={value}
-            onChange={event =>
-              this.handleEditTask(event, record, 'assigned_to')
-            }
+            defaultValue={record.assigned_to}
+            onChange={event => this.handleEditTask(event, record, 'assigned_to')}
           />
         );
       },
       onFilter: (value, record) => record['assigned_to'] === value,
-      sorter: (a, b) => Sort(a, b, 'assigned_to')
+      sorter: (a, b) => sort(a, b, 'assigned_to')
     },
     {
       title: 'Initial test status',
@@ -385,7 +244,7 @@ class TaskTable extends Component {
       render: (value, record) => {
         return (
           <Editable
-            html={!value ? '' : value}
+            html={!value ? ' ' : value.toString()}
             onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
@@ -424,26 +283,11 @@ class TaskTable extends Component {
     {
       render: record => {
         return (
-          <span className="tasks__delete-span">
-            <Icon
-              className="tasks__delete-icon"
-              type="delete"
-              onClick={() => this.handleDeleteTask(record.id)}
-            />
-            <button
-              onClick={this.handleSaveNewTask}
-              className={
-                this.state.newTask &&
-                record.id ===
-                  this.state.tasks[this.state.tasks.length - 1].id &&
-                this.state.saving
-                  ? 'tasks__save-btn'
-                  : 'tasks__save-btn hidden'
-              }
-            >
-              Save
-            </button>
-          </span>
+          <Icon
+            className="tasks__delete-icon"
+            type="delete"
+            onClick={() => this.handleDeleteTask(record.id)}
+          />
         );
       }
     }
@@ -460,12 +304,6 @@ class TaskTable extends Component {
       <React.Fragment>
         <NotificationContainer />
         <div className="scrum__header">
-          <Editable
-            html={this.state.scrumName}
-            tagName="span"
-            onChange={this.handleChangeScrum}
-            className="scrum__name"
-          />
           <Button
             icon="plus"
             className="scrum__addTask__btn"
@@ -479,8 +317,8 @@ class TaskTable extends Component {
           {this.state.error ? (
             <span className="tasks__error">{this.state.error}</span>
           ) : (
-            <span />
-          )}
+              <span />
+            )}
           <Table
             columns={columns}
             rowKey={record => record.id}
