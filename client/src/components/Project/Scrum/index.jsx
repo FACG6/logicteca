@@ -26,57 +26,79 @@ export default class Scrum extends Component {
       const { scrumId } = this.props;
       const { scrums } = this.state;
       const activeScrum = scrums.find(scrum => scrum.id === Number(scrumId));
-      this.setState({ scrumName: activeScrum.name })
+      if (activeScrum) {
+        this.setState({ scrumName: activeScrum.name })
+      } else {
+        this.setState({ scrumName: ''});
+      }
     }
   }
 
   //Redirect to new scrum//
   handleAddScrum = () => {
+    const { projectId } = this.props;
     const previousScrums = this.state.scrums;
     const lastScrumId = previousScrums.length;
-
     axios
       .post("/api/v1/scrums/new", {
-        projectId: this.state.project.id,
-        scrumName: `scrum ${lastScrumId + 1}`
+        projectId: this.props.projectId,
+        scrumName: `Scrum ${lastScrumId + 1}`
       })
-      .then(res => {
-        const {
-          data: { data }
-        } = res;
+      .then(({ data: { data } }) => {
         const { id, name } = data;
         this.setState(prevState => {
           return {
             scrums: prevState.scrums.concat({
               id,
-              scrumName: name
+              name
             })
           };
         });
+        this.props.history.push(`/project/${projectId}/${id}`)
       });
   };
 
-  //Not finished yet//
   handleDeleteScrum = scrumId => {
-    const { scrums } = this.state;
-    const updatedScrums = scrums.filter(scrum => scrum.id !== scrumId);
-    this.setState({ scrums: updatedScrums });
-    //fetch to delete the scrum from database//
+    axios.delete(`/api/v1/scrums/${scrumId}`)
+      .then(result => {
+        const { scrums } = this.state;
+        const updatedScrums = scrums.filter(scrum => scrum.id !== scrumId);
+        if (scrumId === Number(this.props.scrumId)) {
+          const deletedScrumIndex = scrums.findIndex(scrum => scrum.id === scrumId);
+          //the deleted scrum is not the first one//
+          if (deletedScrumIndex) {
+            const redirectId = scrums[deletedScrumIndex - 1].id;
+            this.props.history.push(`/project/${this.props.projectId}/${redirectId}`);
+            //the deleted scrum is the first one//
+          } else {
+            if (scrums.length === 1) {
+              this.props.history.push(`/project/${this.props.projectId}`);
+            } else {
+              const redirectId = scrums[deletedScrumIndex + 1].id;
+              this.props.history.push(`/project/${this.props.projectId}/${redirectId}`);
+            }
+          }
+        }
+        this.setState({ scrums: updatedScrums });
+      })
+      .catch(err => this.setState({ error: 'Error' }))
   };
 
-  //Not finished yet//
-  handleScrumName = scrumNewName => {
-    const scrumValue = scrumNewName;
-    const scrumId = this.props.match.params.scrumId;
-    this.setState(prevState => {
-      const updatedScrums = [...prevState.scrums];
-      const scrumIndex = updatedScrums.findIndex(
-        scrum => scrum.id === Number(scrumId)
-      );
-      updatedScrums[scrumIndex]["scrumName"] = scrumValue;
-      return { scrums: updatedScrums };
-      //Fetch//
-    });
+  handleScrumName = event => {
+    const newValue = event.target.value;
+    const scrumId = this.props.scrumId;
+    axios.put(`/api/v1/scrums/${scrumId}`, { name: newValue })
+      .then(({ data: { data } }) => {
+        this.setState(prevState => {
+          const clonedScrums = JSON.parse(JSON.stringify(prevState.scrums));
+          const scrumIndex = clonedScrums.findIndex(
+            scrum => scrum.id === Number(scrumId)
+          );
+          clonedScrums[scrumIndex] = data;
+          return { scrums: clonedScrums, scrumName: newValue };
+        })
+      })
+      .catch(error => this.setState({ error: 'Error' }))
   };
 
   render() {
@@ -118,16 +140,16 @@ export default class Scrum extends Component {
             />
           </div>
         </div>
+        {this.state.scrumName ?
         <Editable
-          html={this.state.scrumName || ''}
+          html={this.state.scrumName}
           tagName="span"
           onChange={this.handleScrumName}
           className="scrum__name"
-        />
+        />:null}
         {this.state.scrums.length ?
           <TaskTable
             projectTeam={this.props.projectTeam}
-            scrumName={this.handleScrumName}
             params={this.props.match.params}
             scrumId={this.props.scrumId}
           /> : null}

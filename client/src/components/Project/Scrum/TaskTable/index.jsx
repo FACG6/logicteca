@@ -222,12 +222,6 @@ class TaskTable extends Component {
       <React.Fragment>
         <NotificationContainer />
         <div className="scrum__header">
-          <Editable
-            html={this.state.scrumName}
-            tagName="span"
-            onChange={this.handleChangeScrum}
-            className="scrum__name"
-          />
           <Button
             icon="plus"
             className="scrum__addTask__btn"
