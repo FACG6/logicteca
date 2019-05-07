@@ -22,27 +22,29 @@ function handleAddNewTask() {
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
-  //Add a new task
-  // if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
-  //   return this.handleAddTask(event, column);
-  // }
-  //Edit Task
   const newTask = event.target.value;
   const taskId = record.id;
-  const clonedTasks = [...tasks];
-  const updateTask = clonedTasks.find(task => task.id === taskId);
-  updateTask[column] = newTask;
-
-  //No Validate this momemnt, will be edited later.
-  this.updateTasks(clonedTasks);
+  const prevTasks = [...tasks]
+  const updatedTask = prevTasks.find(task => task.id === taskId);
+  updatedTask[column] = newTask;
+  if (this.validateTask(updatedTask)) {
+    axios.put(`/api/v1/tasks/${taskId}`, updatedTask)
+      .then((result) => {
+        this.setState({ tasks: prevTasks })
+      })
+      .catch(error => {
+        this.setState({ error: 'Error' })
+      })
+  }
 };
 
 function validateTask(task) {
+  this.setState({ error: '' });
   if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
   }
-  if (task.est_time && isNaN(task.est_time)) {
+  if (task.estimated_time && isNaN(task.estimated_time)) {
     this.setState({ error: 'Estimate time should be a number' });
     return false;
   }
@@ -50,8 +52,11 @@ function validateTask(task) {
     this.setState({ error: 'Spent time should be a number' });
     return false;
   }
-  if(task.total_efforts && isNaN(task.total_efforts)){
+  if (task.total_efforts && isNaN(task.total_efforts)) {
     this.setState({ error: 'Total efforts should be a number' });
+    return false;
+  }
+  if (!task.priority || !task.estimated_time || !task.spent_time || !task.total_efforts) {
     return false;
   }
   return true;
@@ -108,4 +113,4 @@ export {
   handleDeleteTask,
   confirmDelete,
   handleChangeScrum,
-  };
+};
