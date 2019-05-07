@@ -88,10 +88,13 @@ export default class index extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
+    let {
       selection: { row },
       newProject: { name, dsescription }
     } = this.state;
+    if (!dsescription) {
+      dsescription = ' ';
+    }
     if (name.trim().length === 0) {
       //show error here for project name
       this.setState({
