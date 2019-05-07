@@ -79,20 +79,6 @@ class Projects extends Component {
   };
   columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      defaultSort: 'descend',
-      sorter: (a, b) => {
-        if (a.id > b.id) {
-          return -1;
-        }
-        if (a.id < b.id) {
-          return 1;
-        }
-        return 0;
-      }
-    },
-    {
       title: 'Name',
       dataIndex: 'name',
       defaultSort: 'descend',
@@ -114,9 +100,10 @@ class Projects extends Component {
       }
     },
     {
-      title: "Description",
-      dataIndex: "description", 
+      title: 'Description',
+      dataIndex: 'description',
       className: 'projects__cell',
+      render: record => (record === ' ' ? 'No Description' : record)
     },
     {
       title: 'Created At',
@@ -155,7 +142,7 @@ class Projects extends Component {
         </Menu.Item>
       </Menu>
     );
-    this.columns[4] = {
+    this.columns[3] = {
       title: 'Action',
       render: props => {
         return (
