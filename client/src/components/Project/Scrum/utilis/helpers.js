@@ -22,12 +22,25 @@ function handleAddNewTask() {
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
-  const newTask = event.target.value;
+  const newTask = event.target.value.trim();
   const taskId = record.id;
   const prevTasks = [...tasks]
   const updatedTask = prevTasks.find(task => task.id === taskId);
   updatedTask[column] = newTask;
+
   if (this.validateTask(updatedTask)) {
+    if (!updatedTask.priority) {
+      updatedTask.priority = null;
+    }
+    if (!updatedTask.spent_time) {
+      updatedTask.spent_time = null;
+    }
+    if (!updatedTask.total_efforts) {
+      updatedTask.total_efforts = null;
+    }
+    if (!updatedTask.estimated_time) {
+      updatedTask.estimated_time = null;
+    }
     axios.put(`/api/v1/tasks/${taskId}`, updatedTask)
       .then((result) => {
         this.setState({ tasks: prevTasks })
@@ -54,9 +67,6 @@ function validateTask(task) {
   }
   if (task.total_efforts && isNaN(task.total_efforts)) {
     this.setState({ error: 'Total efforts should be a number' });
-    return false;
-  }
-  if (!task.priority || !task.estimated_time || !task.spent_time || !task.total_efforts) {
     return false;
   }
   return true;
