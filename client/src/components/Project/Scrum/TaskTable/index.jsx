@@ -289,8 +289,8 @@ class TaskTable extends Component {
     const { tasks } = this.state;
     columns[1].filters = Filter(tasks).actionsFilters;
     columns[2].filters = Filter(tasks).prioritiesFilters;
-    columns[6].filters = Filter(tasks).statusFilters;
-    columns[7].filters = Filter(tasks).assigneesFilters;
+    columns[7].filters = Filter(tasks).statusFilters;
+    columns[8].filters = Filter(tasks).assigneesFilters;
     return (
       <React.Fragment>
         <NotificationContainer />
