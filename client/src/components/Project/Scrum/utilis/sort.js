@@ -1,4 +1,4 @@
-export function Sort(a, b, columnName) {
+export default function sort(a, b, columnName) {
   if (a[columnName] < b[columnName]) {
     return -1;
   }
