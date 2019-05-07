@@ -1,124 +1,31 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import createNotification from '../../../Users/notification/index';
+
 
 function handleAddNewTask() {
-  if (this.state.newTask) {
-    createNotification('task exist');
-    return;
+  const defaultAssigned_to = this.props.projectTeam[0].fullName;
+  const newTask = {
+    description: `New Task`,
+    scrum_id: this.props.scrumId,
+    assigned_to: defaultAssigned_to,
+    status: 'To Do',
+    action_type: 'Coding'
   }
-  if (this.state.tasks.length) {
-    this.setState(prevState => {
-      const newTask = [
-        ...prevState.tasks,
-        {
-          id: '1',
-          task_name: '',
-          task_description: '',
-          action_type: 'testing',
-          priority: '',
-          est_time: '',
-          remaining_time: '',
-          status: 'in progress',
-          assignee: '',
-          ticket: '',
-          scrumName: ''
-        }
-      ];
-      return { tasks: newTask, newTask: true };
-    });
-    return;
-  }
-  this.setState(prevState => {
-    const newTask = [
-      ...prevState.tasks,
-      {
-        id: this.state.tasks.length + 1,
-        task_name: '',
-        task_description: '',
-        action_type: 'testing',
-        priority: '',
-        est_time: '',
-        remaining_time: '',
-        status: 'in progress',
-        assignee: '',
-        ticket: '',
-        scrumName: ''
-      }
-    ];
-    return { tasks: newTask, newTask: true };
-  });
-};
-
-function handleAddTask(event, column) {
-  const newTask = event.target.value;
-  this.setState(prevState => {
-    const clonedTasks = [...prevState.tasks];
-    clonedTasks[clonedTasks.length - 1][column] = newTask;
-    return {
-      saving: true,
-      tasks: clonedTasks,
-      newRow: clonedTasks[clonedTasks.length - 1]
-    };
-  });
-};
-
-function handleSaveNewTask(event) {
-  const { newRow } = this.state;
-  const { scrumId } = this.props;
-  const {
-    description: task_description,
-    action_type,
-    assigned_to: assignee,
-    ticket,
-    status,
-    spent_time,
-    priority,
-    est_time
-  } = this.state.newRow;
-
-  if (this.validateTask(newRow)) {
-    // console.log(this.props.scrumId, 55555);
-
-    const addedTask = {
-      action_type,
-      status,
-      task_description,
-      priority,
-      assigned_to: assignee,
-      estimate_time: est_time,
-      spent_time,
-      ticket,
-      scrum_id: this.props.scrumId
-    };
-    //Fetch
-    axios
-      .post('/api/v1/tasks/new', {
-        addedTask
+  axios.post(`/api/v1/tasks/new`, newTask)
+    .then(({ data: { data } }) => {
+      this.setState(prevState => {
+        return { tasks: prevState.tasks.concat(data) }
       })
-      .then(result => {
-        const {
-          data: { data },
-          status
-        } = result;
-        if (status === 200) {
-          const newData = [...this.state.tasks];
-          newData.push(data);
-          this.setState({ tasks: newData });
-        }
-      })
-      .catch(e => this.setState({ error: 'Task is not Added!!' }));
-    this.setState({ newTask: false, error: false, saving: false });
-    createNotification('success');
-  }
+    })
+    .catch(err => this.setState({ error: 'Error' }));
 };
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
   //Add a new task
-  if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
-    return this.handleAddTask(event, column);
-  }
+  // if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
+  //   return this.handleAddTask(event, column);
+  // }
   //Edit Task
   const newTask = event.target.value;
   const taskId = record.id;
@@ -196,8 +103,6 @@ function handleChangeScrum(event) {
 
 export {
   handleAddNewTask,
-    handleAddTask,
-    handleSaveNewTask,
     handleEditTask,
     validateTask,
     deleteSwal,
