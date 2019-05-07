@@ -31,8 +31,8 @@ class Users extends Component {
     passwordAdded: false,
     error: '',
     search: false,
-    searchResults: [], 
-    type: '',
+    searchResults: [],
+    type: ''
   };
 
   hideFocus = event => {
@@ -95,7 +95,7 @@ class Users extends Component {
       .then(result => this.setState({ users }))
       .catch(error => this.setState({ error: 'Error' }));
     //change message//
-  }
+  };
 
   addRow = () => {
     this.setState(prevState => {
@@ -129,7 +129,7 @@ class Users extends Component {
     });
   };
 
-  handleForm = (type) => {
+  handleForm = type => {
     this.setState({ show: true, type });
   };
 
@@ -139,7 +139,7 @@ class Users extends Component {
       saving: true,
       passwordError: false,
       password,
-      show: false, 
+      show: false
     });
     createNotification('password');
   };
@@ -156,9 +156,10 @@ class Users extends Component {
           user_name: newRow.user_name,
           full_name: newRow.full_name,
           password,
-          role: newRow.role,
+          role: newRow.role
         };
-        axios.post('/api/v1/users/new', addedRow)
+        axios
+          .post('/api/v1/users/new', addedRow)
           .then(result => {
             this.setState({
               rowAdded: false,
@@ -190,7 +191,8 @@ class Users extends Component {
 
   confirmDelete = deleteMember => {
     const { users } = this.state;
-    axios.delete(`/api/v1/users/${deleteMember}`)
+    axios
+      .delete(`/api/v1/users/${deleteMember}`)
       .then(result => {
         const filterRows = users.filter(user => user.id !== deleteMember);
         this.setState({ users: filterRows });
@@ -276,10 +278,13 @@ class Users extends Component {
                     Password
                   </button>
                 ) : (
-                    <button className="users__btn users__btn--change-pass">
-                      Change Pass
+                  <button
+                    className="users__btn users__btn--change-pass"
+                    onClick={() => this.handleForm('Add')}
+                  >
+                    Change Pass
                   </button>
-                  )}
+                )}
                 {this.state.saving ? (
                   <button
                     onClick={this.saveNewUser}
@@ -288,10 +293,10 @@ class Users extends Component {
                     Save
                   </button>
                 ) : (
-                    <button className="users__btn users__btn--save hidden">
-                      Save
+                  <button className="users__btn users__btn--save hidden">
+                    Save
                   </button>
-                  )}
+                )}
               </div>
             );
           }
@@ -306,7 +311,7 @@ class Users extends Component {
                 rowId={record.id}
                 users={this.state.users}
                 handleDeleteUser={this.handleDeleteUser}
-                changePassword = {() => this.handleForm('Change')}
+                changePassword={() => this.handleForm('Change')}
               />
             }
           >
@@ -360,7 +365,12 @@ class Users extends Component {
           className="users__table"
         />
         {this.state.show ? (
-          <Form row={this.state.rowSelected} type={this.state.type} submitPassword={this.handlePassword} cancel={this.cancel} />
+          <Form
+            row={this.state.rowSelected}
+            type={this.state.type}
+            submitPassword={this.handlePassword}
+            cancel={this.cancel}
+          />
         ) : null}
       </main>
     );
