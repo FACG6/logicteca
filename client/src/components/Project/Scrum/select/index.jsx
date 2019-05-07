@@ -23,10 +23,10 @@ function ActionTypeSelect({ team, defaultValue, onChange }) {
   );
 };
 
-function ProjectTeam({team, onChange, defaultValue}) {
+function ProjectTeam({ team, onChange, defaultValue }) {
   return (
-    <select className="projectTeam__select" onChange={onChange}>
-      {team.map(member => <option key={member.userId} id={member.userId} value={member.fullName} selected={defaultValue === member.fullName? true: false}>{member.fullName}</option>)}
+    <select defaultValue={defaultValue} className="projectTeam__select" onChange={onChange}>
+      {team.map(member => <option key={member.userId} id={member.userId} value={member.fullName}>{member.fullName}</option>)}
     </select>
   );
 }
