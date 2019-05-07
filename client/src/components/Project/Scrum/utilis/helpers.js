@@ -47,7 +47,7 @@ function handleAddNewTask() {
         est_time: '',
         modules:'',
         initial_test_status:'',
-        date_to_commit:Date.now().split('T')[0],
+        date_to_commit:'',
         review_and_test_note:'',
         notes:'',
         total_efforts:'',

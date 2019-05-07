@@ -220,7 +220,7 @@ class TaskTable extends Component {
       dataIndex: 'date_to_commit',
       render: (value, record) => {
         return (
-          <DatePicker defaultValue={moment(Date.now().split('T')[0], dateFormat)} />
+          <DatePicker defaultValue={moment()} />
         );
       }
     },
