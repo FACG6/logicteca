@@ -22,37 +22,38 @@ function handleAddNewTask() {
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
-  //Add a new task
-  // if (this.state.newTask || record.id === tasks[tasks.length - 1].id) {
-  //   return this.handleAddTask(event, column);
-  // }
-  //Edit Task
   const newTask = event.target.value;
   const taskId = record.id;
-  const clonedTasks = [...tasks];
-  const updateTask = clonedTasks.find(task => task.id === taskId);
-  updateTask[column] = newTask;
-
-  //No Validate this momemnt, will be edited later.
-  this.updateTasks(clonedTasks);
+  const prevTasks = [...tasks]
+  const updatedTask = prevTasks.find(task => task.id === taskId);
+  updatedTask[column] = newTask;
+  if (this.validateTask(updatedTask)) {
+    console.log(111, updatedTask)
+    axios.put(`/api/v1/tasks/${taskId}`, updatedTask)
+      .then((result) => {
+        this.setState({ tasks: prevTasks })
+      })
+      .catch(error => {
+        console.log(333, error)
+        this.setState({ error: 'Error' })})
+  }
 };
 
 function validateTask(task) {
-  this.setState({ taskDescriptionErr: '' });
-  if (!task['task_description']) {
-    this.setState({ error: "Task description can't be blank" });
-    return false;
-  }
-  if (task.priority && !/\d/.test(task.priority)) {
+  this.setState({ error: '' });
+  if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
   }
-  if (task.est_time && !/\d/.test(task.est_time)) {
-    this.setState({ error: 'Estimate time should be numbers' });
+  if (task.estimated_time && isNaN(task.estimated_time)) {
+    this.setState({ error: 'Estimate time should be a number' });
     return false;
   }
-  if (task.spent_time && !/\d/.test(task.spent_time)) {
-    this.setState({ error: 'Spent time should be numbers' });
+  if (task.spent_time && isNaN(task.spent_time)) {
+    this.setState({ error: 'Spent time should be a number' });
+    return false;
+  }
+  if (!task.priority || !task.estimated_time || !task.spent_time){
     return false;
   }
   return true;
