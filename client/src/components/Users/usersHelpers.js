@@ -44,7 +44,6 @@ function addRow() {
       return;
     }
     const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
-    //bug in id//
     const newUsers = clonedUsers.concat({
       id: clonedUsers[clonedUsers.length - 1].id + 1,
       user_name: '',
@@ -52,6 +51,8 @@ function addRow() {
       role: 'Developer'
     });
     return { users: newUsers, rowAdded: true };
+  }, () => {
+    this._focused.current.focus();
   });
 };
 
@@ -78,7 +79,6 @@ function handleAddUser(event, columnName) {
   this.setState(prevState => {
     const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
     clonedUsers[clonedUsers.length - 1][columnName] = newValue;
-    //Not sure if I should update the state now or after inserting the user in database!
     return {
       saving: true,
       users: clonedUsers,
@@ -107,7 +107,7 @@ function cancel() {
 };
 
 function saveNewUser() {
-  const { newRow, password, users } = this.state;
+  const { newRow, password } = this.state;
   if (this.validateUserInfo(newRow)) {
     if (password) {
       const addedRow = {

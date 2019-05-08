@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Icon, DatePicker } from 'antd';
+import { Table, Button } from 'antd';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { Filter } from '../utilis/filter.js';
@@ -11,7 +11,7 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  } from '../utilis/helpers';
+  } from '../utilis/taskHelpers';
   import columns from './TaskColumns';
 
 class TaskTable extends Component {
@@ -27,13 +27,14 @@ class TaskTable extends Component {
       scrumName: '',
       error: '',
     }
+    this._focused = React.createRef();
     this.validateTask = validateTask.bind(this);
     this.handleAddNewTask = handleAddNewTask.bind(this);
     this.handleEditTask = handleEditTask.bind(this);
     this.confirmDelete = confirmDelete.bind(this);
     this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
-    this.columns = columns.bind(this)
+    this.columns = columns.bind(this);
   }
 
   componentDidMount() {

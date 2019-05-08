@@ -16,8 +16,7 @@ function columns() {
       render: (value, record) => {
         return (
           <Editable
-            onBlur={this.hideFocus}
-            innerRef={this.textInput}
+            innerRef={this._focused}
             html={value ? value : ''}
             onChange={event =>
               this.handleEditUserInfo(event, record, 'user_name')
