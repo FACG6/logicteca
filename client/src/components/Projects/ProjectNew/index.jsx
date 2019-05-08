@@ -13,10 +13,7 @@ export default class index extends Component {
       name: '',
       dsescription: ''
     },
-    error: {
-      errorStatus: false,
-      errorMsg: ''
-    }
+    error: '',
   };
   componentDidMount() {
     axios
@@ -32,10 +29,7 @@ export default class index extends Component {
       })
       .catch(e =>
         this.setState({
-          error: {
-            errorStatus: true,
-            errorMsg: 'Error loading users!!'
-          }
+          error:'ERROR',
         })
       );
   }
@@ -62,18 +56,12 @@ export default class index extends Component {
     if (name.trim().length === 0) {
       //show error here for project name
       this.setState({
-        error: {
-          errorStatus: true,
-          errorMsg: 'Please enter the project name'
-        }
+        error: 'Please enter the project name',
       });
     } else if (!Array.isArray(row) || row.length === 0) {
       //show error here for selection
       this.setState({
-        error: {
-          errorStatus: true,
-          errorMsg: 'Please select at least one team member'
-        }
+        error:'Please select at least one team member',
       });
     } else {
       //fetch to add new project and redirect to projects page (/projects)
@@ -87,24 +75,16 @@ export default class index extends Component {
           result.status === 200
             ? this.props.history.push('/projects')
             : this.setState({
-                error: {
-                  errorStatus: true,
-                  errorMsg: 'Project is not added!!'
-                }
+                error: 'Project is not added!!',
               });
         })
         .catch(e =>
           this.setState({
-            error: {
-              errorStatus: true,
-              errorMsg: 'Server Error'
-            }
+            error: 'ERROR',
           })
         );
       this.setState({
-        error: {
-          errorStatus: false
-        }
+        error: '',
       });
     }
   };
@@ -152,8 +132,8 @@ export default class index extends Component {
               </div>
             </div>
             <div className="main-submit">
-              {this.state.error.errorStatus && (
-                <span className="error">{this.state.error.errorMsg}</span>
+              {this.state.error && (
+                <span className="error">{this.state.error}</span>
               )}
               <input className="main-add" type="submit" value="Submit" />
             </div>

@@ -17,8 +17,7 @@ function handleAddNewTask() {
         return { tasks: prevState.tasks.concat(data) }
       }, () => {
         this._focused.current.focus();
-      }
-      )
+      })
     })
     .catch(err => this.setState({ error: 'Error' }));
 };
@@ -49,7 +48,7 @@ function handleEditTask(event, record, column) {
         this.setState({ tasks: prevTasks })
       })
       .catch(error => {
-        this.setState({ error: 'ERROR' })
+        this.setState({ error: 'Error' })
       })
   }
 };
@@ -75,9 +74,9 @@ function validateTask(task) {
   return true;
 };
 
-function handleDeleteTask(taskId) {
+function handleDeleteTask(Id) {
   this.deleteSwal().then(result => {
-    if (result.value) this.confirmDelete(taskId);
+    if (result.value) this.confirmDelete(Id);
   });
 }
 
@@ -93,7 +92,7 @@ function confirmDelete(taskId) {
         this.setState({ tasks });
       }
     })
-    .catch(e => this.setState({ error: 'ERROR' }));
+    .catch(e => this.setState({ error: 'Error' }));
 };
 
 function deleteSwal() {

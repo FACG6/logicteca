@@ -11,7 +11,7 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  } from '../utilis/helpers';
+  } from '../utilis/taskHelpers';
   import columns from './TaskColumns';
 
 class TaskTable extends Component {
@@ -27,13 +27,14 @@ class TaskTable extends Component {
       scrumName: '',
       error: '',
     }
+    this._focused = React.createRef();
     this.validateTask = validateTask.bind(this);
     this.handleAddNewTask = handleAddNewTask.bind(this);
     this.handleEditTask = handleEditTask.bind(this);
     this.confirmDelete = confirmDelete.bind(this);
     this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
-    this.columns = columns.bind(this)
+    this.columns = columns.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +44,7 @@ class TaskTable extends Component {
       .then(result => {
         this.setState({ tasks: result.data.data, error: '' });
       })
-      .catch(error => this.setState({ error: 'Error' }));
+      .catch(() => this.setState({ error: 'Error' }));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,7 +54,7 @@ class TaskTable extends Component {
         .then(result => {
           this.setState({ tasks: result.data.data, error: '' })
         })
-        .catch(error => this.setState({ error: 'Error' }));
+        .catch(() => this.setState({ error: 'ERROR' }));
     }
   }
 

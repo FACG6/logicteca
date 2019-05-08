@@ -6,7 +6,7 @@ exports.post = (req, res, next) => {
   checkUser(req.body.user_name)
     .then((results) => {
       if (results.rowCount) {
-        return res.status(422).send({ error: { code: 422, msg: 'UserName is already taken' } });
+        return res.status(401).send({ error: { code: 401, msg: 'UserName is already taken' } });
       }
       hashedPassword(req.body.password)
         .then((password) => {

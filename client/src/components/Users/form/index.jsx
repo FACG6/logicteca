@@ -8,13 +8,18 @@ export default class Password extends Component {
   state = {
     password: '',
     confirmPassword: '',
-    // empty: false,
     passwordError: ''
   };
+
+  componentDidMount() {
+    this._focused.current.focus();
+  }
 
   handlePassword = ({ target: { name, value } }) => {
     this.setState({ passwordError: false, empty: false, [name]: value });
   };
+
+  _focused= React.createRef();
 
   updatePassword = () => {
     const id = this.props.row;
@@ -23,29 +28,34 @@ export default class Password extends Component {
         password: this.state.password
       })
       .then(result => {
-        //a message//
         result.data.data === 'success'
           ? this.props.cancel()
-          : this.setState({ passwordError: 'Error' });
+          : this.setState({ passwordError: 'ERROR' });
       })
-      .catch(error => this.setState({ passwordError: 'Error' }));
+      .catch(error => {
+        if (error.response.status === 422) {
+          this.setState({ passwordError: error.response.message })
+        } else {
+          this.setState({ passwordError: 'ERROR' })
+        }
+      });
   };
 
   validation = event => {
     event.preventDefault();
     const { password, confirmPassword } = this.state;
     if (!password || !confirmPassword) {
-      this.setState({ passwordError: 'Empty' });
+      this.setState({ passwordError: 'Fill All Fields' });
       return false;
     }
     if (password.length < 6) {
       this.setState({
-        passwordError: 'password length should be greater than 6'
+        passwordError: 'Password should have at least 6 characters'
       });
       return false;
     }
     if (password !== confirmPassword) {
-      this.setState({ passwordError: "passwords don't match" });
+      this.setState({ passwordError: "Passwords don't match" });
       return false;
     }
     if (this.props.type === 'Add') {
@@ -76,6 +86,7 @@ export default class Password extends Component {
             value={this.state.password}
             id="password"
             type="password"
+            ref={this._focused}
           />
           <label className="users__label" htmlFor="confirmPassword">
             Re-enter Password
@@ -89,11 +100,8 @@ export default class Password extends Component {
             type="password"
           />
           <label htmlFor="confirm" />
-          {empty ? (
-            <Error errorMsg={"Can' be blank"} />
-          ) : passwordError ? (
-            <Error errorMsg={this.state.passwordError} />
-          ) : null}
+          {this.state.passwordError ?
+            <Error errorMsg={"Can' be blank"} /> : null}
           <div className="users_btns">
             <button
               className="users__password-submit"
