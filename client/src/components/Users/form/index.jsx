@@ -71,7 +71,6 @@ export default class Password extends Component {
   };
 
   render() {
-    const { empty, passwordError } = this.state;
     return (
       <div className="users__password-wrapper">
         <form className="users__password-form">
