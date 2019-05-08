@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const validation = require('./validation');
 
 const { deleteTask } = require('./deleteTask');
 const { put } = require('./put');
@@ -8,7 +9,7 @@ router.route('/new').post(post);
 
 router
   .route('/:taskId')
-  .put(put)
+  .put(validation, put)
   .delete(deleteTask);
 
 module.exports = router;
