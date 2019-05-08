@@ -16,7 +16,7 @@ function filter(users) {
         value: username
       });
     }
-    if(role && roles.indexOf(role) === -1){
+    if (role && roles.indexOf(role) === -1) {
       roles.push(role);
       roleOptions.push({
         text: role,
@@ -24,7 +24,7 @@ function filter(users) {
       })
     }
   });
-  return { nameOptions, roleOptions } 
+  return { nameOptions, roleOptions }
 }
 
 //Sort Function
@@ -41,11 +41,15 @@ function sort(a, b, columnName) {
 //Delete Swal
 function deleteSwal() {
   return Swal.fire({
+    title: 'Are you sure?',
     type: 'warning',
-    text: 'Are you sure?',
-    showConfirmButton: true,
     showCancelButton: true,
-  })
+    confirmButtonColor: '#ff4d4d',
+    cancelButtonColor: '#3085d6',
+    customClass: {
+      confirmButton: 'btn btn-delete',
+    }
+  });
 }
 
 export {

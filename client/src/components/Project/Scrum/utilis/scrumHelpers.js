@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { deleteSwal } from '../../../Users/helpers'
 
 function handleAddScrum() {
   const { projectId } = this.props;
@@ -25,18 +25,8 @@ function handleAddScrum() {
     });
 };
 
-function deleteSwal() {
-  return Swal.fire({
-    type: 'warning',
-    text: 'Are you sure to delete this task?',
-    showConfirmButton: true,
-    showCancelButton: true,
-    className: 'deletTaskSwal'
-  });
-};
-
 function handleDeleteTask(Id) {
-  this.deleteSwal().then(result => {
+  deleteSwal().then(result => {
     if (result.value) this.confirmDelete(Id);
   });
 }
@@ -97,7 +87,6 @@ function handleScrumName(event) {
 
 export {
   handleAddScrum,
-  deleteSwal,
   handleDeleteTask,
   confirmDelete,
   handleScrumName,

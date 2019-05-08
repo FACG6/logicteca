@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+import { deleteSwal } from '../../../Users/helpers'
 
 function handleAddNewTask() {
   const defaultAssigned_to = this.props.projectTeam[0].fullName;
@@ -24,7 +25,14 @@ function handleAddNewTask() {
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
-  const newTask = event.target.textContent.trim();
+  let newTask;
+  if (column === 'description') {
+    newTask = event.target.textContent.trim();
+  } else if (column === 'date_to_commit') {
+    newTask = event;
+  } else {
+    newTask = event.target.value.trim();
+  }
   const taskId = record.id;
   const prevTasks = [...tasks];
   const updatedTask = prevTasks.find(task => task.id === taskId);
@@ -54,7 +62,7 @@ function handleEditTask(event, record, column) {
 };
 
 function validateTask(task) {
-  // this.setState({ error: '' });
+  this.setState({ error: '' });
   if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
@@ -75,7 +83,7 @@ function validateTask(task) {
 };
 
 function handleDeleteTask(Id) {
-  this.deleteSwal().then(result => {
+  deleteSwal().then(result => {
     if (result.value) this.confirmDelete(Id);
   });
 }
@@ -95,21 +103,10 @@ function confirmDelete(taskId) {
     .catch(e => this.setState({ error: 'Error' }));
 };
 
-function deleteSwal() {
-  return Swal.fire({
-    type: 'warning',
-    text: 'Are you sure to delete this task?',
-    showConfirmButton: true,
-    showCancelButton: true,
-    className: 'deletTaskSwal'
-  });
-};
-
 export {
   handleAddNewTask,
   handleEditTask,
   validateTask,
-  deleteSwal,
   handleDeleteTask,
   confirmDelete,
 };

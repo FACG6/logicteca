@@ -5,7 +5,6 @@ import Editable from 'react-contenteditable';
 import TaskTable from './TaskTable';
 import {
   handleAddScrum,
-  deleteSwal,
   handleDeleteTask,
   confirmDelete,
   handleScrumName,
@@ -20,7 +19,6 @@ export default class Scrum extends Component {
       scrumName: ''
     };
     this.handleAddScrum = handleAddScrum.bind(this);
-    this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
     this.confirmDelete = confirmDelete.bind(this);
     this.handleScrumName = handleScrumName.bind(this);
