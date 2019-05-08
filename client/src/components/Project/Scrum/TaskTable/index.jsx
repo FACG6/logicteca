@@ -11,8 +11,8 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-} from '../utilis/helpers';
-import columns from './TaskColumns';
+  } from '../utilis/taskHelpers';
+  import columns from './TaskColumns';
 
 class TaskTable extends Component {
   constructor(props) {
