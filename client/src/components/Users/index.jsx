@@ -104,9 +104,15 @@ class Users extends Component {
         return;
       }
       const clonedUsers = JSON.parse(JSON.stringify(prevState.users));
+      let maxId = 1;
+      clonedUsers.forEach(user => {
+        if (user.id > maxId) {
+          maxId = user.id;
+        }
+      });
       //bug in id//
       const newUsers = clonedUsers.concat({
-        id: clonedUsers[clonedUsers.length - 1].id + 1,
+        id: maxId + 1,
         user_name: '',
         full_name: '',
         role: 'developer'
@@ -278,13 +284,13 @@ class Users extends Component {
                     Password
                   </button>
                 ) : (
-                  <button
-                    className="users__btn users__btn--change-pass"
-                    onClick={() => this.handleForm('Add')}
-                  >
-                    Change Pass
+                    <button
+                      className="users__btn users__btn--change-pass"
+                      onClick={() => this.handleForm('Add')}
+                    >
+                      Change Pass
                   </button>
-                )}
+                  )}
                 {this.state.saving ? (
                   <button
                     onClick={this.saveNewUser}
@@ -293,10 +299,10 @@ class Users extends Component {
                     Save
                   </button>
                 ) : (
-                  <button className="users__btn users__btn--save hidden">
-                    Save
+                    <button className="users__btn users__btn--save hidden">
+                      Save
                   </button>
-                )}
+                  )}
               </div>
             );
           }
