@@ -12,9 +12,15 @@ export default class Password extends Component {
     passwordError: ''
   };
 
+  componentDidMount() {
+    this._focused.current.focus();
+  }
+
   handlePassword = ({ target: { name, value } }) => {
     this.setState({ passwordError: false, empty: false, [name]: value });
   };
+
+  _focused= React.createRef();
 
   updatePassword = () => {
     const id = this.props.row;
@@ -76,6 +82,7 @@ export default class Password extends Component {
             value={this.state.password}
             id="password"
             type="password"
+            ref={this._focused}
           />
           <label className="users__label" htmlFor="confirmPassword">
             Re-enter Password

@@ -35,9 +35,7 @@ class Users extends Component {
     type: ''
   };
 
-  hideFocus = event => {
-    event.target.className = 'users__cell';
-  };
+  _focused = React.createRef();
 
   componentDidMount() {
     //Fetch to get users from database//
@@ -118,6 +116,9 @@ class Users extends Component {
         role: 'developer'
       });
       return { users: newUsers, rowAdded: true };
+    }, () => {
+      // focus the first span of the new row
+      this._focused.current.focus();
     });
   };
 
@@ -218,8 +219,7 @@ class Users extends Component {
       render: (value, record) => {
         return (
           <Editable
-            onBlur={this.hideFocus}
-            innerRef={this.textInput}
+            innerRef={this._focused}
             html={value ? value : ''}
             onChange={event =>
               this.handleEditUserInfo(event, record, 'user_name')
