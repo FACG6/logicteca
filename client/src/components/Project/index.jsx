@@ -42,11 +42,11 @@ class Scrums extends Component {
 
   render() {
     const { projectId, scrumId } = this.props.match.params;
-    const { project: { name, userNames }, scrums, fetchScrums } = this.state;
+    const { project: { name, userNames }, scrums, fetchScrums, error } = this.state;
     return (
       <section className="project__page--container">
         <div className="project__header">
-          <InternalServerError />
+          {error ?  <InternalServerError /> : ''}
           <h2 className="project__name"> {name} </h2>
         </div>
         {fetchScrums && name ?
