@@ -5,7 +5,7 @@ test('test query for insertUser', (t) => {
   const newUser = {
     user_name: 'angham',
     full_name: 'angham abu abed',
-    role: 'developer',
+    role: 'Developer',
     password: '12345angham',
   };
   const keys = ['id', 'user_name', 'full_name', 'role'];

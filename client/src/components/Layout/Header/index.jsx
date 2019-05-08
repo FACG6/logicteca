@@ -10,7 +10,7 @@ import createNotification from '../../Users/notification';
 export default withRouter(function Header(props) {
   const { pathname } = props.location;
   const {
-    userInfo: { user_name, role },
+    userInfo: { user_name },
     clearUserInfo
   } = props;
   function handleClick() {
