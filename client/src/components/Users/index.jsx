@@ -13,29 +13,62 @@ import 'react-notifications/lib/notifications.css';
 import Search from '../commonComponents/search/index';
 import searchLogic from '../commonComponents/search/logic';
 import axios from 'axios';
+import {
+  handleSearch,
+  handleEditUserInfo,
+  updateUserInfo,
+  addRow,
+  validateUserInfo,
+  handleAddUser,
+  handleForm,
+  handlePassword,
+  cancel,
+  saveNewUser,
+  handleDeleteUser,
+  showSwal,
+  confirmDelete,
+  handleRow,
+} from './usersHelpers';
 
 class Users extends Component {
-  state = {
-    users: [],
-    nameOptions: [],
-    roleOptions: [],
-    userNameError: false,
-    fullNameError: false,
-    password: '',
-    passwordError: false,
-    rowSelected: null,
-    rowAdded: false,
-    newRow: {},
-    saving: false,
-    show: false,
-    passwordAdded: false,
-    error: '',
-    search: false,
-    searchResults: [],
-    type: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      nameOptions: [],
+      roleOptions: [],
+      password: '',
+      passwordError: false,
+      rowSelected: null,
+      rowAdded: false,
+      newRow: {},
+      saving: false,
+      show: false,
+      passwordAdded: false,
+      error: '',
+      search: false,
+      searchResults: [],
+      type: ''
+    }
 
-  hideFocus = event => {
+    this.handleSearch = handleSearch.bind(this);
+    this.handleEditUserInfo = handleEditUserInfo.bind(this);
+    this.updateUserInfo = updateUserInfo.bind(this);
+    this.addRow = addRow.bind(this);
+    this.validateUserInfo = validateUserInfo.bind(this);
+    this.handleAddUser = handleAddUser.bind(this);
+    this.handleForm = handleForm.bind(this);
+    this.handlePassword = handlePassword.bind(this);
+    this.cancel = cancel.bind(this);
+    this.saveNewUser = saveNewUser.bind(this);
+    this.handleDeleteUser = handleDeleteUser.bind(this);
+    this.showSwal = showSwal.bind(this);
+    this.confirmDelete = confirmDelete.bind(this);
+    this.handleRow = handleRow.bind(this);
+    this.hideFocus = this.hideFocus.bind(this);
+  }
+
+  hideFocus(event){
     event.target.className = 'users__cell';
   };
 
@@ -109,7 +142,7 @@ class Users extends Component {
         id: clonedUsers[clonedUsers.length - 1].id + 1,
         user_name: '',
         full_name: '',
-        role: 'developer'
+        role: 'Developer'
       });
       return { users: newUsers, rowAdded: true };
     });
@@ -278,13 +311,13 @@ class Users extends Component {
                     Password
                   </button>
                 ) : (
-                  <button
-                    className="users__btn users__btn--change-pass"
-                    onClick={() => this.handleForm('Add')}
-                  >
-                    Change Pass
+                    <button
+                      className="users__btn users__btn--change-pass"
+                      onClick={() => this.handleForm('Add')}
+                    >
+                      Change Pass
                   </button>
-                )}
+                  )}
                 {this.state.saving ? (
                   <button
                     onClick={this.saveNewUser}
@@ -293,10 +326,10 @@ class Users extends Component {
                     Save
                   </button>
                 ) : (
-                  <button className="users__btn users__btn--save hidden">
-                    Save
+                    <button className="users__btn users__btn--save hidden">
+                      Save
                   </button>
-                )}
+                  )}
               </div>
             );
           }
