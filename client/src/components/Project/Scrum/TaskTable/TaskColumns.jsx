@@ -16,7 +16,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value}
-            innerRef={this.state.tasks[this.state.tasks.length-1].id === record.id ? this._focused: null}
+            innerRef={this.state.tasks[this.state.tasks.length - 1].id === record.id ? this._focused : null}
             onBlur={event =>
               this.handleEditTask(event, record, 'description')
             }
@@ -32,7 +32,7 @@ function columns() {
       render: (value, record) => {
         return (
           <ActionTypeSelect
-            onBlur={event =>
+            onChange={event =>
               this.handleEditTask(event, record, 'action_type')
             }
             defaultValue={record.action_type}
@@ -48,7 +48,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onBlur={event => this.handleEditTask(event, record, 'priority')}
+            onChange={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
           />
@@ -64,7 +64,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onBlur={event => this.handleEditTask(event, record, 'estimated_time')}
+            onChange={event => this.handleEditTask(event, record, 'estimated_time')}
             tagName="span"
             className="tasks__cell estimate_time"
           />
@@ -92,7 +92,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onBlur={event => this.handleEditTask(event, record, 'spent_time')}
+            onChange={event => this.handleEditTask(event, record, 'spent_time')}
             tagName="span"
             className="tasks__cell spent_time"
           />
@@ -119,7 +119,7 @@ function columns() {
       render: (value, record) => {
         return (
           <StatusSelect
-            onBlur={event => this.handleEditTask(event, record, 'status')}
+            onChange={event => this.handleEditTask(event, record, 'status')}
             defaultValue={record.status}
           />
         );
@@ -134,7 +134,7 @@ function columns() {
           <ProjectTeam
             team={this.props.projectTeam}
             defaultValue={record.assigned_to}
-            onBlur={event => this.handleEditTask(event, record, 'assigned_to')}
+            onChange={event => this.handleEditTask(event, record, 'assigned_to')}
           />
         );
       },
@@ -159,8 +159,9 @@ function columns() {
       title: 'Date to commit',
       dataIndex: 'date_to_commit',
       render: (value, record) => {
+        const { date_to_commit } = record;
         return (
-          <DatePicker defaultValue={moment()} />
+          <DatePicker className='tasks--date' onChange={(date, dateString) => this.handleEditTask(dateString, record, 'date_to_commit')} defaultValue={date_to_commit? moment(date_to_commit): null} />
         );
       }
     },
@@ -221,6 +222,7 @@ function columns() {
       }
     },
     {
+      title: 'Action',
       render: record => {
         return (
           <Icon

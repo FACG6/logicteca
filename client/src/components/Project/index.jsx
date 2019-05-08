@@ -22,7 +22,7 @@ class Scrums extends Component {
           if (!scrumId) {
             const scrumId = scrums[0].id;
             this.props.history.push(`/project/${projectId}/${scrumId}`);
-            this.setState({ project, scrums, });
+            this.setState({ project, scrums, fetchScrums: true});
           } else {
             const selectedScrum = scrums.find(scrum => scrum.id === Number(scrumId));
             if (!selectedScrum) {

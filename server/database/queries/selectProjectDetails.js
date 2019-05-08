@@ -10,7 +10,7 @@ const selectProjectDetails = projectID => connect.query(`SELECT
                                                            projects
                                                         ON
                                                            projects.id = users_projects.project_id
-                                                        INNER JOIN
+                                                        LEFT JOIN
                                                            users
                                                         ON
                                                            users.id = user_id

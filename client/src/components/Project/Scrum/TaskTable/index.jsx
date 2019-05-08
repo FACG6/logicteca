@@ -8,7 +8,6 @@ import {
   handleAddNewTask,
   handleEditTask,
   validateTask,
-  deleteSwal,
   handleDeleteTask,
   confirmDelete,
 } from '../utilis/taskHelpers';
@@ -28,7 +27,6 @@ class TaskTable extends Component {
     this.handleAddNewTask = handleAddNewTask.bind(this);
     this.handleEditTask = handleEditTask.bind(this);
     this.confirmDelete = confirmDelete.bind(this);
-    this.deleteSwal = deleteSwal.bind(this);
     this.handleDeleteTask = handleDeleteTask.bind(this);
     this.columns = columns.bind(this);
   }

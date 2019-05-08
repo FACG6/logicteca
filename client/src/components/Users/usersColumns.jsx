@@ -16,7 +16,7 @@ function columns() {
       render: (value, record) => {
         return (
           <Editable
-            innerRef={this._focused}
+            innerRef={this.state.users[this.state.users.length -1].id === record.id ?this._focused: null}
             html={value ? value : ''}
             onChange={event =>
               this.handleEditUserInfo(event, record, 'user_name')

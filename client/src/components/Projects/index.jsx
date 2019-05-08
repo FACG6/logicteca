@@ -51,12 +51,14 @@ class Projects extends Component {
       text: "You won't be able to revert this!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
+      confirmButtonColor: '#ff4d4d',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: `Yes, ! delete "${name}"`
+      confirmButtonText: `Yes, ! delete "${name}"`,
+      customClass: {
+        confirmButton: 'btn btn-delete',
+      },
     }).then(result => {
       if (result.value) {
-        // fetch database
         const projectId = this.state.rowSelected;
         axios
           .delete(`/api/v1/projects/${projectId}`)
@@ -162,7 +164,7 @@ class Projects extends Component {
         <div className="projects__button-and-search-container">
           <Link to="/project/new">
             <Button type="primary" icon="plus" className="projects__new-button">
-              Projects
+              Project
             </Button>
           </Link>
           <Search onChange={e => this.handleSearch(e)} />

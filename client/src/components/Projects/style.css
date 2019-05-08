@@ -84,3 +84,7 @@
 .projects__cell span {
   font-size: .9rem;
 }
+
+.btn .btn-delete:focus{
+  box-shadow: 0 0 0 0 #fff !important;
+}
