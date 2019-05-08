@@ -14,10 +14,7 @@ export default class index extends Component {
       name: '',
       description: null
     },
-    error: {
-      errorStatus: false,
-      errorMsg: ''
-    }
+    error: '',
   };
 
   componentDidMount() {
@@ -43,21 +40,15 @@ export default class index extends Component {
       .catch(error => {
         if (error.response.status === 422) {
           this.setState({
-            error: {
-              errorStatus: true,
-              errorMsg: error.response.message,
-            }
+              error: error.response.message,
           })
         } else {
           this.setState({
-            error: {
-              errorStatus: true,
-              errorMsg: 'ERROR'
-            }
+              error: 'ERROR'
           })
         }
       });
-      
+
     //fetch all users
     axios
       .get('/api/v1/users')
@@ -72,10 +63,7 @@ export default class index extends Component {
       })
       .catch(e =>
         this.setState({
-          error: {
-            errorStatus: true,
-            errorMsg: 'Error loading users!!'
-          }
+            error: 'ERROR'
         })
       );
   }
@@ -105,18 +93,12 @@ export default class index extends Component {
     if (name.trim().length === 0) {
       //show error here for project name
       this.setState({
-        error: {
-          errorStatus: true,
-          errorMsg: 'Please enter the project name'
-        }
+        error: 'Please enter the project name'
       });
     } else if (!Array.isArray(row) || row.length === 0) {
       //show error here for selection
       this.setState({
-        error: {
-          errorStatus: true,
-          errorMsg: 'Please select at least one team member'
-        }
+          error: 'Please select at least one team member'
       });
     } else {
       //fetch to edit project and redirect to projects page (/projects)
@@ -135,10 +117,7 @@ export default class index extends Component {
         })
         .catch(e =>
           this.setState({
-            error: {
-              errorStatus: true,
-              errorMsg: 'Error updating project!!'
-            }
+              error: 'ERROR'
           })
         );
     }
@@ -198,8 +177,8 @@ export default class index extends Component {
               </div>
             </div>
             <div className="main-submit">
-              {this.state.error.errorStatus && (
-                <span className="error">{this.state.error.errorMsg}</span>
+              {this.state.error && (
+                <span className="error">{this.state.error}</span>
               )}
               <input className="main-add" type="submit" value="Save" />
             </div>
