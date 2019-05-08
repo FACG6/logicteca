@@ -16,6 +16,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value}
+            innerRef={this._focused}
             onChange={event =>
               this.handleEditTask(event, record, 'description')
             }

@@ -15,6 +15,8 @@ function handleAddNewTask() {
     .then(({ data: { data } }) => {
       this.setState(prevState => {
         return { tasks: prevState.tasks.concat(data) }
+      }, () => {
+        this._focused.current.focus();
       })
     })
     .catch(err => this.setState({ error: 'Error' }));
