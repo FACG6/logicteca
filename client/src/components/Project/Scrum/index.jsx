@@ -77,7 +77,7 @@ export default class Scrum extends Component {
                 </button>
               ))
             ) : (
-                <button />
+              null
               )}
             <Icon
               id={projectId}
