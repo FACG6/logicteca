@@ -22,13 +22,16 @@ class Scrums extends Component {
           if (!scrumId) {
             const scrumId = scrums[0].id;
             this.props.history.push(`/project/${projectId}/${scrumId}`);
-            this.setState({ project, scrums, fetchScrums: true });
+            this.setState({ project, scrums, });
           } else {
             const selectedScrum = scrums.find(scrum => scrum.id === Number(scrumId));
             if (!selectedScrum) {
               const firstScrumId = scrums[0].id;
-              this.props.history.push(`/project/${projectId}/${firstScrumId}`)
-              this.setState({ project, scrums, fetchScrums: true });
+              this.setState(() => {
+                return { project, scrums, fetchScrums: true }
+              }, () => {
+                this.props.history.push(`/project/${projectId}/${firstScrumId}`);
+              });
             } else {
               this.setState({ project, scrums, fetchScrums: true });
             }
@@ -46,7 +49,7 @@ class Scrums extends Component {
     return (
       <section className="project__page--container">
         <div className="project__header">
-          {error ?  <InternalServerError /> : ''}
+          {error ? <InternalServerError /> : ''}
           <h2 className="project__name"> {name} </h2>
         </div>
         {fetchScrums && name ?

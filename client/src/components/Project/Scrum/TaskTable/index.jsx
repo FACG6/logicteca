@@ -11,19 +11,15 @@ import {
   deleteSwal,
   handleDeleteTask,
   confirmDelete,
-  } from '../utilis/taskHelpers';
-  import columns from './TaskColumns';
+} from '../utilis/taskHelpers';
+import columns from './TaskColumns';
 
 class TaskTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [],
-      html: '',
-      newRow: {},
-      saving: false,
       taskDescriptionErr: '',
-      newTask: false,
       scrumName: '',
       error: '',
     }
@@ -39,22 +35,26 @@ class TaskTable extends Component {
 
   componentDidMount() {
     const { scrumId } = this.props;
-    axios
-      .get(`/api/v1/scrums/${scrumId}`)
-      .then(result => {
-        this.setState({ tasks: result.data.data, error: '' });
-      })
-      .catch(() => this.setState({ error: 'Error' }));
+    if (scrumId) {
+      axios
+        .get(`/api/v1/scrums/${scrumId}`)
+        .then(result => {
+          this.setState({ tasks: result.data.data, error: '' });
+        })
+        .catch(() => this.setState({ error: 'Error' }));
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.scrumId !== this.props.scrumId) {
       const { scrumId } = this.props;
-      axios.get(`/api/v1/scrums/${scrumId}`)
-        .then(result => {
-          this.setState({ tasks: result.data.data, error: '' })
-        })
-        .catch(() => this.setState({ error: 'ERROR' }));
+      if (scrumId) {
+        axios.get(`/api/v1/scrums/${scrumId}`)
+          .then(result => {
+            this.setState({ tasks: result.data.data, error: '' })
+          })
+          .catch(() => this.setState({ error: 'ERROR' }));
+      }
     }
   }
 

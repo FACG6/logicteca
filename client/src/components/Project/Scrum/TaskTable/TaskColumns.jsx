@@ -16,8 +16,8 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value}
-            innerRef={this._focused}
-            onChange={event =>
+            innerRef={this.state.tasks[this.state.tasks.length-1].id === record.id ? this._focused: null}
+            onBlur={event =>
               this.handleEditTask(event, record, 'description')
             }
             tagName="span"
@@ -32,7 +32,7 @@ function columns() {
       render: (value, record) => {
         return (
           <ActionTypeSelect
-            onChange={event =>
+            onBlur={event =>
               this.handleEditTask(event, record, 'action_type')
             }
             defaultValue={record.action_type}
@@ -48,7 +48,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onChange={event => this.handleEditTask(event, record, 'priority')}
+            onBlur={event => this.handleEditTask(event, record, 'priority')}
             tagName="span"
             className="tasks__cell priority"
           />
@@ -64,7 +64,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onChange={event => this.handleEditTask(event, record, 'estimated_time')}
+            onBlur={event => this.handleEditTask(event, record, 'estimated_time')}
             tagName="span"
             className="tasks__cell estimate_time"
           />
@@ -78,7 +78,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value}
-            onChange={event => this.handleEditTask(event, record, 'modules')}
+            onBlur={event => this.handleEditTask(event, record, 'modules')}
             tagName="span"
             className="tasks__cell modules"
           />
@@ -92,7 +92,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onChange={event => this.handleEditTask(event, record, 'spent_time')}
+            onBlur={event => this.handleEditTask(event, record, 'spent_time')}
             tagName="span"
             className="tasks__cell spent_time"
           />
@@ -119,7 +119,7 @@ function columns() {
       render: (value, record) => {
         return (
           <StatusSelect
-            onChange={event => this.handleEditTask(event, record, 'status')}
+            onBlur={event => this.handleEditTask(event, record, 'status')}
             defaultValue={record.status}
           />
         );
@@ -134,7 +134,7 @@ function columns() {
           <ProjectTeam
             team={this.props.projectTeam}
             defaultValue={record.assigned_to}
-            onChange={event => this.handleEditTask(event, record, 'assigned_to')}
+            onBlur={event => this.handleEditTask(event, record, 'assigned_to')}
           />
         );
       },
@@ -148,7 +148,7 @@ function columns() {
         return (
           <Editable
             html={value ? value : ''}
-            onChange={event => this.handleEditTask(event, record, 'initial_test_status')}
+            onBlur={event => this.handleEditTask(event, record, 'initial_test_status')}
             tagName="span"
             className="tasks__cell initial_test_status"
           />
@@ -171,7 +171,7 @@ function columns() {
         return (
           <Editable
             html={value ? value : ''}
-            onChange={event => this.handleEditTask(event, record, 'review_and_test_note')}
+            onBlur={event => this.handleEditTask(event, record, 'review_and_test_note')}
             tagName="span"
             className="tasks__cell"
           />
@@ -185,7 +185,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onChange={event => this.handleEditTask(event, record, 'ticket')}
+            onBlur={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
           />
@@ -199,7 +199,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value}
-            onChange={event => this.handleEditTask(event, record, 'notes')}
+            onBlur={event => this.handleEditTask(event, record, 'notes')}
             tagName="span"
             className="tasks__cell notes"
           />
@@ -213,7 +213,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value.toString()}
-            onChange={event => this.handleEditTask(event, record, 'total_efforts')}
+            onBlur={event => this.handleEditTask(event, record, 'total_efforts')}
             tagName="span"
             className="tasks__cell total_efforts"
           />

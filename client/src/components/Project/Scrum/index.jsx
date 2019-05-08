@@ -58,30 +58,28 @@ export default class Scrum extends Component {
         <NotificationContainer />
         <div className="project__tab-container">
           <div className="project__tab">
-            {scrums.length ? (
-              scrums.map(index => (
-                <button
-                  key={index.id}
-                  id={index.id}
-                  className="project__button"
-                >
-                  <NavLink
-                    to={`/project/${projectId}/${index.id}`}
-                    className="project__scrum--link"
+            {scrums.length
+              ? scrums.map(index => (
+                  <button
+                    key={index.id}
+                    id={index.id}
+                    className="project__button"
                   >
-                    {' '}
-                    {index.name}
-                  </NavLink>
-                  <Icon
-                    onClick={() => this.handleDeleteTask(index.id)}
-                    type="close"
-                    className="scrums__close-icon"
-                  />
-                </button>
-              ))
-            ) : (
-              <button />
-            )}
+                    <NavLink
+                      to={`/project/${projectId}/${index.id}`}
+                      className="project__scrum--link"
+                    >
+                      {' '}
+                      {index.name}
+                    </NavLink>
+                    <Icon
+                      onClick={() => this.handleDeleteTask(index.id)}
+                      type="close"
+                      className="scrums__close-icon"
+                    />
+                  </button>
+                ))
+              : null}
             <Icon
               id={projectId}
               className="scrums__add-icon"

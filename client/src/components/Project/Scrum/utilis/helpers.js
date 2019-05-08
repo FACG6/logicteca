@@ -46,7 +46,7 @@ function handleEditTask(event, record, column) {
     }
     axios.put(`/api/v1/tasks/${taskId}`, updatedTask)
       .then((result) => {
-        this.setState({ tasks: prevTasks })
+        this.setState({ error: '', tasks: prevTasks })
       })
       .catch(error => {
         this.setState({ error: 'ERROR' })
@@ -55,7 +55,6 @@ function handleEditTask(event, record, column) {
 };
 
 function validateTask(task) {
-  this.setState({ error: '' });
   if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
