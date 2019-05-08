@@ -3,14 +3,28 @@ import { Icon } from 'antd';
 import { NavLink } from 'react-router-dom';
 import Editable from 'react-contenteditable';
 import TaskTable from './TaskTable';
-import axios from 'axios';
+import {
+  handleAddScrum,
+  deleteSwal,
+  handleDeleteTask,
+  confirmDelete,
+  handleScrumName,
+} from './utilis/scrumHelpers';
 
 export default class Scrum extends Component {
-  state = {
-    scrums: [],
-    error: '',
-    scrumName: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      scrums: [],
+      error: '',
+      scrumName: ''
+    };
+    this.handleAddScrum = handleAddScrum.bind(this);
+    this.deleteSwal = deleteSwal.bind(this);
+    this.handleDeleteTask = handleDeleteTask.bind(this);
+    this.confirmDelete = confirmDelete.bind(this);
+    this.handleScrumName = handleScrumName.bind(this);
+  }
 
   componentDidMount() {
     const { scrumId, scrums } = this.props;
@@ -34,84 +48,6 @@ export default class Scrum extends Component {
     }
   }
 
-  //Redirect to new scrum//
-  handleAddScrum = () => {
-    const { projectId } = this.props;
-    const previousScrums = this.state.scrums;
-    const lastScrumId = previousScrums.length;
-    axios
-      .post('/api/v1/scrums/new', {
-        projectId: this.props.projectId,
-        scrumName: `Scrum ${lastScrumId + 1}`
-      })
-      .then(({ data: { data } }) => {
-        const { id, name } = data;
-        this.setState(prevState => {
-          return {
-            scrums: prevState.scrums.concat({
-              id,
-              name
-            })
-          };
-        });
-        this.props.history.push(`/project/${projectId}/${id}`);
-      });
-  };
-
-  handleDeleteScrum = scrumId => {
-    axios
-      .delete(`/api/v1/scrums/${scrumId}`)
-      .then(result => {
-        const { scrums } = this.state;
-        const updatedScrums = scrums.filter(scrum => scrum.id !== scrumId);
-        if (scrumId === Number(this.props.scrumId)) {
-          const deletedScrumIndex = scrums.findIndex(
-            scrum => scrum.id === scrumId
-          );
-          //the deleted scrum is not the first one//
-          if (deletedScrumIndex) {
-            const redirectId = scrums[deletedScrumIndex - 1].id;
-            this.props.history.push(
-              `/project/${this.props.projectId}/${redirectId}`
-            );
-            //the deleted scrum is the first one//
-          } else {
-            if (scrums.length === 1) {
-              this.props.history.push(`/project/${this.props.projectId}`);
-            } else {
-              const redirectId = scrums[deletedScrumIndex + 1].id;
-              this.props.history.push(
-                `/project/${this.props.projectId}/${redirectId}`
-              );
-            }
-          }
-        }
-        this.setState({ scrums: updatedScrums });
-      })
-      .catch(err => this.setState({ error: 'Error' }));
-  };
-
-  handleScrumName = event => {
-    let newValue = event.target.value.trim().split('<div>')[0];
-    const scrumId = this.props.scrumId;
-    if (!newValue) {
-      newValue = ' ';
-    }
-    axios
-      .put(`/api/v1/scrums/${scrumId}`, { name: newValue })
-      .then(({ data: { data } }) => {
-        this.setState(prevState => {
-          const clonedScrums = JSON.parse(JSON.stringify(prevState.scrums));
-          const scrumIndex = clonedScrums.findIndex(
-            scrum => scrum.id === Number(scrumId)
-          );
-          clonedScrums[scrumIndex] = data;
-          return { scrums: clonedScrums, scrumName: newValue };
-        });
-      })
-      .catch(error => this.setState({ error: 'Error' }));
-  };
-
   render() {
     const { scrums } = this.state;
     const { projectId } = this.props;
@@ -134,15 +70,15 @@ export default class Scrum extends Component {
                     {index.name}
                   </NavLink>
                   <Icon
-                    onClick={() => this.handleDeleteScrum(index.id)}
+                    onClick={() => this.handleDeleteTask(index.id)}
                     type="close"
                     className="scrums__close-icon"
                   />
                 </button>
               ))
             ) : (
-              <button />
-            )}
+                <button />
+              )}
             <Icon
               id={projectId}
               className="scrums__add-icon"
