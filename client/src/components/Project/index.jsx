@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Scrum from "./Scrum";
+import InternalServerError from '../InternalServerErr/index';
 import "./style.css";
 import axios from "axios";
 class Scrums extends Component {
@@ -36,7 +37,7 @@ class Scrums extends Component {
           this.setState({ project, fetchScrums: true });
         }
       })
-      .catch(err => this.setState({ error: 'Error' }));
+      .catch(err => this.setState({ error: 'Internal Server Error' }));
   }
 
   render() {
@@ -45,6 +46,7 @@ class Scrums extends Component {
     return (
       <section className="project__page--container">
         <div className="project__header">
+          <InternalServerError />
           <h2 className="project__name"> {name} </h2>
         </div>
         {fetchScrums && name ?

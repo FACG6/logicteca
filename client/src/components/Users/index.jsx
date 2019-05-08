@@ -176,7 +176,15 @@ class Users extends Component {
             });
             createNotification('success');
           })
-          .catch(error => this.setState({ error: 'Error' }));
+          .catch(error => {
+            if (error.response.data.error.code === 401){
+              this.setState({ error: error.response.data.error.msg });
+            } else if (error.response.status === 422){
+              this.setState({ error: error.response.message });
+            } else {
+              this.setState({ error: 'ERROR' });
+            }
+          });
       } else {
         this.setState({ passwordError: true });
       }

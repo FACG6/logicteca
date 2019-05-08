@@ -6,7 +6,7 @@ exports.deleteUser = (req, res, next) => {
     .then((results) => {
       if (results.rowCount) {
         res.send({ error: null, data: results.rows[0].id });
-      } else next({ code: 401 });
+      } else next({ msg: 'Error in deleting user' });
     })
     .catch(error => next(error));
 };

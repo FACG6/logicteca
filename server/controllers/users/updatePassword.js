@@ -21,6 +21,6 @@ exports.postPassword = (req, res, next) => {
     })
     .catch((error) => {
       error.code = 422;
-      next(error);
+      next(error.error.details[0].message);
     });
 };

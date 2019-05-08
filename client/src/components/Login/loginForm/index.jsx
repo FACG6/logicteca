@@ -43,8 +43,8 @@ export default class Login extends Component {
           }
         })
         .catch(err => {
-          err.status === 401
-            ? this.setState({ loginError: err.message, loading: false })
+          err.response.status === 401
+            ? this.setState({ loginError: 'Password or username is invalid', loading: false })
             : this.setState({ loginError: ' ERROR', loading: false });
         });
     }
