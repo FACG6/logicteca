@@ -164,7 +164,7 @@ class Projects extends Component {
         <div className="projects__button-and-search-container">
           <Link to="/project/new">
             <Button type="primary" icon="plus" className="projects__new-button">
-              Projects
+              Project
             </Button>
           </Link>
           <Search onChange={e => this.handleSearch(e)} />

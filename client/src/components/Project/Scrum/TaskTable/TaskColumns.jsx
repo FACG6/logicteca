@@ -161,7 +161,7 @@ function columns() {
       render: (value, record) => {
         const { date_to_commit } = record;
         return (
-          <DatePicker onChange={(date, dateString) => this.handleEditTask(dateString, record, 'date_to_commit')} defaultValue={date_to_commit? moment(date_to_commit): null} />
+          <DatePicker className='tasks--date' onChange={(date, dateString) => this.handleEditTask(dateString, record, 'date_to_commit')} defaultValue={date_to_commit? moment(date_to_commit): null} />
         );
       }
     },

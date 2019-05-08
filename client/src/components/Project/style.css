@@ -4,8 +4,7 @@
   padding-top: 9rem;
 }
 
-.project__name,
-.scrum__name {
+.project__name, .scrum__name {
   color: #3f7baa;
   font-size: 1.3rem;
 }
@@ -140,15 +139,11 @@
   width: 11rem;
 }
 
-.priority,
-.estimate_time,
-.remaining_time {
+.priority, .estimate_time, .remaining_time {
   text-align: center;
 }
 
-.status__select,
-.actionType__select,
-.projectTeam__select {
+.status__select, .actionType__select, .projectTeam__select {
   outline: none;
   border-radius: 5px;
   padding: 0.3rem 0.5rem;
@@ -182,13 +177,11 @@
   color: #eee !important;
 }
 
-.tasks__table tr:nth-child(even) .status__select,
-.tasks__table tr:nth-child(even) .actionType__select {
+.tasks__table tr:nth-child(even) .status__select, .tasks__table tr:nth-child(even) .actionType__select {
   background: #fff;
 }
 
-.tasks__table tr:nth-child(odd) .status__select,
-.tasks__table tr:nth-child(odd) .actionType__select {
+.tasks__table tr:nth-child(odd) .status__select, .tasks__table tr:nth-child(odd) .actionType__select {
   background: rgb(213, 238, 241, 0.3);
 }
 
@@ -210,7 +203,10 @@
   width: 8rem;
 }
 
-.tasks__table > .ant-table-column-sorters,
-.tasks__table .anticon-filter {
+.tasks__table>.ant-table-column-sorters, .tasks__table .anticon-filter {
   background-color: #3f7baa !important;
+}
+
+.tasks--date input{
+  cursor: pointer !important;
 }

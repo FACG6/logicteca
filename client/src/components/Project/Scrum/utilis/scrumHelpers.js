@@ -1,6 +1,6 @@
-
 import axios from 'axios';
 import { deleteSwal } from '../../../Users/helpers'
+import createNotification from '../../../Users/notification';
 
 function handleAddScrum() {
   const { projectId } = this.props;
@@ -23,7 +23,7 @@ function handleAddScrum() {
       });
       this.props.history.push(`/project/${projectId}/${id}`);
     });
-};
+}
 
 function handleDeleteTask(Id) {
   deleteSwal().then(result => {
@@ -62,32 +62,39 @@ function confirmDelete(scrumId) {
       this.setState({ scrums: updatedScrums });
     })
     .catch(err => this.setState({ error: 'Error' }));
-};
+}
 
 function handleScrumName(event) {
-  let newValue = event.target.value.trim().split('<div>')[0];
+  let newValue = event.target.textContent;
   const scrumId = this.props.scrumId;
   if (!newValue) {
     newValue = ' ';
   }
+
   axios
     .put(`/api/v1/scrums/${scrumId}`, { name: newValue })
     .then(({ data: { data } }) => {
-      this.setState(prevState => {
-        const clonedScrums = JSON.parse(JSON.stringify(prevState.scrums));
-        const scrumIndex = clonedScrums.findIndex(
-          scrum => scrum.id === Number(scrumId)
-        );
-        clonedScrums[scrumIndex] = data;
-        return { scrums: clonedScrums, scrumName: newValue };
-      });
+      this.setState(
+        prevState => {
+          const clonedScrums = JSON.parse(JSON.stringify(prevState.scrums));
+          const scrumIndex = clonedScrums.findIndex(
+            scrum => scrum.id === Number(scrumId)
+          );
+          clonedScrums[scrumIndex] = data;
+          return {
+            scrums: clonedScrums,
+            scrumName: newValue
+          };
+        },
+        () => createNotification('scrumNameChanged')
+      );
     })
     .catch(error => this.setState({ error: 'Error' }));
-};
+}
 
 export {
   handleAddScrum,
   handleDeleteTask,
   confirmDelete,
-  handleScrumName,
-}
+  handleScrumName
+};
