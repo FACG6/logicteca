@@ -1,0 +1,23 @@
+.internalservererr__icon {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+.internalservererr__caption {
+  color: #3f7baa;
+  font-size: 2rem;
+  margin-left: 10px;
+  letter-spacing: 0.1rem;
+}
+.internalservererr__info {
+  flex-flow: column wrap;
+}
+.internalservererr__main {
+  line-height: 5rem;
+  padding-top: 25vh;
+}
+.internalservererr__link--caption {
+  font-style: italic;
+  font-size: 1.2rem;
+}
