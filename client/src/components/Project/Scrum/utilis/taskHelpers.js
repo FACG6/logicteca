@@ -24,9 +24,9 @@ function handleAddNewTask() {
 
 function handleEditTask(event, record, column) {
   const { tasks } = this.state;
-  const newTask = event.target.value.trim();
+  const newTask = event.target.textContent.trim();
   const taskId = record.id;
-  const prevTasks = [...tasks]
+  const prevTasks = [...tasks];
   const updatedTask = prevTasks.find(task => task.id === taskId);
   updatedTask[column] = newTask;
 
@@ -54,7 +54,7 @@ function handleEditTask(event, record, column) {
 };
 
 function validateTask(task) {
-  this.setState({ error: '' });
+  // this.setState({ error: '' });
   if (task.priority && isNaN(task.priority)) {
     this.setState({ error: 'Priority should be a number' });
     return false;
