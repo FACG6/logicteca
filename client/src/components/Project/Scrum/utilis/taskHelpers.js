@@ -31,7 +31,10 @@ function handleEditTask(event, record, column) {
   } else if (column === 'date_to_commit') {
     newTask = event;
   } else {
-    newTask = event.target.value.trim();
+    const value = event.target;
+    if (isNaN(value)) {
+      newTask = event.target.value.trim();
+    } else newTask = event.target;
   }
   const taskId = record.id;
   const prevTasks = [...tasks];
