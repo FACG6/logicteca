@@ -8,7 +8,7 @@ import createNotification from './notification/index';
 function handleSearch(e) {
   const { value } = e.target;
   const newData = searchLogic(value, this.state.users);
-  this.setState({ search: true, searchResults: newData });
+  this.setState({ search: value, searchResults: newData });
 };
 
 function handleEditUserInfo(event, record, columnName) {
