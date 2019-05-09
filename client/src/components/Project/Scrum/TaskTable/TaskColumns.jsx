@@ -78,7 +78,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value}
-            onBlur={event => this.handleEditTask(event, record, 'modules')}
+            onChange={event => this.handleEditTask(event, record, 'modules')}
             tagName="span"
             className="tasks__cell modules"
           />
@@ -148,7 +148,7 @@ function columns() {
         return (
           <Editable
             html={value ? value : ''}
-            onBlur={event => this.handleEditTask(event, record, 'initial_test_status')}
+            onChange={event => this.handleEditTask(event, record, 'initial_test_status')}
             tagName="span"
             className="tasks__cell initial_test_status"
           />
@@ -172,7 +172,7 @@ function columns() {
         return (
           <Editable
             html={value ? value : ''}
-            onBlur={event => this.handleEditTask(event, record, 'review_and_test_note')}
+            onChange={event => this.handleEditTask(event, record, 'review_and_test_note')}
             tagName="span"
             className="tasks__cell"
           />
@@ -186,7 +186,7 @@ function columns() {
         return (
           <Editable
             html={!value ? ' ' : value.toString()}
-            onBlur={event => this.handleEditTask(event, record, 'ticket')}
+            onChange={event => this.handleEditTask(event, record, 'ticket')}
             tagName="span"
             className="tasks__cell"
           />
@@ -200,7 +200,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value}
-            onBlur={event => this.handleEditTask(event, record, 'notes')}
+            onChange={event => this.handleEditTask(event, record, 'notes')}
             tagName="span"
             className="tasks__cell notes"
           />
@@ -214,7 +214,7 @@ function columns() {
         return (
           <Editable
             html={!value ? '' : value.toString()}
-            onBlur={event => this.handleEditTask(event, record, 'total_efforts')}
+            onChange={event => this.handleEditTask(event, record, 'total_efforts')}
             tagName="span"
             className="tasks__cell total_efforts"
           />
