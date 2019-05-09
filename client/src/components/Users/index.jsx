@@ -42,7 +42,7 @@ class Users extends Component {
       show: false,
       passwordAdded: false,
       error: '',
-      search: false,
+      search: '',
       searchResults: [],
       type: ''
     }
