@@ -28,7 +28,7 @@
   "homepage": "https://github.com/FACG6/logicteca#readme",
   "dependencies": {
     "@hapi/joi": "^15.0.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
