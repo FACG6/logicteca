@@ -17,7 +17,9 @@ const options = {
   max: process.env.MAX_DB_CONNECTION || 2,
   user,
   password,
-  ssl: process.env.hostname !== 'localhost',
+  ssl: {
+    rejectUnauthorized: false,
+  },
   idleTimeoutMillis: 1000,
 };
 
